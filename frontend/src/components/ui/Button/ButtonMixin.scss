@@ -1,0 +1,9 @@
+@mixin pink-button {
+  background-color: #f20dae;
+  mix-blend-mode: hard-light;
+  box-sizing: border-box;
+  box-shadow: inset -0.212604px 0.425208px 0.212604px rgba(255, 255, 255, 0.5);
+  filter: drop-shadow(0px 3.27083px 4.25208px #990099)
+    drop-shadow(0px 2.12604px 1.63542px rgba(77, 0, 66, 0.7));
+  border-radius: 10px;
+}

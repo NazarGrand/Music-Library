@@ -1,0 +1,21 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.scss";
+import App from "./App";
+import { MusicProvider } from "./context/MusicContext";
+import { PlaylistProvider } from "./context/PlayListContext";
+import { FavouriteTracksProvider } from "./context/FavouriteTracksContext";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <BrowserRouter>
+    <MusicProvider>
+      <PlaylistProvider>
+        <FavouriteTracksProvider>
+          <App />
+        </FavouriteTracksProvider>
+      </PlaylistProvider>
+    </MusicProvider>
+  </BrowserRouter>
+);

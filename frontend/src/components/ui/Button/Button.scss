@@ -1,0 +1,22 @@
+@import "../../../styles/variables.scss";
+@import "./ButtonMixin.scss";
+
+.button {
+  width: 119px;
+  height: 38px;
+  border-radius: 10px;
+  margin-left: 30px;
+  font-weight: 600;
+  font-size: 20px;
+  &--login {
+    background-color: $login-button-color;
+    color: $pink-text-color;
+    border: none;
+  }
+  &--sign-up {
+    @include pink-button();
+    border: 1px solid rgba(251, 55, 255, 0.2);
+    box-sizing: border-box;
+    color: #1e1e1e;
+  }
+}

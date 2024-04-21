@@ -1,0 +1,11 @@
+@import "./styles/variables.scss";
+
+body {
+  height: 100%;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $global-background-color;
+  font-family: $page-font-family;
+  color: $white-text-color;
+}

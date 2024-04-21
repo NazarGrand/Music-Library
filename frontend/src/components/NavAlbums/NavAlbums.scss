@@ -1,0 +1,50 @@
+.nav-album {
+  &__navigate {
+    display: flex;
+    padding-left: 10px;
+    padding-top: 20px;
+  }
+
+  &__button-back {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  &__back-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  &__block-nav {
+    display: flex;
+    width: 960px;
+    justify-content: end;
+  }
+
+  &__list {
+    display: flex;
+    gap: 35px;
+    margin: 0;
+    padding: 0px;
+  }
+
+  &__item {
+    list-style-type: none;
+
+    &-link {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 38px;
+      color: #ffff;
+    }
+  }
+
+  &__icon {
+    margin-left: 50px;
+    margin-top: -5px;
+    cursor: pointer;
+  }
+}

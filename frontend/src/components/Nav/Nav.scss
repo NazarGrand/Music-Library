@@ -1,0 +1,20 @@
+.nav {
+  padding-left: 30px;
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 0px;
+    padding-top: 5px;
+  }
+  &__item {
+    padding-left: 45px;
+    list-style-type: none;
+    &-link {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 38px;
+      color: #ffff;
+    }
+  }
+}

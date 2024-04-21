@@ -1,0 +1,85 @@
+@import "../../styles/variables.scss";
+
+.header-album {
+  margin-left: 30px;
+  margin-top: 20px;
+  background: linear-gradient(
+    90.22deg,
+    #1171e2 12.99%,
+    rgba(83, 173, 214, 0.0230101) 112.49%,
+    rgba(139, 203, 231, 0) 114.84%
+  );
+  filter: drop-shadow(3px 12px 4px rgba(0, 0, 0, 0.3));
+  width: 1170px;
+  height: 320px;
+  border-radius: 10px;
+
+  &__block {
+    display: flex;
+    padding-top: 20px;
+    padding-left: 50px;
+  }
+
+  &__image {
+    width: 200px;
+    height: 200px;
+  }
+
+  &__block-title {
+    display: flex;
+    flex-direction: column;
+    gap: 43px;
+    margin-left: 40px;
+  }
+
+  &__title {
+    font-weight: 800;
+    font-size: 40px;
+    margin: 0;
+    height: 50px;
+
+    width: 420px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__title-author {
+    width: 388px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0;
+  }
+
+  &__title-count {
+    display: flex;
+    gap: 20px;
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0;
+  }
+
+  &__button-play {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 230px;
+    margin-top: 145px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  &__title-play {
+    margin: 0;
+    color: $pink-text-color;
+    font-weight: 600;
+    font-size: 24px;
+  }
+}

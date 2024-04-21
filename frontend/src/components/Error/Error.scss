@@ -1,0 +1,43 @@
+@import "../../styles/variables.scss";
+
+.error-page {
+  display: flex;
+  flex-direction: row;
+  font-size: 30px;
+  margin-top: 50px;
+  &__title {
+    margin: 0;
+    margin-top: 110px;
+    margin-bottom: 15px;
+    height: 70px;
+    text-align: center;
+  }
+  &__subtitle {
+    color: $pink-text-color;
+    font-style: italic;
+    font-size: 35px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding-left: 20px;
+  }
+  &__button {
+    background-color: $login-button-color;
+    border: none;
+    padding: 15px;
+    border-radius: 40%;
+    margin-left: 95px;
+    cursor: pointer;
+  }
+  &__button-link {
+    color: $pink-text-color;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  &__img-404 {
+    // position: absolute;
+    width: 700px;
+    height: 450px;
+    top: 34%;
+    left: 50%;
+  }
+}

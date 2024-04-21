@@ -1,0 +1,40 @@
+@import "../../styles/variables.scss";
+
+@mixin titleLink {
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  letter-spacing: -0.005em;
+}
+
+.footer-links {
+  &__title {
+    margin: 0;
+    padding: 0 10px;
+    @include titleLink;
+  }
+  &__line {
+    margin: 0;
+    height: 5px;
+    background-color: $white-text-color;
+  }
+  &__list {
+    margin: 0;
+    padding: 0px;
+    padding-top: 5px;
+  }
+  &__item {
+    margin-top: 5px;
+    list-style-type: none;
+    &-link {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 24px;
+      color: $white-text-color;
+    }
+    &-title {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}

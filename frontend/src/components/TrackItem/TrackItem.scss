@@ -1,0 +1,158 @@
+@import "../../styles/variables.scss";
+
+@mixin customText($weight, $size) {
+  font-weight: $weight;
+  font-size: $size;
+}
+
+.track-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &__index-track {
+    padding-top: 6px;
+    display: flex;
+    justify-content: center;
+    width: 42px;
+    @include customText(600, 24px);
+  }
+
+  &__container {
+    display: flex;
+    margin-left: 15px;
+    background-color: $login-button-color;
+    border-radius: 5px;
+    width: 1075px;
+
+    position: relative;
+  }
+
+  &__block-title {
+    display: flex;
+    align-items: center;
+    width: 325px;
+    border-radius: 5px;
+  }
+
+  &__button {
+    display: flex;
+    padding: 0;
+
+    border: none;
+    cursor: pointer;
+
+    background-color: $login-button-color;
+    color: $white-text-color;
+    border-radius: 5px;
+    text-align: start;
+  }
+
+  &__image {
+    object-fit: cover;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+  }
+
+  &__title {
+    margin-left: 15px;
+
+    &-song {
+      margin-top: 8px;
+      width: 250px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include customText(600, 20px);
+    }
+
+    &-author {
+      @include customText(300, 12px);
+    }
+  }
+
+  &__block-artists {
+    display: flex;
+    max-width: 250px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__link-author {
+    text-decoration: none;
+    color: $white-text-color;
+  }
+
+  &__relase-date {
+    padding-top: 2px;
+    width: 150px;
+    text-align: center;
+
+    white-space: nowrap;
+
+    @include customText(400, 16px);
+  }
+
+  &__label {
+    padding-top: 2px;
+
+    width: 450px;
+    text-align: center;
+
+    @include customText(400, 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__button-like {
+    background-color: transparent;
+    border: none;
+    padding: 3px;
+    cursor: pointer;
+  }
+
+  &__heart {
+    margin-left: 40px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__gif-play-track {
+    position: absolute;
+    left: 0;
+
+    width: 60px;
+    height: 60px;
+
+    z-index: 2;
+  }
+
+  &__darken-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    z-index: 1;
+  }
+
+  &__img-play-track {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    z-index: 2;
+  }
+}

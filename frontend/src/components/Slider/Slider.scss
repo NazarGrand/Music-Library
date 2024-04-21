@@ -1,0 +1,216 @@
+@import "../../styles/variables.scss";
+
+@mixin button-style() {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+@mixin customText($weight, $size) {
+  font-weight: $weight;
+  font-size: $size;
+}
+
+.slider__prev-icon path {
+  transition: fill 0.3s ease-in-out;
+}
+
+.slider__next-icon path {
+  transition: fill 0.3s ease-in-out;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+  margin-top: 40px;
+  height: 344px;
+
+  &__switch-button-prev {
+    @include button-style();
+    background-color: $login-button-color;
+
+    &:hover {
+      background-color: $signup-button-color;
+
+      .slider__prev-icon path {
+        fill: $white-text-color;
+      }
+    }
+  }
+
+  &__switch-button-next {
+    @include button-style();
+    background-color: $login-button-color;
+
+    &:hover {
+      background-color: $signup-button-color;
+
+      .slider__next-icon path {
+        fill: $white-text-color;
+      }
+    }
+  }
+
+  &__prev-icon {
+    margin-top: 5px;
+  }
+
+  &__next-icon {
+    margin-left: 7px;
+    margin-top: 3px;
+  }
+
+  &__content {
+    margin-left: 30px;
+    margin-right: 30px;
+
+    width: 901px;
+    height: 344px;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__image-area {
+    width: 901px;
+    height: 344px;
+    display: flex;
+    overflow: hidden;
+  }
+
+  &__block-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.4s linear;
+
+    &-activeSlide {
+      @extend .slider__block-img;
+      opacity: 1;
+      transform: translateX(0%);
+    }
+    &-lastSlide {
+      @extend .slider__block-img;
+      transform: translateX(-100%);
+    }
+    &-nextSlide {
+      @extend .slider__block-img;
+      transform: translateX(100%);
+    }
+  }
+
+  &__image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    position: relative;
+  }
+
+  &__about {
+    width: 860px;
+    margin-left: 20px;
+    position: absolute;
+    top: 0;
+  }
+
+  &__link-title {
+    cursor: pointer;
+    color: $white-text-color;
+  }
+
+  &__title {
+    display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    @include customText(700, 32px);
+  }
+
+  &__description {
+    width: 284px;
+    margin: 0;
+    @include customText(500, 16px);
+    line-height: 25px;
+    text-align: justify;
+
+    &--pink {
+      color: $pink-text-color;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+
+      &:hover {
+        color: $login-button-color;
+      }
+    }
+  }
+
+  &__link-description {
+    text-decoration: none;
+  }
+
+  &__link-listen-now {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 131px;
+    height: 43px;
+    margin-top: 30px;
+
+    text-decoration: none;
+
+    border: 1px solid $pink-text-color;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $login-button-color;
+    }
+  }
+
+  &__text-listen-now {
+    color: $pink-text-color;
+    @include customText(400, 16px);
+  }
+
+  &__area-selected {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__button-item {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 3px;
+    padding-top: 6px;
+    cursor: pointer;
+    transition: opacity 0.3 ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+      scale: 1.5;
+    }
+  }
+}

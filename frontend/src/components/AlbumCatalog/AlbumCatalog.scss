@@ -1,0 +1,53 @@
+@import "../../styles/variables.scss";
+
+.album-catalog {
+  padding-left: 20px;
+  margin-top: 20px;
+
+  &__title {
+    margin: 0;
+    font-weight: 800;
+    font-size: 40px;
+    &--blue {
+      color: $blue-text-color;
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: 30px;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__view-all {
+    padding-top: 65px;
+  }
+
+  &__button {
+    width: 62px;
+    height: 62px;
+    margin-left: 5px;
+    background-color: $login-button-color;
+    border-radius: 50%;
+    padding-top: 1px;
+    padding-left: 20px;
+    font-weight: 800;
+    font-size: 40px;
+  }
+
+  &__btn-text {
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 5px;
+  }
+
+  &__subtitle {
+    color: $pink-text-color;
+    font-style: italic;
+    font-size: 35px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}

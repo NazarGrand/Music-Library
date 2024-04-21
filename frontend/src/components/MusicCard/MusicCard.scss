@@ -1,0 +1,118 @@
+@import "../../styles/variables.scss";
+
+.music-card {
+  width: 180px;
+  height: 220px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: $login-button-color;
+  border-radius: 10px;
+
+  position: relative;
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: $white-text-color;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  &__image {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-top: 12px;
+  }
+
+  &__title-song {
+    margin: 0;
+    padding-top: 5px;
+    width: 150px;
+    font-weight: 500;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__link-author {
+    text-decoration: none;
+    color: $white-text-color;
+    font-weight: 300;
+    font-size: 12px;
+
+    opacity: 0.8;
+  }
+
+  &__block-artists {
+    display: flex;
+    max-width: 125px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__title-artist {
+    display: inline-block;
+    padding-top: 3px;
+  }
+
+  &__year-song {
+    margin-top: 4px;
+  }
+
+  &__block {
+    display: flex;
+  }
+
+  &__notes {
+    height: 17px;
+    margin-left: auto;
+  }
+
+  &__gif-play-track {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+
+    width: 150px;
+    height: 150px;
+
+    max-width: 150px;
+    min-width: 150px;
+    max-height: 150px;
+    min-height: 150px;
+
+    z-index: 2;
+  }
+
+  &__darken-layer {
+    position: absolute;
+    top: 12px;
+
+    width: 150px;
+    height: 150px;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    z-index: 1;
+  }
+
+  &__img-play-track {
+    position: absolute;
+    left: 40px;
+    top: 37px;
+
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    min-width: 100px;
+    max-height: 100px;
+    min-height: 100px;
+
+    z-index: 2;
+  }
+}
