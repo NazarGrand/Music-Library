@@ -5,14 +5,23 @@ const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("./auth-service");
 const UserDto = require("../dtos/user-dto");
 const createMailService = require("./mail-service");
+const { validateEmail, validatePassword } = require("./registration-service");
 
 const myMailService = createMailService();
 
 async function registration(email, password) {
+  if (!validateEmail(email)) {
+    throw new Error("Invalid email address");
+  }
+
   const isUserExist = await UserModel.findOne({ email });
 
   if (isUserExist) {
     throw new Error(`User with an email address ${email} already exists`);
+  }
+
+  if (!validatePassword(password)) {
+    throw new Error("Password does not meet requirements");
   }
 
   const saltRounds = 10;
