@@ -9,19 +9,26 @@ class UserController {
       return res.json(userData);
     } catch (e) {
       console.log(e);
-      return res.status(404).json({ message: e.message });
+      return res.status(400).json({ message: e.message });
     }
   }
 
   async login(req, res) {
     try {
-    } catch (e) {}
+      const { email, password } = req.body;
+      const userLogin = await userService.login(email, password);
+
+      return res.json(userLogin);
+    } catch (e) {
+      console.log(e);
+      return res.status(401).json({ message: e.message });
+    }
   }
 
-  async logout(req, res) {
-    try {
-    } catch (e) {}
-  }
+  // async logout(req, res) {
+  //   try {
+  //   } catch (e) {}
+  // }
 
   async activate(req, res) {
     try {
@@ -30,13 +37,17 @@ class UserController {
 
       return res.send("Activation was successful");
     } catch (e) {
-      return res.status(404).json({ message: e.message });
+      return res.status(401).json({ message: e.message });
     }
   }
 
   async getUsers(req, res) {
     try {
-    } catch (e) {}
+      return res.send("Hello");
+    } catch (e) {
+      console.log(e.message);
+      return res.status(500).json({ message: e.message });
+    }
   }
 }
 
