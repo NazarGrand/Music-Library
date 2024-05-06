@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-function createMailService() {
+async function deliverMail(userEmail, subject, template) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host: process.env.SMTP_HOST,
@@ -12,24 +12,12 @@ function createMailService() {
     },
   });
 
-  async function sendActivationMail(to, link) {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to,
-      subject: "Account activation on " + process.env.API_URL,
-      text: "",
-      html: `
-                    <div>
-                        <h1>To activate, follow the link</h1>
-                        <a href="${link}">Click me</a>
-                    </div>
-                `,
-    });
-  }
-
-  return {
-    sendActivationMail,
-  };
+  await transporter.sendMail({
+    from: process.env.SMTP_USER,
+    to: userEmail,
+    subject,
+    html: template,
+  });
 }
 
-module.exports = createMailService;
+module.exports = { deliverMail };

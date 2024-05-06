@@ -16,9 +16,9 @@ class UserController {
   async login(req, res) {
     try {
       const { email, password } = req.body;
-      const userLogin = await userService.login(email, password);
+      const userData = await userService.login(email, password);
 
-      return res.json(userLogin);
+      return res.json(userData);
     } catch (e) {
       console.log(e);
       return res.status(401).json({ message: e.message });
@@ -30,23 +30,14 @@ class UserController {
   //   } catch (e) {}
   // }
 
-  async activate(req, res) {
+  async verifyUser(req, res) {
     try {
       const token = req.query.token;
-      await userService.activate(token);
+      await userService.verifyUser(token);
 
       return res.send("Activation was successful");
     } catch (e) {
       return res.status(401).json({ message: e.message });
-    }
-  }
-
-  async getUsers(req, res) {
-    try {
-      return res.send("Hello");
-    } catch (e) {
-      console.log(e.message);
-      return res.status(500).json({ message: e.message });
     }
   }
 }

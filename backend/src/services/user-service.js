@@ -2,12 +2,15 @@ const UserModel = require("../models/user-model");
 const VerificationModel = require("../models/verification-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { generateAccessToken } = require("./auth-service");
-const UserDto = require("../dtos/user-dto");
-const createMailService = require("./mail-service");
-const { validateEmail, validatePassword } = require("./registration-service");
+const {
+  generateAccessToken,
+  validateEmail,
+  validatePassword,
+} = require("./auth-service");
 
-const myMailService = createMailService();
+const UserDto = require("../dtos/user-dto");
+const { deliverMail } = require("./mail-service");
+const { verificationTemplate } = require("../views/templates");
 
 async function registration(email, password) {
   if (!validateEmail(email)) {
@@ -21,7 +24,7 @@ async function registration(email, password) {
   }
 
   if (!validatePassword(password)) {
-    throw new Error("Password does not meet requirements");
+    throw new Error("Password does not match the requirements");
   }
 
   const saltRounds = 10;
@@ -50,20 +53,23 @@ async function registration(email, password) {
     verificationToken,
   });
 
-  await myMailService.sendActivationMail(
+  const subject = "Account activation on " + process.env.API_URL;
+  const template = verificationTemplate(
     email,
-    `${process.env.API_URL}/api/activate?token=${verificationToken}`
+    `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
   );
+
+  await deliverMail(email, subject, template);
 
   const userDto = new UserDto(user);
   return { user: userDto };
 }
 
-async function activate(verificationToken) {
+async function verifyUser(verificationToken) {
   const decoded = jwt.verify(verificationToken, process.env.JWT_ACCESS_SECRET);
 
   if (!decoded) {
-    return new Error("Already verified");
+    return new Error("Incorrect token");
   }
 
   const verificationUser = await VerificationModel.findOne({
@@ -74,7 +80,9 @@ async function activate(verificationToken) {
     throw new Error("Incorrect token");
   }
 
-  if (!verificationUser.isTokenUsed) {
+  if (verificationUser.isTokenUsed) {
+    throw new Error("The user is already verified");
+  } else {
     verificationUser.isTokenUsed = true;
 
     await UserModel.findOneAndUpdate(
@@ -98,7 +106,7 @@ async function login(email, password) {
   }
 
   if (user.status !== "active") {
-    throw new Error("Accout not verified");
+    throw new Error("Account not verified");
   }
 
   const userDto = new UserDto(user);
@@ -109,6 +117,6 @@ async function login(email, password) {
 
 module.exports = {
   registration,
-  activate,
+  verifyUser,
   login,
 };
