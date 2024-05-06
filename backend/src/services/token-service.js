@@ -4,7 +4,7 @@ const userModel = require("../models/user-model");
 class TokenService {
   generateAccessToken(payload) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: "10d",
+      expiresIn: "30m",
     });
     return accessToken;
   }

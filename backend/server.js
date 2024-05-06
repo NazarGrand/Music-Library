@@ -11,6 +11,8 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+//мідлвар
+
 app.use("/api", router);
 
 app.get("/", (req, res) => {
