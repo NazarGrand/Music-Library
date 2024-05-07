@@ -40,6 +40,17 @@ class UserController {
       return res.status(401).json({ message: e.message });
     }
   }
+
+  async me(req, res) {
+    try {
+      const { idUser } = req.body;
+      const userData = await userService.me(idUser);
+
+      return res.json(userData);
+    } catch (e) {
+      return res.status(401).json({ message: e.message });
+    }
+  }
 }
 
 module.exports = new UserController();

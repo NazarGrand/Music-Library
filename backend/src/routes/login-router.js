@@ -7,6 +7,8 @@ router.post("/registration", userController.registration);
 router.post("/login", userController.login);
 router.post("/verify-user", userController.verifyUser);
 
+router.get("/me", userController.me);
+
 router.use(authMe);
 
 module.exports = router;

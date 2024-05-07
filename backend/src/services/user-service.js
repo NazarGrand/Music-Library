@@ -115,8 +115,20 @@ async function login(email, password) {
   return { accessToken, user: userDto };
 }
 
+async function me(idUser) {
+  const user = await UserModel.findOne({ _id: idUser });
+
+  if (!user) {
+    throw new Error("No such user exists");
+  }
+
+  const userDto = new UserDto(user);
+  return { user: userDto };
+}
+
 module.exports = {
   registration,
   verifyUser,
   login,
+  me,
 };
