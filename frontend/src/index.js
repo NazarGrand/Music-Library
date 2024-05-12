@@ -6,16 +6,19 @@ import App from "./App";
 import { MusicProvider } from "./context/MusicContext";
 import { PlaylistProvider } from "./context/PlayListContext";
 import { FavouriteTracksProvider } from "./context/FavouriteTracksContext";
+import AuthProvider from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <MusicProvider>
-      <PlaylistProvider>
-        <FavouriteTracksProvider>
-          <App />
-        </FavouriteTracksProvider>
-      </PlaylistProvider>
-    </MusicProvider>
-  </BrowserRouter>
+  <AuthProvider>
+    <BrowserRouter>
+      <MusicProvider>
+        <PlaylistProvider>
+          <FavouriteTracksProvider>
+            <App />
+          </FavouriteTracksProvider>
+        </PlaylistProvider>
+      </MusicProvider>
+    </BrowserRouter>
+  </AuthProvider>
 );
