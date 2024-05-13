@@ -9,7 +9,10 @@ const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await authService.login(email, password);
-      console.log(response.data.accessToken);
+      setUser(response.data.user);
+
+      const token = response.data.accessToken;
+      localStorage.setItem("token", token);
     } catch (e) {
       console.error(e);
     }

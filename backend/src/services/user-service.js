@@ -110,7 +110,7 @@ async function login(email, password) {
   }
 
   const userDto = new UserDto(user);
-  const accessToken = generateAccessToken({ ...userDto });
+  const accessToken = generateAccessToken({ user: { ...userDto } });
 
   return { accessToken, user: userDto };
 }

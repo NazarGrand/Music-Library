@@ -1,0 +1,130 @@
+@import "../../styles/variables.scss";
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  flex-direction: column;
+
+  &__form {
+    margin-top: 35px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+
+    font-weight: 700;
+    font-size: 30px;
+    margin: 0;
+  }
+
+  &__block-input {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    margin-top: 20px;
+  }
+
+  &__area-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 25px;
+  }
+
+  &__forgot-password {
+    display: flex;
+    margin-left: 10px;
+
+    background-color: transparent;
+    color: $white-text-color;
+    border: none;
+    cursor: pointer;
+
+    &-title {
+      padding-top: 7px;
+      margin: 0;
+
+      font-weight: 600;
+      font-size: 22px;
+    }
+
+    &-image {
+      padding-top: 3px;
+    }
+  }
+
+  &__submit {
+    width: 150px;
+    height: 40px;
+
+    color: $white-text-color;
+    font-weight: 600;
+    font-size: 20px;
+
+    background: $pink-text-color;
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+  }
+
+  &__sign-up {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 600px;
+    margin-top: 70px;
+
+    padding: 20px 55px;
+
+    background: linear-gradient(
+      to bottom,
+      #362d3e 0%,
+      #362d3e 15%,
+      #343041 18%,
+      #342f43 45%,
+      #392e3e 65%,
+      #392e3e 100%
+    );
+    border-radius: 20px;
+
+    &-title {
+      font-weight: 600;
+      font-size: 25px;
+      margin: 0;
+    }
+
+    &-subtitle {
+      font-weight: 600;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    &-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 150px;
+      height: 40px;
+
+      font-weight: 600;
+      font-size: 20px;
+
+      background-color: $blue-text-color;
+
+      text-decoration: none;
+      color: $white-text-color;
+      border-radius: 5px;
+
+      cursor: pointer;
+    }
+  }
+}
