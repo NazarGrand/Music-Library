@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { StateTrackContext } from "./context/MusicContext";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./pages/Login/LoginPage";
+import RegistrationPage from "./pages/Registration/RegistrationPage";
 
 function App() {
   const { trackName } = useContext(StateTrackContext);
@@ -28,7 +29,7 @@ function App() {
           {trackName && <MusicPlayer />}
         </>
       ) : (
-        <LoginPage />
+        <RegistrationPage />
       )}
     </>
   );

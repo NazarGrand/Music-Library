@@ -22,9 +22,6 @@ const Login = () => {
     e.preventDefault();
     console.log(input);
 
-    // const submitButtonValue = e.nativeEvent.submitter.value;
-
-    // if (submitButtonValue === "submit-button") {
     try {
       if (input.email !== "" && input.password !== "") {
         auth.login(input.email, input.password);
@@ -32,7 +29,6 @@ const Login = () => {
     } catch (e) {
       alert(e.message);
     }
-    // }
   };
 
   const handleInput = (e) => {
@@ -94,7 +90,7 @@ const Login = () => {
             />
           </button>
 
-          <button type="submit" className="login__submit" value="submit-button">
+          <button type="submit" className="login__submit">
             Login
           </button>
         </div>

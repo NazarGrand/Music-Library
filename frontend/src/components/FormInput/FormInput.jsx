@@ -20,7 +20,7 @@ const FormInput = ({
         onChange={handleInput}
       />
 
-      {name === "password" && (
+      {(name === "password" || name === "confirmPassword") && (
         <button
           className="form-input__button-eye"
           type="button"

@@ -2,7 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+
+  &__login {
+    flex-direction: column;
+  }
 
   &__melodies {
     width: 150px;

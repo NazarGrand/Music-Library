@@ -1,9 +1,14 @@
 import "./HeaderLogin.scss";
 import imgMelodies from "../../assets/images/MelodiesLoading.svg";
+import classNames from "classnames";
 
-const HeaderLogin = () => {
+const HeaderLogin = ({ type }) => {
+  const headerLogin = classNames("header-login", {
+    "header-login__login": type === "login",
+  });
+
   return (
-    <div className="header-login">
+    <div className={headerLogin}>
       <img
         className="header-login__melodies"
         src={imgMelodies}
