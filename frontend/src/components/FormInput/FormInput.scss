@@ -45,4 +45,23 @@
   &__img-eye {
     width: 30px;
   }
+
+  &__error {
+    margin-left: 5px;
+    font-size: 18px;
+    color: red;
+    display: none;
+
+    &--visible {
+      display: block;
+    }
+  }
 }
+
+// .form-input__text:invalid[focused="true"] {
+//   border: 1px solid red;
+// }
+
+// .form-input__text:invalid[focused="true"] ~ .form-input__error {
+//   display: block;
+// }

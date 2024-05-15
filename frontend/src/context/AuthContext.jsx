@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
       const token = response.data.accessToken;
       localStorage.setItem("token", token);
     } catch (e) {
-      console.error(e);
+      return e.response?.data;
     }
   };
 
