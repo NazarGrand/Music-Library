@@ -5,6 +5,7 @@ import { useState } from "react";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Registration = () => {
   const [input, setInput] = useState({
@@ -14,6 +15,8 @@ const Registration = () => {
     confirmPassword: "",
   });
 
+  const auth = useAuth();
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setInput((prev) => ({
@@ -22,7 +25,16 @@ const Registration = () => {
     }));
   };
 
-  const handleSubmitEvent = () => {};
+  const handleSubmitEvent = async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await auth.registrationUser(input.email, input.password);
+      console.log(result?.message);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eye);

@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
       const response = await authService.registration(email, password);
       console.log(response.data);
     } catch (e) {
-      console.error(e);
+      return e.response?.data;
     }
   };
 

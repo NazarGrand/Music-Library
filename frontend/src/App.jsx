@@ -29,7 +29,7 @@ function App() {
           {trackName && <MusicPlayer />}
         </>
       ) : (
-        <LoginPage />
+        <RegistrationPage />
       )}
     </>
   );
