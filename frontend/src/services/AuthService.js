@@ -8,6 +8,6 @@ export const registration = async (email, password) => {
   return api.post("/registration", { email, password });
 };
 
-// export const logout = async () => {
-
-// }
+export const fetchUser = async () => {
+  return api.get("/me");
+};

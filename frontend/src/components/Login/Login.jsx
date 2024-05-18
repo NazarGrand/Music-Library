@@ -27,13 +27,12 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const result = await auth.login(input.email, input.password);
+      await auth.login(input.email, input.password);
+    } catch (e) {
       setErrors({
         ...errors,
-        password: result?.message,
+        password: e.message,
       });
-    } catch (e) {
-      console.log(e.message);
     }
   };
 

@@ -14,11 +14,13 @@ const AuthProvider = ({ children }) => {
       const token = response.data.accessToken;
       localStorage.setItem("token", token);
     } catch (e) {
-      return e.response?.data;
+      throw new Error(e.response?.data.message);
     }
   };
 
-  const logout = async () => {};
+  const logout = () => {
+    localStorage.removeItem("token");
+  };
 
   const registrationUser = async (email, password) => {
     try {
@@ -29,8 +31,19 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const response = await authService.fetchUser();
+      setUser(response.data.user);
+    } catch (e) {
+      return e.response;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, registrationUser }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, registrationUser, fetchUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

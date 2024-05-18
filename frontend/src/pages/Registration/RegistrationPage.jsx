@@ -1,10 +1,10 @@
-import HeaderLogin from "../../components/HeaderLogin/HeaderLogin";
+import HeaderAuth from "../../components/HeaderAuth/HeaderAuth";
 import Registration from "../../components/Registration/Registration";
 
 const RegistrationPage = () => {
   return (
     <>
-      <HeaderLogin />
+      <HeaderAuth />
       <Registration />
     </>
   );

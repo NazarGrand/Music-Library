@@ -10,8 +10,8 @@ import AuthProvider from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthProvider>
-    <BrowserRouter>
+  <BrowserRouter>
+    <AuthProvider>
       <MusicProvider>
         <PlaylistProvider>
           <FavouriteTracksProvider>
@@ -19,6 +19,6 @@ root.render(
           </FavouriteTracksProvider>
         </PlaylistProvider>
       </MusicProvider>
-    </BrowserRouter>
-  </AuthProvider>
+    </AuthProvider>
+  </BrowserRouter>
 );

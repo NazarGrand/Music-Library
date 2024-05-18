@@ -8,6 +8,6 @@ router.post("/login", userController.login);
 router.post("/verify-user", userController.verifyUser);
 
 router.use(authMe);
-router.get("/me", authMe, userController.me);
+router.get("/me", userController.me);
 
 module.exports = router;
