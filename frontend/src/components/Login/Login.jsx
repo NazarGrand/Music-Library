@@ -80,8 +80,6 @@ const Login = () => {
         ...errors,
         email: "",
       });
-
-      setIsValid(true);
     }
 
     if (name === "password") {
@@ -95,33 +93,26 @@ const Login = () => {
         ...errors,
         password: "",
       });
-
-      setIsValid(true);
     }
 
-    if (input.email === "" && input.password === "") {
-      setErrors({
-        email: "Email is required!",
-        password: "Password is required!",
-      });
+    if (!name) {
+      if (input.email === "") {
+        setErrors({
+          ...errors,
+          email: "Email is required!",
+        });
+      }
+
+      if (input.password === "") {
+        setErrors({
+          ...errors,
+          password: "Password is required!",
+        });
+      }
       return;
     }
 
-    if (input.email === "") {
-      setErrors({
-        ...errors,
-        email: "Email is required!",
-      });
-      return;
-    }
-
-    if (input.password === "") {
-      setErrors({
-        ...errors,
-        password: "Password is required!",
-      });
-      return;
-    }
+    setIsValid(true);
   };
 
   const errorClassesEmail = classNames("login__error", {

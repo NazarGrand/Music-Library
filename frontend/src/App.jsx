@@ -40,7 +40,7 @@ function App() {
           {trackName && <MusicPlayer />}
         </>
       ) : (
-        <>{loading ? <Loader /> : <LoginPage />}</>
+        <>{loading ? <Loader /> : <RegistrationPage />}</>
       )}
     </>
   );
