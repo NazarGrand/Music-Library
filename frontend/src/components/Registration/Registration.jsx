@@ -1,13 +1,19 @@
 import "./Registration.scss";
 import imgBackArrow from "../../assets/images/BackArrowBlue.svg";
-import FormInput from "../FormInput/FormInput";
 import { useState } from "react";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { isValueValid } from "../../utils/isValueValid";
 import classNames from "classnames";
+import {
+  isFieldEmpty,
+  isFieldValid,
+  isStateEmpty,
+  patternEmail,
+  patternPassword,
+} from "../../utils/isFieldsValid";
+import { ROUTES } from "../../utils/routes";
 
 const Registration = () => {
   const [input, setInput] = useState({
@@ -18,7 +24,14 @@ const Registration = () => {
   });
 
   const auth = useAuth();
-  const [isValid, setIsValid] = useState(false);
+  const [isValidName, setIsValidName] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(false);
+
+  const isValid =
+    isValidName && isValidEmail && isValidPassword && isValidConfirmPassword;
+  console.log(isValid);
 
   const [errors, setErrors] = useState({
     name: "",
@@ -40,12 +53,23 @@ const Registration = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleClickBack = () => {
+    navigate(-1);
+  };
+
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
     console.log(input);
 
     try {
       await auth.registrationUser(input.email, input.password);
+      setErrors({
+        ...errors,
+        confirmPassword: "Registration successful!",
+      });
+      navigate(ROUTES.LOGIN);
     } catch (e) {
       setErrors({
         ...errors,
@@ -59,73 +83,105 @@ const Registration = () => {
   const [focusedPassword, setFocusedPassword] = useState(false);
   const [focusedConfirmPassword, setFocusedConfirmPassword] = useState(false);
 
-  const handleBlur = (e) => {
-    setFocusedName(false);
-    setFocusedEmail(false);
-    setFocusedPassword(false);
-    setFocusedConfirmPassword(false);
-
-    const { name, value } = e.target;
+  const handleBlur = (name, value) => {
+    if (name === "name") {
+      setFocusedName(false);
+    } else if (name === "email") {
+      setFocusedEmail(false);
+    } else if (name === "password") {
+      setFocusedPassword(false);
+      setFocusedConfirmPassword(false);
+    } else if (name === "confirmPassword") {
+      setFocusedConfirmPassword(false);
+    }
 
     if (name === "name") {
-      if (!value.trim()) {
-        setErrors({ ...errors, name: "Name is required!" });
-        setIsValid(false);
+      const isEmpty = isFieldEmpty(name, value, "Name", setErrors, errors);
+
+      if (!isEmpty) {
+        setErrors({ ...errors, name: "" });
+        setIsValidName(true);
+        return;
+      } else {
+        setIsValidName(false);
         return;
       }
-
-      setErrors({
-        ...errors,
-        name: "",
-      });
     }
 
     if (name === "email") {
-      if (!value.trim()) {
-        setErrors({ ...errors, email: "Email is required!" });
-        setIsValid(false);
+      const isEmpty = isFieldEmpty(name, value, "Email", setErrors, errors);
+
+      if (!isEmpty) {
+        const message =
+          "Invalid email format. Please enter a valid email address.";
+        const isValid = isFieldValid(
+          patternEmail,
+          name,
+          value,
+          message,
+          setErrors,
+          errors
+        );
+
+        if (isValid) {
+          setErrors({ ...errors, email: "" });
+          setIsValidEmail(true);
+          return;
+        } else {
+          setIsValidEmail(false);
+          return;
+        }
+      } else {
+        setIsValidEmail(false);
         return;
       }
-
-      const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      if (pattern && !isValueValid(pattern, value)) {
-        setErrors({
-          ...errors,
-          email: "Invalid email format. Please enter a valid email address.",
-        });
-        setIsValid(false);
-        return;
-      }
-
-      setErrors({
-        ...errors,
-        email: "",
-      });
     }
 
     if (name === "password") {
-      if (!value.trim()) {
-        setErrors({ ...errors, password: "Password is required!" });
-        setIsValid(false);
+      const isEmpty = isFieldEmpty(name, value, "Password", setErrors, errors);
+
+      if (!isEmpty) {
+        const message = "Password: 6+ characters, 1 digit required.";
+        const isValid = isFieldValid(
+          patternPassword,
+          name,
+          value,
+          message,
+          setErrors,
+          errors
+        );
+
+        if (isValid) {
+          console.log("valid password");
+          const newErrors = {};
+          newErrors.password = "";
+          setIsValidPassword(true);
+
+          if (input.confirmPassword !== "" && input.confirmPassword !== value) {
+            newErrors.confirmPassword =
+              "The confirm password doesn't match the password entered.";
+            setIsValidConfirmPassword(false);
+          }
+
+          if (input.confirmPassword !== "" && input.confirmPassword === value) {
+            newErrors.confirmPassword = "";
+            setIsValidConfirmPassword(true);
+          }
+
+          if (Object.keys(newErrors).length !== 0) {
+            setErrors({
+              ...errors,
+              ...newErrors,
+            });
+          }
+        } else {
+          setIsValidPassword(false);
+          return;
+        }
+      } else {
+        setIsValidPassword(false);
         return;
       }
-
-      const pattern = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,}$/;
-
-      if (pattern && !isValueValid(pattern, value)) {
-        setErrors({
-          ...errors,
-          password: "Password: 6+ characters, 1 digit required.",
-        });
-        setIsValid(false);
-        return;
-      }
-
-      setErrors({
-        ...errors,
-        password: "",
-      });
     }
 
     if (name === "confirmPassword") {
@@ -135,7 +191,7 @@ const Registration = () => {
           confirmPassword:
             "The confirm password doesn't match the password entered.",
         });
-        setIsValid(false);
+        setIsValidConfirmPassword(false);
         return;
       }
 
@@ -143,9 +199,37 @@ const Registration = () => {
         ...errors,
         confirmPassword: "",
       });
+      setIsValidConfirmPassword(true);
+    }
+  };
+
+  const isFieldsEmpty = () => {
+    const newErrors = {};
+    isStateEmpty(input.name, "name", newErrors, setErrors, errors);
+
+    isStateEmpty(input.email, "email", newErrors, setErrors, errors);
+
+    isStateEmpty(input.password, "password", newErrors, setErrors, errors);
+
+    if (input.password === "") {
+      isStateEmpty(
+        input.confirmPassword,
+        "confirmPassword",
+        newErrors,
+        setErrors,
+        errors
+      );
+    } else if (input.password !== input.confirmPassword) {
+      newErrors.confirmPassword =
+        "The confirm password doesn't match the password entered.";
     }
 
-    setIsValid(true);
+    if (Object.keys(newErrors).length !== 0) {
+      setErrors({
+        ...errors,
+        ...newErrors,
+      });
+    }
   };
 
   const errorClassesName = classNames("registration__error", {
@@ -168,7 +252,7 @@ const Registration = () => {
   const submitClick = (e) => {
     if (!isValid) {
       e.preventDefault();
-      handleBlur(e);
+      isFieldsEmpty();
     }
   };
 
@@ -201,12 +285,6 @@ const Registration = () => {
     }
   };
 
-  const navigate = useNavigate();
-
-  const handleClickBack = () => {
-    navigate(-1);
-  };
-
   return (
     <div className="registration">
       <div className="registration__block">
@@ -231,7 +309,7 @@ const Registration = () => {
                   placeholder="Name"
                   value={input.name}
                   onChange={handleInput}
-                  onBlur={handleBlur}
+                  onBlur={() => handleBlur("name", input.name)}
                   onFocus={() => setFocusedName(true)}
                   required={true}
                 />
@@ -248,7 +326,7 @@ const Registration = () => {
                   placeholder="E-Mail"
                   value={input.email}
                   onChange={handleInput}
-                  onBlur={handleBlur}
+                  onBlur={() => handleBlur("email", input.email)}
                   onFocus={() => setFocusedEmail(true)}
                   required={true}
                 />
@@ -265,7 +343,7 @@ const Registration = () => {
                   placeholder="Password"
                   value={input.password}
                   onChange={handleInput}
-                  onBlur={handleBlur}
+                  onBlur={() => handleBlur("password", input.password)}
                   onFocus={() => setFocusedPassword(true)}
                   required={true}
                 />
@@ -295,7 +373,9 @@ const Registration = () => {
                   placeholder="Password"
                   value={input.confirmPassword}
                   onChange={handleInput}
-                  onBlur={handleBlur}
+                  onBlur={() =>
+                    handleBlur("confirmPassword", input.confirmPassword)
+                  }
                   onFocus={() => setFocusedConfirmPassword(true)}
                   required={true}
                 />

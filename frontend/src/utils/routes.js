@@ -4,4 +4,6 @@ export const ROUTES = {
   ALBUMS: "/albums/:album",
   ARTISTS: "/artists/:artistId",
   FAVOURITES: "/favorites",
+  LOGIN: "/login",
+  REGISTRATION: "/registration",
 };

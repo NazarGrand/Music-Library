@@ -40,7 +40,7 @@ function App() {
           {trackName && <MusicPlayer />}
         </>
       ) : (
-        <>{loading ? <Loader /> : <RegistrationPage />}</>
+        <>{loading ? <Loader /> : <AppRoutes />}</>
       )}
     </>
   );

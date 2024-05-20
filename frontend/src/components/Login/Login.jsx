@@ -5,9 +5,15 @@ import "./Login.scss";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
 import imgGreater from "../../assets/images/Greater.svg";
-import { Link } from "react-router-dom";
-import { isValueValid } from "../../utils/isValueValid";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
+import {
+  isFieldEmpty,
+  isFieldValid,
+  isStateEmpty,
+  patternEmail,
+} from "../../utils/isFieldsValid";
+import { ROUTES } from "../../utils/routes";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -16,18 +22,24 @@ const Login = () => {
   });
 
   const auth = useAuth();
-  const [isValid, setIsValid] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+
+  const isValid = isValidEmail && isValidPassword;
 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
 
     try {
       await auth.login(input.email, input.password);
+      navigate(ROUTES.HOME);
     } catch (e) {
       setErrors({
         ...errors,
@@ -52,81 +64,82 @@ const Login = () => {
   const [focusedEmail, setFocusedEmail] = useState(false);
   const [focusedPassword, setFocusedPassword] = useState(false);
 
-  const handleBlur = (e) => {
-    setFocusedEmail(false);
-    setFocusedPassword(false);
-
-    const { name, value } = e.target;
+  const handleBlur = (name, value) => {
+    if (name === "email") {
+      setFocusedEmail(false);
+    } else {
+      setFocusedPassword(false);
+    }
 
     if (name === "email") {
-      if (!value.trim()) {
-        setErrors({ ...errors, email: "Email is required!" });
-        setIsValid(false);
+      const isEmpty = isFieldEmpty(name, value, "Email", setErrors, errors);
+
+      if (!isEmpty) {
+        const message =
+          "Invalid email format. Please enter a valid email address.";
+        const isValid = isFieldValid(
+          patternEmail,
+          name,
+          value,
+          message,
+          setErrors,
+          errors
+        );
+
+        if (isValid) {
+          setErrors({ ...errors, email: "" });
+          setIsValidEmail(true);
+          return;
+        } else {
+          setIsValidEmail(false);
+          return;
+        }
+      } else {
+        setIsValidEmail(false);
         return;
       }
-
-      const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      if (pattern && !isValueValid(pattern, value)) {
-        setErrors({
-          ...errors,
-          email: "Invalid email format. Please enter a valid email address.",
-        });
-        setIsValid(false);
-        return;
-      }
-
-      setErrors({
-        ...errors,
-        email: "",
-      });
     }
 
     if (name === "password") {
-      if (!value.trim()) {
-        setErrors({ ...errors, password: "Password is required!" });
-        setIsValid(false);
+      const isEmpty = isFieldEmpty(name, value, "Password", setErrors, errors);
+
+      if (!isEmpty) {
+        setErrors({ ...errors, password: "" });
+        setIsValidPassword(true);
+        return;
+      } else {
+        setIsValidPassword(false);
         return;
       }
+    }
+  };
 
+  const isFieldsEmpty = () => {
+    const newErrors = {};
+    isStateEmpty(input.email, "email", newErrors, setErrors, errors);
+
+    isStateEmpty(input.password, "password", newErrors, setErrors, errors);
+
+    if (Object.keys(newErrors).length !== 0) {
       setErrors({
         ...errors,
-        password: "",
+        ...newErrors,
       });
     }
-
-    if (!name) {
-      if (input.email === "") {
-        setErrors({
-          ...errors,
-          email: "Email is required!",
-        });
-      }
-
-      if (input.password === "") {
-        setErrors({
-          ...errors,
-          password: "Password is required!",
-        });
-      }
-      return;
-    }
-
-    setIsValid(true);
   };
 
   const errorClassesEmail = classNames("login__error", {
-    "login__error--visible": errors.email && !focusedEmail,
+    "login__error--visible": !focusedEmail,
   });
 
   const errorClassesPassword = classNames("login__error", {
-    "login__error--visible": errors.password && !focusedPassword,
+    "login__error--visible": !focusedPassword,
   });
 
   const submitClick = (e) => {
     if (!isValid) {
       e.preventDefault();
-      handleBlur(e);
+      isFieldsEmpty();
     }
   };
 
@@ -160,7 +173,7 @@ const Login = () => {
                 placeholder="E-Mail"
                 value={input.email}
                 onChange={handleInput}
-                onBlur={handleBlur}
+                onBlur={() => handleBlur("email", input.email)}
                 onFocus={() => setFocusedEmail(true)}
                 required={true}
               />
@@ -177,7 +190,7 @@ const Login = () => {
                 placeholder="Password"
                 value={input.password}
                 onChange={handleInput}
-                onBlur={handleBlur}
+                onBlur={() => handleBlur("password", input.password)}
                 onFocus={() => setFocusedPassword(true)}
                 required={true}
               />
@@ -218,7 +231,7 @@ const Login = () => {
           <p className="login__sign-up-subtitle">Sign Up Here</p>
         </div>
 
-        <Link className="login__sign-up-link" to="/registraton">
+        <Link className="login__sign-up-link" to={ROUTES.REGISTRATION}>
           Sign Up
         </Link>
       </div>
