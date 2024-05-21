@@ -142,4 +142,9 @@
 
     cursor: pointer;
   }
+
+  &__image-loading {
+    height: 40px;
+    animation: spin 2s linear infinite;
+  }
 }

@@ -3,6 +3,8 @@ import imgBackArrow from "../../assets/images/BackArrowBlue.svg";
 import { useState } from "react";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
+import imgLoader from "../../assets/images/Loader.svg";
+
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import classNames from "classnames";
@@ -29,9 +31,8 @@ const Registration = () => {
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(false);
 
-  const isValid =
+  const isFormValid =
     isValidName && isValidEmail && isValidPassword && isValidConfirmPassword;
-  console.log(isValid);
 
   const [errors, setErrors] = useState({
     name: "",
@@ -59,16 +60,14 @@ const Registration = () => {
     navigate(-1);
   };
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
-    console.log(input);
+    setIsDisabled(true);
 
     try {
       await auth.registrationUser(input.email, input.password);
-      setErrors({
-        ...errors,
-        confirmPassword: "Registration successful!",
-      });
       navigate(ROUTES.LOGIN);
     } catch (e) {
       setErrors({
@@ -76,6 +75,7 @@ const Registration = () => {
         confirmPassword: e.message,
       });
     }
+    setIsDisabled(false);
   };
 
   const [focusedName, setFocusedName] = useState(false);
@@ -83,17 +83,8 @@ const Registration = () => {
   const [focusedPassword, setFocusedPassword] = useState(false);
   const [focusedConfirmPassword, setFocusedConfirmPassword] = useState(false);
 
-  const handleBlur = (name, value) => {
-    if (name === "name") {
-      setFocusedName(false);
-    } else if (name === "email") {
-      setFocusedEmail(false);
-    } else if (name === "password") {
-      setFocusedPassword(false);
-      setFocusedConfirmPassword(false);
-    } else if (name === "confirmPassword") {
-      setFocusedConfirmPassword(false);
-    }
+  const handleBlur = (name, value, setFocusedState) => {
+    setFocusedState(false);
 
     if (name === "name") {
       const isEmpty = isFieldEmpty(name, value, "Name", setErrors, errors);
@@ -102,10 +93,9 @@ const Registration = () => {
         setErrors({ ...errors, name: "" });
         setIsValidName(true);
         return;
-      } else {
-        setIsValidName(false);
-        return;
       }
+      setIsValidName(false);
+      return;
     }
 
     if (name === "email") {
@@ -127,14 +117,12 @@ const Registration = () => {
           setErrors({ ...errors, email: "" });
           setIsValidEmail(true);
           return;
-        } else {
-          setIsValidEmail(false);
-          return;
         }
-      } else {
         setIsValidEmail(false);
         return;
       }
+      setIsValidEmail(false);
+      return;
     }
 
     if (name === "password") {
@@ -152,7 +140,6 @@ const Registration = () => {
         );
 
         if (isValid) {
-          console.log("valid password");
           const newErrors = {};
           newErrors.password = "";
           setIsValidPassword(true);
@@ -174,14 +161,13 @@ const Registration = () => {
               ...newErrors,
             });
           }
-        } else {
-          setIsValidPassword(false);
           return;
         }
-      } else {
         setIsValidPassword(false);
         return;
       }
+      setIsValidPassword(false);
+      return;
     }
 
     if (name === "confirmPassword") {
@@ -250,7 +236,7 @@ const Registration = () => {
   });
 
   const submitClick = (e) => {
-    if (!isValid) {
+    if (!isFormValid) {
       e.preventDefault();
       isFieldsEmpty();
     }
@@ -309,7 +295,7 @@ const Registration = () => {
                   placeholder="Name"
                   value={input.name}
                   onChange={handleInput}
-                  onBlur={() => handleBlur("name", input.name)}
+                  onBlur={() => handleBlur("name", input.name, setFocusedName)}
                   onFocus={() => setFocusedName(true)}
                   required={true}
                 />
@@ -326,7 +312,9 @@ const Registration = () => {
                   placeholder="E-Mail"
                   value={input.email}
                   onChange={handleInput}
-                  onBlur={() => handleBlur("email", input.email)}
+                  onBlur={() =>
+                    handleBlur("email", input.email, setFocusedEmail)
+                  }
                   onFocus={() => setFocusedEmail(true)}
                   required={true}
                 />
@@ -343,7 +331,9 @@ const Registration = () => {
                   placeholder="Password"
                   value={input.password}
                   onChange={handleInput}
-                  onBlur={() => handleBlur("password", input.password)}
+                  onBlur={() =>
+                    handleBlur("password", input.password, setFocusedPassword)
+                  }
                   onFocus={() => setFocusedPassword(true)}
                   required={true}
                 />
@@ -370,11 +360,15 @@ const Registration = () => {
                   className="registration__text"
                   type={typeConfirmPassword}
                   name="confirmPassword"
-                  placeholder="Password"
+                  placeholder="Confirm password"
                   value={input.confirmPassword}
                   onChange={handleInput}
                   onBlur={() =>
-                    handleBlur("confirmPassword", input.confirmPassword)
+                    handleBlur(
+                      "confirmPassword",
+                      input.confirmPassword,
+                      setFocusedConfirmPassword
+                    )
                   }
                   onFocus={() => setFocusedConfirmPassword(true)}
                   required={true}
@@ -403,8 +397,17 @@ const Registration = () => {
               type="submit"
               className="registration__submit"
               onClick={submitClick}
+              disabled={isDisabled}
             >
-              Create an account
+              {!isDisabled ? (
+                "Create an account"
+              ) : (
+                <img
+                  className="login__image-loading"
+                  src={imgLoader}
+                  alt="loader"
+                />
+              )}
             </button>
           </div>
         </form>

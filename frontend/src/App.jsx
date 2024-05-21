@@ -15,14 +15,14 @@ function App() {
   const { user, fetchUser } = useAuth();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchUser();
-      setLoading(false);
-    };
+  const fetchData = async () => {
+    await fetchUser();
+    setLoading(false);
+  };
 
+  useEffect(() => {
     fetchData();
-  }, [fetchUser]);
+  }, []);
 
   return (
     <>

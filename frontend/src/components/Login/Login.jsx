@@ -5,6 +5,8 @@ import "./Login.scss";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
 import imgGreater from "../../assets/images/Greater.svg";
+import imgLoader from "../../assets/images/Loader.svg";
+
 import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
@@ -25,7 +27,7 @@ const Login = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
 
-  const isValid = isValidEmail && isValidPassword;
+  const isFormValid = isValidEmail && isValidPassword;
 
   const [errors, setErrors] = useState({
     email: "",
@@ -34,8 +36,11 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmitEvent = async (e) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setIsDisabled(true);
 
     try {
       await auth.login(input.email, input.password);
@@ -46,6 +51,8 @@ const Login = () => {
         password: e.message,
       });
     }
+
+    setIsDisabled(false);
   };
 
   const handleInput = (e) => {
@@ -64,12 +71,8 @@ const Login = () => {
   const [focusedEmail, setFocusedEmail] = useState(false);
   const [focusedPassword, setFocusedPassword] = useState(false);
 
-  const handleBlur = (name, value) => {
-    if (name === "email") {
-      setFocusedEmail(false);
-    } else {
-      setFocusedPassword(false);
-    }
+  const handleBlur = (name, value, setFocusedState) => {
+    setFocusedState(false);
 
     if (name === "email") {
       const isEmpty = isFieldEmpty(name, value, "Email", setErrors, errors);
@@ -90,14 +93,12 @@ const Login = () => {
           setErrors({ ...errors, email: "" });
           setIsValidEmail(true);
           return;
-        } else {
-          setIsValidEmail(false);
-          return;
         }
-      } else {
         setIsValidEmail(false);
         return;
       }
+      setIsValidEmail(false);
+      return;
     }
 
     if (name === "password") {
@@ -107,10 +108,9 @@ const Login = () => {
         setErrors({ ...errors, password: "" });
         setIsValidPassword(true);
         return;
-      } else {
-        setIsValidPassword(false);
-        return;
       }
+      setIsValidPassword(false);
+      return;
     }
   };
 
@@ -137,7 +137,7 @@ const Login = () => {
   });
 
   const submitClick = (e) => {
-    if (!isValid) {
+    if (!isFormValid) {
       e.preventDefault();
       isFieldsEmpty();
     }
@@ -160,7 +160,7 @@ const Login = () => {
 
   return (
     <div className="login">
-      <form className="login__form" onSubmit={handleSubmitEvent}>
+      <form className="login__form" onSubmit={handleFormSubmit}>
         <p className="login__title">Login To Continue</p>
 
         <div className="login__block-input">
@@ -173,7 +173,7 @@ const Login = () => {
                 placeholder="E-Mail"
                 value={input.email}
                 onChange={handleInput}
-                onBlur={() => handleBlur("email", input.email)}
+                onBlur={() => handleBlur("email", input.email, setFocusedEmail)}
                 onFocus={() => setFocusedEmail(true)}
                 required={true}
               />
@@ -190,7 +190,9 @@ const Login = () => {
                 placeholder="Password"
                 value={input.password}
                 onChange={handleInput}
-                onBlur={() => handleBlur("password", input.password)}
+                onBlur={() =>
+                  handleBlur("password", input.password, setFocusedPassword)
+                }
                 onFocus={() => setFocusedPassword(true)}
                 required={true}
               />
@@ -218,8 +220,21 @@ const Login = () => {
             />
           </button>
 
-          <button type="submit" className="login__submit" onClick={submitClick}>
-            Login
+          <button
+            type="submit"
+            className="login__submit"
+            onClick={submitClick}
+            disabled={isDisabled}
+          >
+            {!isDisabled ? (
+              "Login"
+            ) : (
+              <img
+                className="login__image-loading"
+                src={imgLoader}
+                alt="loader"
+              />
+            )}
           </button>
         </div>
       </form>
