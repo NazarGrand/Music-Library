@@ -45,6 +45,7 @@ async function registration(email, password) {
     email,
     password: hashPassword,
     status: "pending",
+    role: "user",
   });
 
   await VerificationModel.create({
@@ -56,7 +57,7 @@ async function registration(email, password) {
   const subject = "Account activation on " + process.env.API_URL;
   const template = verificationTemplate(
     email,
-    `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
+    `${process.env.API_URL}/auth/verify-user?token=${verificationToken}`
   );
 
   await deliverMail(email, subject, template);
