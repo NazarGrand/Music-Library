@@ -95,11 +95,10 @@
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px #612c4f inset !important;
-    }
-
-    &:-webkit-autofill {
-      -webkit-text-fill-color: $white-text-color !important;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #ffffff;
+      transition: background-color 5000s ease-in-out 0s;
+      box-shadow: inset 0 0 20px 20px #612c4f;
     }
   }
 

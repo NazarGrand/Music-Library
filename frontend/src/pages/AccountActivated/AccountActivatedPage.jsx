@@ -3,7 +3,7 @@ import ActivationSuccess from "../../components/ActivationSuccess/ActivationSucc
 import * as authService from "../../services/AuthService";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader/Loader";
-import ActivationError from "../../components/ActivationError/ActivationError";
+import Error from "../../components/Error/Error";
 
 const AccountActivatedPage = () => {
   const location = useLocation();
@@ -33,7 +33,7 @@ const AccountActivatedPage = () => {
       ) : !error ? (
         <ActivationSuccess />
       ) : (
-        <ActivationError errorMessage={error} />
+        <Error errorMessage={error} type="email" />
       )}
     </>
   );
