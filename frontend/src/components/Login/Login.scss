@@ -69,6 +69,17 @@
     &:focus {
       outline: 1px solid transparent;
     }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #612c4f inset !important;
+    }
+
+    &:-webkit-autofill {
+      -webkit-text-fill-color: $white-text-color !important;
+    }
   }
 
   &__error {

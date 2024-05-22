@@ -6,4 +6,5 @@ export const ROUTES = {
   FAVOURITES: "/favorites",
   LOGIN: "/login",
   REGISTRATION: "/registration",
+  ACCOUNT_ACTIVATED: "/account-activated",
 };

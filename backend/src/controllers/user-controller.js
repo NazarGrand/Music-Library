@@ -32,7 +32,7 @@ class UserController {
 
   async verifyUser(req, res) {
     try {
-      const token = req.query.token;
+      const { token } = req.body;
       await userService.verifyUser(token);
 
       return res.send("Activation was successful");

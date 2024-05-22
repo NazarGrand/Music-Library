@@ -11,3 +11,7 @@ export const registration = async (email, password) => {
 export const fetchUser = async () => {
   return await api.get("/auth/me");
 };
+
+export const verifyUser = async (token) => {
+  return await api.post("/auth/verify-user", { token });
+};

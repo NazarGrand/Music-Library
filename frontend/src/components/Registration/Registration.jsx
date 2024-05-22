@@ -15,7 +15,7 @@ import {
   patternEmail,
   patternPassword,
 } from "../../utils/isFieldsValid";
-import { ROUTES } from "../../utils/routes";
+// import { ROUTES } from "../../utils/routes";
 
 const Registration = () => {
   const [input, setInput] = useState({
@@ -68,7 +68,7 @@ const Registration = () => {
 
     try {
       await auth.registrationUser(input.email, input.password);
-      navigate(ROUTES.LOGIN);
+      // navigate(ROUTES.LOGIN);
     } catch (e) {
       setErrors({
         ...errors,

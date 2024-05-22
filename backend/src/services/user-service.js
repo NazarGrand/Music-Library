@@ -56,7 +56,8 @@ async function registration(email, password) {
   const subject = "Account activation on " + process.env.API_URL;
   const template = verificationTemplate(
     email,
-    `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
+    `${process.env.CLIENT_URL}/account-activated?token=${verificationToken}`
+    // `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
   );
 
   await deliverMail(email, subject, template);
