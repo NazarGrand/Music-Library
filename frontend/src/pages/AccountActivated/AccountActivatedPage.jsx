@@ -31,7 +31,7 @@ const AccountActivatedPage = () => {
       {loading ? (
         <Loader />
       ) : !error ? (
-        <ActivationSuccess />
+        <ActivationSuccess message="Your account has been successfully activated:" />
       ) : (
         <Error errorMessage={error} type="email" />
       )}

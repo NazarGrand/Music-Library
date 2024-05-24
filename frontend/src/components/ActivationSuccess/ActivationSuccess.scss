@@ -8,8 +8,8 @@
   align-items: center;
 
   &__block {
-    width: 650px;
-    height: 350px;
+    width: 700px;
+    height: 400px;
     background: #95efd3;
 
     display: flex;
@@ -17,6 +17,11 @@
     align-items: center;
 
     border-radius: 20px;
+
+    &--email-valid {
+      width: 650px;
+      height: 350px;
+    }
   }
 
   &__logo {
@@ -36,11 +41,20 @@
     height: 180px;
   }
 
+  &__title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: $pink-text-color;
+    text-align: center;
+  }
+
   &__text {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
     color: $login-button-color;
+    text-align: center;
   }
 
   &__button {
