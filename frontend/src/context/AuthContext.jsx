@@ -37,8 +37,13 @@ const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       const response = await authService.fetchUser();
+      if (!response.data.user) {
+        logout();
+        return;
+      }
       setUser(response.data.user);
     } catch (e) {
+      logout();
       return e.response;
     }
   };
