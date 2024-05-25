@@ -3,8 +3,12 @@ const userService = require("../services/user-service");
 class UserController {
   async registration(req, res) {
     try {
-      const { email, password } = req.body;
-      const userData = await userService.registration(email, password);
+      const { userName, email, password } = req.body;
+      const userData = await userService.registration(
+        userName,
+        email,
+        password
+      );
 
       return res.json(userData);
     } catch (e) {
@@ -32,7 +36,7 @@ class UserController {
 
   async verifyUser(req, res) {
     try {
-      const token = req.query.token;
+      const { token } = req.body;
       await userService.verifyUser(token);
 
       return res.send("Activation was successful");
@@ -43,8 +47,8 @@ class UserController {
 
   async me(req, res) {
     try {
-      const { idUser } = req.body;
-      const userData = await userService.me(idUser);
+      const { id } = req.body.user;
+      const userData = await userService.me(id);
 
       return res.json(userData);
     } catch (e) {
