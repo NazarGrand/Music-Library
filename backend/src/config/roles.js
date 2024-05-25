@@ -1,13 +1,23 @@
-const userRoles = require("./rolesConstants");
+const { userRoles, adminRoles } = require("./rolesConstants");
 
 const roles = [
   {
     name: "admin",
     permissions: [
-      "create_record",
-      "read_record",
-      "update_record",
-      "delete_record",
+      adminRoles.CREATE_RECORD,
+      adminRoles.READ_RECORD,
+      adminRoles.UPDATE_RECORD,
+      adminRoles.DELETE_RECORD,
+
+      adminRoles.CREATE_ALBUM,
+      adminRoles.READ_ALBUM,
+      adminRoles.UPDATE_ALBUM,
+      adminRoles.DELETE_ALBUM,
+
+      adminRoles.CREATE_ARTIST,
+      adminRoles.READ_ARTIST,
+      adminRoles.UPDATE_ARTIST,
+      adminRoles.DELETE_ARTIST,
     ],
   },
   {

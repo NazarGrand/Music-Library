@@ -4,4 +4,21 @@ const userRoles = {
   READ_ARTIST: "read_artist",
 };
 
-module.exports = userRoles;
+const adminRoles = {
+  CREATE_RECORD: "create_record",
+  READ_RECORD: "read_record",
+  UPDATE_RECORD: "update_record",
+  DELETE_RECORD: "delete_record",
+
+  CREATE_ALBUM: "create_album",
+  READ_ALBUM: "read_album",
+  UPDATE_ALBUM: "update_album",
+  DELETE_ALBUM: "delete_album",
+
+  CREATE_ARTIST: "create_artist",
+  READ_ARTIST: "read_artist",
+  UPDATE_ARTIST: "update_artist",
+  DELETE_ARTIST: "delete_artist",
+};
+
+module.exports = { userRoles, adminRoles };

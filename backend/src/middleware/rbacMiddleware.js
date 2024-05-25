@@ -1,12 +1,18 @@
 const Permissions = require("../models/permissions");
+const { getUserById } = require("../services/user-service");
 
 exports.checkPermission = (permission) => {
-  return (req, res, next) => {
-    const userRole = req.user ? req.user.role : "anonymous";
+  return async (req, res, next) => {
+    let user = null;
 
-    console.log(userRole);
+    try {
+      user = await getUserById(req.body.user._id);
+    } catch (e) {
+      return res.status(401).json({ error: "Bad request" });
+    }
+
     const userPermissions = new Permissions().getPermissionsByRoleName(
-      userRole
+      user.role
     );
 
     if (userPermissions.includes(permission)) {

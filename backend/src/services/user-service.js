@@ -2,6 +2,8 @@ const UserModel = require("../models/user-model");
 const VerificationModel = require("../models/verification-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { ObjectId } = require("mongoose").Types;
+
 const {
   generateAccessToken,
   validateEmail,
@@ -59,7 +61,6 @@ async function registration(userName, email, password) {
   const template = verificationTemplate(
     userName,
     `${process.env.CLIENT_URL}/account-activated?token=${verificationToken}`
-    // `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
   );
 
   await deliverMail(email, subject, template);
@@ -119,6 +120,10 @@ async function login(email, password) {
 }
 
 async function me(idUser) {
+  if (!idUser) {
+    throw new Error("No such id user");
+  }
+
   const user = await UserModel.findOne({ _id: idUser });
 
   if (!user) {
@@ -129,9 +134,20 @@ async function me(idUser) {
   return { user: userDto };
 }
 
+async function getUserById(id) {
+  const user = await UserModel.findOne({ _id: new ObjectId(id) });
+
+  if (!user) {
+    throw new Error("No such user exists");
+  }
+
+  return user;
+}
+
 module.exports = {
   registration,
   verifyUser,
   login,
   me,
+  getUserById,
 };
