@@ -5,10 +5,15 @@ require("./src/config/dbConnection");
 const router = require("./src/routes/index");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+);
 
 app.use(router);
 

@@ -7,6 +7,9 @@ import ArtistsPage from "../pages/Artists/ArtistsPage";
 import ErrorPage from "../pages/Error/ErrorPage";
 import AlbumsPage from "../pages/Albums/AlbumsPage";
 import FavouriteTracksPage from "../pages/FavouriteTracksPage/FavouriteTracksPage";
+import LoginPage from "../pages/Login/LoginPage";
+import RegistrationPage from "../pages/Registration/RegistrationPage";
+import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -16,6 +19,9 @@ const AppRoutes = () => (
     <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
     <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
     <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
+    <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+    <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
+    <Route path={ROUTES.ACCOUNT_ACTIVATED} element={<AccountActivatedPage />} />
     <Route path="*" element={<ErrorPage />} />
   </Routes>
 );

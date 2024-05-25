@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 function generateAccessToken(payload) {
   const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "1d",
   });
   return accessToken;
 }
@@ -13,7 +13,7 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-  const re = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+  const re = /^(?=.*\d).{6,}$/;
   return re.test(password);
 }
 
