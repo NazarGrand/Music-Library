@@ -67,7 +67,7 @@ const Registration = () => {
     setIsDisabled(true);
 
     try {
-      await auth.registrationUser(input.email, input.password);
+      await auth.registrationUser(input.name, input.email, input.password);
       navigate(ROUTES.LOGIN, { state: { userRegistered: true } });
     } catch (e) {
       setErrors({

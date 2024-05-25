@@ -13,7 +13,7 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-  const re = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+  const re = /^(?=.*\d).{6,}$/;
   return re.test(password);
 }
 

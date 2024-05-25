@@ -22,9 +22,13 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
-  const registrationUser = async (email, password) => {
+  const registrationUser = async (userName, email, password) => {
     try {
-      const response = await authService.registration(email, password);
+      const response = await authService.registration(
+        userName,
+        email,
+        password
+      );
     } catch (e) {
       throw new Error(e.response?.data.message);
     }

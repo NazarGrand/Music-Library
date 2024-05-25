@@ -4,8 +4,8 @@ export const login = async (email, password) => {
   return await api.post("/auth/login", { email, password });
 };
 
-export const registration = async (email, password) => {
-  return await api.post("/auth/registration", { email, password });
+export const registration = async (userName, email, password) => {
+  return await api.post("/auth/registration", { userName, email, password });
 };
 
 export const fetchUser = async () => {

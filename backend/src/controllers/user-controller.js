@@ -3,8 +3,12 @@ const userService = require("../services/user-service");
 class UserController {
   async registration(req, res) {
     try {
-      const { email, password } = req.body;
-      const userData = await userService.registration(email, password);
+      const { userName, email, password } = req.body;
+      const userData = await userService.registration(
+        userName,
+        email,
+        password
+      );
 
       return res.json(userData);
     } catch (e) {

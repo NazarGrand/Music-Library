@@ -1,7 +1,7 @@
 import { isValueValid } from "./isValueValid";
 
 export const patternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-export const patternPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+export const patternPassword = /^(?=.*\d).{6,}$/;
 
 export function isFieldEmpty(name, value, fieldName, setErrors, errors) {
   if (!value.trim()) {

@@ -12,7 +12,7 @@ const UserDto = require("../dtos/user-dto");
 const { deliverMail } = require("./mail-service");
 const { verificationTemplate } = require("../views/templates");
 
-async function registration(email, password) {
+async function registration(userName, email, password) {
   if (!validateEmail(email)) {
     throw new Error("Invalid email address");
   }
@@ -36,12 +36,13 @@ async function registration(email, password) {
   };
 
   const verificationToken = createToken(
-    { email },
+    { userName, email },
     process.env.JWT_ACCESS_SECRET,
     "1h"
   );
 
   const user = await UserModel.create({
+    userName,
     email,
     password: hashPassword,
     status: "pending",
@@ -53,9 +54,9 @@ async function registration(email, password) {
     verificationToken,
   });
 
-  const subject = "Account activation on " + process.env.API_URL;
+  const subject = "Account activation on Music Library";
   const template = verificationTemplate(
-    email,
+    userName,
     `${process.env.CLIENT_URL}/account-activated?token=${verificationToken}`
     // `${process.env.API_URL}/api/verify-user?token=${verificationToken}`
   );
