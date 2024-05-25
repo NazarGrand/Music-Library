@@ -11,10 +11,10 @@ router.post("/verify-user", userController.verifyUser);
 
 router.use(authMe);
 
-router.get(
-  "/me",
-  rbacMiddleware.checkPermission("update_album"),
-  userController.me
-);
+// router.get(
+//   "/me",
+//   rbacMiddleware.checkPermission("delete_album"),
+//   userController.me
+// );
 
 module.exports = router;
