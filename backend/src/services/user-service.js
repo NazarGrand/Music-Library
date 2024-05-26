@@ -131,7 +131,7 @@ async function me(idUser) {
   }
 
   const userDto = new UserDto(user);
-  return { user: userDto };
+  return { user: { ...userDto, role: user.role } };
 }
 
 async function getUserById(id) {

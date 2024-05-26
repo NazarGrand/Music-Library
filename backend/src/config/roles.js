@@ -1,4 +1,4 @@
-const { userRoles, adminRoles } = require("./rolesConstants");
+const { userRoles, adminRoles } = require("../constants/rolesConstants");
 
 const roles = [
   {

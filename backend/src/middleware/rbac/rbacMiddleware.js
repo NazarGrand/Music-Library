@@ -1,5 +1,5 @@
-const Permissions = require("../models/permissions");
-const { getUserById } = require("../services/user-service");
+const Permissions = require("./permissions");
+const { getUserById } = require("../../services/user-service");
 
 exports.checkPermission = (permission) => {
   return async (req, res, next) => {
