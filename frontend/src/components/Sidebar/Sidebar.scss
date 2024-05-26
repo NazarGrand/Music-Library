@@ -17,4 +17,74 @@
     background-clip: text;
     user-select: none;
   }
+
+  &-button {
+    display: inline-block;
+    gap: 50px;
+    text-decoration: none;
+    color: $white-text-color;
+    font-weight: 600;
+    font-size: 20px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+.sidebar-nav {
+  width: 272px;
+  flex-grow: 1;
+  background-color: #0f1a20;
+
+  &__menu {
+    padding-left: 27px;
+    padding-top: 15px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    color: $pink-text-color;
+    opacity: 0.6;
+  }
+
+  &__item-block {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__list {
+    padding-left: 27px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__item {
+    &-button {
+      background-color: transparent;
+      border: none;
+
+      display: inline-block;
+      gap: 50px;
+      color: $white-text-color;
+      font-weight: 600;
+      font-size: 20px;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__icon {
+    margin-top: 6px;
+    width: 25px;
+    height: 25px;
+  }
+
+  &__title {
+    margin: 0;
+    padding-top: 7px;
+  }
 }
