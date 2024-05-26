@@ -5,9 +5,11 @@ import Nav from "../Nav/Nav";
 import Button from "../ui/Button/Button";
 import { ROUTES } from "../../utils/routes";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Header = () => {
   const [inputValue, setInputValue] = useState("");
+  const { logout } = useAuth();
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -27,13 +29,6 @@ const Header = () => {
       </div>
 
       <Nav />
-
-      <div className="header__buttons">
-        <Link to={ROUTES.LOGIN}>
-          <Button type="login" buttonTitle="Login" />
-        </Link>
-        <Button type="sign-up" buttonTitle="Sign Up" />
-      </div>
     </header>
   );
 };

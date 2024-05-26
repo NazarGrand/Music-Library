@@ -96,7 +96,6 @@ const TrackItem = ({
         },
       });
     } else {
-      console.log("here");
       dispatchFavouriteTracks({
         type: favouriteTracksContextActions.deleteFavouriteTrack,
         payload: idTrack,

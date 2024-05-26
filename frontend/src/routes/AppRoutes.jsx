@@ -10,31 +10,45 @@ import FavouriteTracksPage from "../pages/FavouriteTracksPage/FavouriteTracksPag
 import LoginPage from "../pages/Login/LoginPage";
 import RegistrationPage from "../pages/Registration/RegistrationPage";
 import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage";
-import ProtectedRoute from "./ProtectedRoute";
-import LoginRoute from "./LoginRoute";
+import { ROLE } from "../constants/Roles";
+import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
+import { useAuth } from "../context/AuthContext";
 
-const AppRoutes = () => (
-  <Routes>
-    <Route element={<ProtectedRoute />}>
-      <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
-      <Route path={ROUTES.HOME} element={<HomePage />} />
-      <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
-      <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
-      <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
-      <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
-    </Route>
+const AppRoutes = () => {
+  const { user } = useAuth();
 
-    <Route path={ROUTES.LOGIN} element={<LoginRoute />}>
-      <Route path="" element={<LoginPage />} />
-    </Route>
+  return (
+    <Routes>
+      {user && user.role === ROLE.user && (
+        <>
+          <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
+          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
+          <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
+          <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
+          <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
+          <Route
+            path={ROUTES.ACCOUNT_ACTIVATED}
+            element={<AccountActivatedPage />}
+          />
+        </>
+      )}
 
-    <Route path={ROUTES.REGISTRATION} element={<LoginRoute />}>
-      <Route path="" element={<RegistrationPage />} />
-    </Route>
-    {/* <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} /> */}
-    <Route path={ROUTES.ACCOUNT_ACTIVATED} element={<AccountActivatedPage />} />
-    <Route path="*" element={<ErrorPage />} />
-  </Routes>
-);
+      {user && user.role === ROLE.admin && (
+        <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+      )}
+
+      {!user && (
+        <>
+          <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
+        </>
+      )}
+
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
+  );
+};
 
 export default AppRoutes;
