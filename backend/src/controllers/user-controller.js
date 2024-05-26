@@ -47,8 +47,8 @@ class UserController {
 
   async me(req, res) {
     try {
-      const { id } = req.body.user;
-      const userData = await userService.me(id);
+      const { _id } = req.body.user;
+      const userData = await userService.me(_id);
 
       return res.json(userData);
     } catch (e) {
