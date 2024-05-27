@@ -19,7 +19,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {user && user.role === ROLE.user && (
+      {user && user.role === ROLE.USER && (
         <>
           <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
           <Route path={ROUTES.HOME} element={<HomePage />} />
@@ -34,8 +34,14 @@ const AppRoutes = () => {
         </>
       )}
 
-      {user && user.role === ROLE.admin && (
-        <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+      {user && user.role === ROLE.ADMIN && (
+        <>
+          <Route
+            path={ROUTES.HOME}
+            element={<Navigate to={ROUTES.ADMIN_DASHBOARD} />}
+          />
+          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+        </>
       )}
 
       {!user && (

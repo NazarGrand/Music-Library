@@ -2,7 +2,7 @@ import React from "react";
 import "./Button.scss";
 import classnames from "classnames";
 
-const Button = ({ type, buttonTitle, method }) => {
+const Button = ({ type, buttonTitle, onClick }) => {
   return (
     <button
       className={classnames("button", {
@@ -10,7 +10,7 @@ const Button = ({ type, buttonTitle, method }) => {
         "button--sign-up": type === "sign-up",
         "button--logout": type === "logout",
       })}
-      onClick={method}
+      onClick={onClick}
     >
       {buttonTitle}
     </button>
