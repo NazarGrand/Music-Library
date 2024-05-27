@@ -10,20 +10,51 @@ import FavouriteTracksPage from "../pages/FavouriteTracksPage/FavouriteTracksPag
 import LoginPage from "../pages/Login/LoginPage";
 import RegistrationPage from "../pages/Registration/RegistrationPage";
 import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage";
+import { ROLE } from "../constants/Roles";
+import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
+import { useAuth } from "../context/AuthContext";
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
-    <Route path={ROUTES.HOME} element={<HomePage />} />
-    <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
-    <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
-    <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
-    <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
-    <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-    <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
-    <Route path={ROUTES.ACCOUNT_ACTIVATED} element={<AccountActivatedPage />} />
-    <Route path="*" element={<ErrorPage />} />
-  </Routes>
-);
+const AppRoutes = () => {
+  const { user } = useAuth();
+
+  return (
+    <Routes>
+      {user && user.role === ROLE.USER && (
+        <>
+          <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
+          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
+          <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
+          <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
+          <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
+          <Route
+            path={ROUTES.ACCOUNT_ACTIVATED}
+            element={<AccountActivatedPage />}
+          />
+        </>
+      )}
+
+      {user && user.role === ROLE.ADMIN && (
+        <>
+          <Route
+            path={ROUTES.HOME}
+            element={<Navigate to={ROUTES.ADMIN_DASHBOARD} />}
+          />
+          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+        </>
+      )}
+
+      {!user && (
+        <>
+          <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
+        </>
+      )}
+
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
+  );
+};
 
 export default AppRoutes;
