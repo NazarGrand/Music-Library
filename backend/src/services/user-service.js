@@ -116,7 +116,7 @@ async function login(email, password) {
   const userDto = new UserDto(user);
   const accessToken = generateAccessToken({ user: { ...userDto } });
 
-  return { accessToken, user: userDto };
+  return { accessToken, user: { ...userDto, role: user.role } };
 }
 
 async function me(idUser) {
