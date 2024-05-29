@@ -8,15 +8,18 @@ const AdminDashboard = () => {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
-      const storageRef = firebase.storage().ref();
-      const fileRef = storageRef.child(selectedFile.name);
+      try {
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(selectedFile.name);
 
-      fileRef.put(selectedFile).then((snapshot) => {
-        snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log(downloadURL);
-          setUrl(downloadURL);
+        fileRef.put(selectedFile).then((snapshot) => {
+          snapshot.ref.getDownloadURL().then((downloadURL) => {
+            setUrl(downloadURL);
+          });
         });
-      });
+      } catch (e) {
+        console.log(e.message);
+      }
     } else {
       console.log("No file selected!");
     }
@@ -27,13 +30,6 @@ const AdminDashboard = () => {
       <p>Admin dashboard</p>
 
       <input type="file" onChange={handleFileUpload} />
-
-      <input
-        type="text"
-        placeholder="Add URL"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
     </div>
   );
 };
