@@ -13,6 +13,7 @@ import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage
 import { ROLE } from "../constants/Roles";
 import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
 import { useAuth } from "../context/AuthContext";
+import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -38,9 +39,9 @@ const AppRoutes = () => {
         <>
           <Route
             path={ROUTES.HOME}
-            element={<Navigate to={ROUTES.ADMIN_DASHBOARD} />}
+            element={<Navigate to={ROUTES.ADMIN_TRACKS} />}
           />
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+          <Route path={ROUTES.ADMIN_TRACKS} element={<AdminTracksPage />} />
         </>
       )}
 

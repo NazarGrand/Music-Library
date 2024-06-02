@@ -18,6 +18,10 @@ const TrackSchema = new Schema({
     type: String,
     required: true,
   },
+  duration: {
+    type: Number,
+    required: true,
+  },
   releaseDate: {
     type: Date,
     required: true,
