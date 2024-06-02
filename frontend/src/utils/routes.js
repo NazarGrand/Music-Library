@@ -8,4 +8,6 @@ export const ROUTES = {
   REGISTRATION: "/registration",
   ACCOUNT_ACTIVATED: "/account-activated",
   ADMIN_TRACKS: "/admin-tracks",
+  ADMIN_ALBUMS: "/admin-albums",
+  ADMIN_ARTISTS: "/admin-artists",
 };

@@ -14,6 +14,8 @@ import { ROLE } from "../constants/Roles";
 import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
 import { useAuth } from "../context/AuthContext";
 import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
+import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";
+import AdminArtistsPage from "../pages/AdminArtists/AdminArtistsPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -42,6 +44,8 @@ const AppRoutes = () => {
             element={<Navigate to={ROUTES.ADMIN_TRACKS} />}
           />
           <Route path={ROUTES.ADMIN_TRACKS} element={<AdminTracksPage />} />
+          <Route path={ROUTES.ADMIN_ALBUMS} element={<AdminAlbumsPage />} />
+          <Route path={ROUTES.ADMIN_ARTISTS} element={<AdminArtistsPage />} />
         </>
       )}
 
