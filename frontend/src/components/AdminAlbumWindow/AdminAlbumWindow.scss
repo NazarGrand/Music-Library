@@ -1,0 +1,146 @@
+@import "../../styles/variables.scss";
+
+.album-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__modal {
+    position: relative;
+    background-color: #9e929a;
+    padding: 10px;
+    border-radius: 20px;
+    width: 700px;
+    height: 380px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &--add {
+      width: 600px;
+      height: 350px;
+    }
+  }
+
+  &__close {
+    border: none;
+    background-color: transparent;
+
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 40px;
+    cursor: pointer;
+  }
+
+  &__title {
+    margin: 0 0 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    color: $login-button-color;
+  }
+
+  &__block-info {
+    display: flex;
+  }
+
+  &__image-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+    width: 250px;
+  }
+
+  &__image {
+    width: 150px;
+    height: 120px;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    max-width: 300px;
+  }
+
+  &__field-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__detail {
+    margin: 0;
+    font-weight: bold;
+    font-size: 20px;
+    color: $login-button-color;
+
+    height: 31px;
+    padding-top: 2px;
+  }
+
+  &__input {
+    width: 150px;
+    height: 25px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-weight: 500;
+    font-size: 16px;
+
+    &::placeholder {
+      color: grey;
+    }
+
+    &:focus {
+      outline: 1px solid transparent;
+    }
+  }
+
+  &__datepicker-input {
+    height: 25px;
+    border-radius: 8px;
+    border: none;
+    width: 130px;
+    font-weight: 500;
+    font-size: 16px;
+
+    &:focus {
+      outline: 1px solid transparent;
+    }
+  }
+
+  &__block-buttons {
+    margin-top: 30px;
+
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  &__button {
+    width: 150px;
+    height: 40px;
+    border: none;
+    background: $pink-text-color;
+    border-radius: 10px;
+    color: $white-text-color;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}

@@ -11,7 +11,6 @@ import LoginPage from "../pages/Login/LoginPage";
 import RegistrationPage from "../pages/Registration/RegistrationPage";
 import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage";
 import { ROLE } from "../constants/Roles";
-import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
 import { useAuth } from "../context/AuthContext";
 import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
 import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";

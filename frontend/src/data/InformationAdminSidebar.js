@@ -1,6 +1,6 @@
 import { ROUTES } from "../utils/routes";
 import iconTrack from "../assets/images/Discover.svg";
-import iconAlbum from "../assets/images/AlbumIcon.svg";
+import iconAlbum from "../assets/images/Album.svg";
 import iconArtists from "../assets/images/Artists.svg";
 
 export const MenuItemsAdmin = [

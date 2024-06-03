@@ -3,7 +3,7 @@ import AdminTracksList from "../../components/AdminTracksList/AdminTracksList";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
 import AdminTrackWindow from "../../components/AdminTrackWindow/AdminTrackWindow";
-import HeaderAdminTracks from "../../components/HeaderAdminTracks/HeaderAdminTracks";
+import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
 const AdminTracksPage = () => {
   const [loading, setLoading] = useState(true);
@@ -80,7 +80,7 @@ const AdminTracksPage = () => {
     <Loader />
   ) : (
     <>
-      <HeaderAdminTracks openModal={openModal} />
+      <HeaderAdminPage openModal={openModal} title="Track" />
 
       <AdminTracksList
         trackItems={tracks}
