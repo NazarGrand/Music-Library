@@ -26,6 +26,7 @@ const AdminAlbumsPage = () => {
       const createdAlbum = await albumService.createAlbum(album);
 
       if (createdAlbum) {
+        setSelectedAlbum(null);
         closeModal();
         fetchData();
       }
@@ -39,6 +40,7 @@ const AdminAlbumsPage = () => {
     try {
       const updatedAlbum = await albumService.updateAlbum(album._id, album);
       if (updatedAlbum) {
+        setSelectedAlbum(null);
         closeModal();
         fetchData();
       }
@@ -51,6 +53,7 @@ const AdminAlbumsPage = () => {
   const onDeleting = async (idAlbum) => {
     try {
       await albumService.deleteAlbum(idAlbum);
+      setSelectedAlbum(null);
       closeModal();
       fetchData();
     } catch (e) {

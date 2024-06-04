@@ -32,7 +32,7 @@ function App() {
               <div className="app__info">
                 <AppRoutes />
               </div>
-              <Footer />
+              {user.role === "user" && <Footer />}
             </div>
           </div>
           {trackName && <MusicPlayer />}

@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import AdminTracksList from "../../components/AdminTracksList/AdminTracksList";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
+import * as albumService from "../../services/AlbumService";
 import AdminTrackWindow from "../../components/AdminTrackWindow/AdminTrackWindow";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
 const AdminTracksPage = () => {
   const [loading, setLoading] = useState(true);
   const [tracks, setTracks] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
 
@@ -26,6 +28,7 @@ const AdminTracksPage = () => {
       const createdTrack = await trackService.createTrack(track);
 
       if (createdTrack) {
+        setSelectedTrack(null);
         closeModal();
         fetchData();
       }
@@ -39,6 +42,7 @@ const AdminTracksPage = () => {
     try {
       const updatedTrack = await trackService.updateTrack(track._id, track);
       if (updatedTrack) {
+        setSelectedTrack(null);
         closeModal();
         fetchData();
       }
@@ -51,6 +55,7 @@ const AdminTracksPage = () => {
   const onDeleting = async (idTrack) => {
     try {
       await trackService.deleteTrack(idTrack);
+      setSelectedTrack(null);
       closeModal();
       fetchData();
     } catch (e) {
@@ -65,6 +70,9 @@ const AdminTracksPage = () => {
       const adminTracks = await trackService.getAllTracks();
       console.log(adminTracks.data);
       setTracks(adminTracks.data);
+
+      const adminAlbums = await albumService.getAllAlbums();
+      setAlbums(adminAlbums.data);
     } catch (e) {
       console.error("Error getting data:", e);
     } finally {
@@ -96,6 +104,7 @@ const AdminTracksPage = () => {
           onCreating={onCreating}
           onUpdating={onUpdating}
           onDeleting={onDeleting}
+          albums={albums}
         />
       )}
     </>

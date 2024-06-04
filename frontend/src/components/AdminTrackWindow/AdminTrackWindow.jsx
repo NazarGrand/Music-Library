@@ -13,11 +13,13 @@ const AdminTrackWindow = ({
   onCreating,
   onUpdating,
   onDeleting,
+  albums,
 }) => {
   const initialEmptyTrack = {
     name: "",
     previewImage: null,
     audio: null,
+    albumReference: null,
     duration: "",
     releaseDate: new Date(),
     label: "",
@@ -27,8 +29,6 @@ const AdminTrackWindow = ({
   const [isUploadedImage, setIsUploadedImage] = useState(false);
   const [isUploadedAudio, setIsUploadedAudio] = useState(false);
 
-  console.log(trackData);
-
   useEffect(() => {
     if (selectedTrack) {
       setTrackData(selectedTrack);
@@ -36,6 +36,8 @@ const AdminTrackWindow = ({
       setTrackData(initialEmptyTrack);
     }
   }, [selectedTrack]);
+
+  console.log(trackData);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -61,10 +63,8 @@ const AdminTrackWindow = ({
   const validateAllTrack = () => {
     if (
       trackData.name !== "" &&
-      isUploadedImage &&
       isUploadedAudio &&
       trackData.duration !== "" &&
-      trackData.label !== "" &&
       trackData.releaseDate
     ) {
       return true;
@@ -149,15 +149,23 @@ const AdminTrackWindow = ({
                 />
               </div>
 
-              {trackData.album && (
-                <p className="track-window__detail">
-                  Album:
-                  <span className="track-window__detail-data">
-                    {" "}
-                    {trackData.album}
-                  </span>
-                </p>
-              )}
+              <div className="track-window__field-track">
+                <p className="track-window__detail">Album:</p>
+
+                <select
+                  className="track-window__select"
+                  name="albumReference"
+                  value={trackData.albumReference}
+                  onChange={handleInput}
+                >
+                  <option value="">Not Album</option>
+                  {albums.map((album) => (
+                    <option key={album._id} value={album._id}>
+                      {album.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <div className="track-window__field-track">
                 <p className="track-window__detail">Audio:</p>

@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 1150px;
 
   &__title {
     margin: 0;
@@ -21,5 +22,7 @@
     border-radius: 20px;
     font-size: 18px;
     cursor: pointer;
+
+    margin-left: auto;
   }
 }
