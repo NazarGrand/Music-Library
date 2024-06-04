@@ -23,7 +23,7 @@ const AdminTracksPage = () => {
     document.body.style.overflow = "auto";
   };
 
-  const onCreating = async (track) => {
+  const onCreate = async (track) => {
     try {
       const createdTrack = await trackService.createTrack(track);
 
@@ -38,7 +38,7 @@ const AdminTracksPage = () => {
     }
   };
 
-  const onUpdating = async (track) => {
+  const onUpdate = async (track) => {
     try {
       const updatedTrack = await trackService.updateTrack(track._id, track);
       if (updatedTrack) {
@@ -52,7 +52,7 @@ const AdminTracksPage = () => {
     }
   };
 
-  const onDeleting = async (idTrack) => {
+  const onDelete = async (idTrack) => {
     try {
       await trackService.deleteTrack(idTrack);
       setSelectedTrack(null);
@@ -68,7 +68,6 @@ const AdminTracksPage = () => {
     setLoading(true);
     try {
       const adminTracks = await trackService.getAllTracks();
-      console.log(adminTracks.data);
       setTracks(adminTracks.data);
 
       const adminAlbums = await albumService.getAllAlbums();
@@ -101,9 +100,9 @@ const AdminTracksPage = () => {
           closeModal={closeModal}
           selectedTrack={selectedTrack}
           setSelectedTrack={setSelectedTrack}
-          onCreating={onCreating}
-          onUpdating={onUpdating}
-          onDeleting={onDeleting}
+          onCreate={onCreate}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
           albums={albums}
         />
       )}

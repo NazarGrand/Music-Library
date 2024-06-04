@@ -89,8 +89,6 @@ async function updateTrack(trackId, trackData) {
       }
     );
 
-    console.log(trackData);
-
     if (albumReference) {
       const newAlbum = await AlbumModel.findById(albumReference).session(
         session
@@ -148,18 +146,32 @@ async function updateTrack(trackId, trackData) {
 }
 
 async function deleteTrack(trackId) {
-  const track = await TrackModel.findByIdAndDelete(trackId);
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  if (!track) {
-    throw new Error("Track not found");
-  }
+  try {
+    const track = await TrackModel.findByIdAndDelete(trackId, { session });
 
-  if (track.albumReference) {
-    const album = await AlbumModel.findById(track.albumReference);
-    if (album) {
-      album.tracksReferences.pull(track._id);
-      await album.save();
+    if (!track) {
+      throw new Error("Track not found");
     }
+
+    if (track.albumReference) {
+      const album = await AlbumModel.findById(track.albumReference).session(
+        session
+      );
+      if (album) {
+        album.tracksReferences.pull(track._id);
+        await album.save({ session });
+      }
+    }
+
+    await session.commitTransaction();
+  } catch (e) {
+    await session.abortTransaction();
+    throw e;
+  } finally {
+    session.endSession();
   }
 }
 

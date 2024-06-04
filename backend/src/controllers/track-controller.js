@@ -3,9 +3,7 @@ const trackService = require("../services/track-service");
 class TrackController {
   async createTrack(req, res) {
     try {
-      const trackData = req.body;
-
-      const createdTask = await trackService.createTrack(trackData);
+      const createdTask = await trackService.createTrack(req.body);
 
       return res.json(createdTask);
     } catch (e) {
@@ -52,9 +50,7 @@ class TrackController {
 
   async deleteTrack(req, res) {
     try {
-      const deletedTrack = await trackService.deleteTrack(req.params.id);
-
-      return res.json(deletedTrack);
+      await trackService.deleteTrack(req.params.id);
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: e.message });

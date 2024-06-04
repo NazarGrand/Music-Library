@@ -3,8 +3,7 @@ const albumService = require("../services/album-service");
 class AlbumController {
   async createAlbum(req, res) {
     try {
-      const albumData = req.body;
-      const createdAlbum = await albumService.createAlbum(albumData);
+      const createdAlbum = await albumService.createAlbum(req.body);
 
       return res.json(createdAlbum);
     } catch (e) {
@@ -51,9 +50,7 @@ class AlbumController {
 
   async deleteAlbum(req, res) {
     try {
-      const deletedAlbum = await albumService.deleteAlbum(req.params.id);
-
-      return res.json(deletedAlbum);
+      await albumService.deleteAlbum(req.params.id);
     } catch (e) {
       console.log(e);
       return res.status(401).json({ message: e.message });

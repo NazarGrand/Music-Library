@@ -18,7 +18,7 @@ const AdminAlbum = ({ album, openModal, setSelectedAlbum }) => {
         <p className="album__title">{name}</p>
 
         <div className="album__block">
-          <p className="album__year">{date.getFullYear()}</p>
+          <p className="album__release-year">{date.getFullYear()}</p>
 
           <img className="album__icon" src={iconAlbum} alt="icon" />
         </div>

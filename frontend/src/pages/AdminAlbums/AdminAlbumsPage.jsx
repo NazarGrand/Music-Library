@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AdminAlbumCatalog from "../../components/AdminAlbumCatalog/AdminAlbumCatalog";
 import * as albumService from "../../services/AlbumService";
 import Loader from "../../components/Loader/Loader";
-import AdminAlbumWindow from "../../components/AdminAlbumWindow/AdminAlbumWindow";
+import AdminAlbumModal from "../../components/AdminAlbumModal/AdminAlbumModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
 const AdminAlbumsPage = () => {
@@ -21,7 +21,7 @@ const AdminAlbumsPage = () => {
     document.body.style.overflow = "auto";
   };
 
-  const onCreating = async (album) => {
+  const onCreate = async (album) => {
     try {
       const createdAlbum = await albumService.createAlbum(album);
 
@@ -36,7 +36,7 @@ const AdminAlbumsPage = () => {
     }
   };
 
-  const onUpdating = async (album) => {
+  const onUpdate = async (album) => {
     try {
       const updatedAlbum = await albumService.updateAlbum(album._id, album);
       if (updatedAlbum) {
@@ -50,7 +50,7 @@ const AdminAlbumsPage = () => {
     }
   };
 
-  const onDeleting = async (idAlbum) => {
+  const onDelete = async (idAlbum) => {
     try {
       await albumService.deleteAlbum(idAlbum);
       setSelectedAlbum(null);
@@ -93,13 +93,13 @@ const AdminAlbumsPage = () => {
           />
 
           {isOpenModal && (
-            <AdminAlbumWindow
+            <AdminAlbumModal
               closeModal={closeModal}
               selectedAlbum={selectedAlbum}
               setSelectedAlbum={setSelectedAlbum}
-              onCreating={onCreating}
-              onUpdating={onUpdating}
-              onDeleting={onDeleting}
+              onCreate={onCreate}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
             />
           )}
         </>

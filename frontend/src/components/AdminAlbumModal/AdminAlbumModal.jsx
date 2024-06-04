@@ -1,4 +1,4 @@
-import "./AdminAlbumWindow.scss";
+import "./AdminAlbumModal.scss";
 
 import imgExit from "../../assets/images/Exit.svg";
 import { useEffect, useState } from "react";
@@ -10,13 +10,13 @@ import classNames from "classnames";
 import * as albumService from "../../services/AlbumService";
 import Loader from "../Loader/Loader";
 
-const AdminAlbumWindow = ({
+const AdminAlbumModal = ({
   closeModal,
   selectedAlbum,
   setSelectedAlbum,
-  onCreating,
-  onUpdating,
-  onDeleting,
+  onCreate,
+  onUpdate,
+  onDelete,
 }) => {
   const initialEmptyAlbum = {
     name: "",
@@ -29,9 +29,13 @@ const AdminAlbumWindow = ({
   const [loading, setLoading] = useState(true);
 
   const fetchAlbumDetails = async (id) => {
-    const albumDetails = await albumService.getAlbum(id);
-    setAlbumData(albumDetails.data);
-    setLoading(false);
+    try {
+      const albumDetails = await albumService.getAlbum(id);
+      setAlbumData(albumDetails.data);
+      setLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   useEffect(() => {
@@ -41,8 +45,6 @@ const AdminAlbumWindow = ({
       setAlbumData(initialEmptyAlbum);
     }
   }, [selectedAlbum]);
-
-  console.log(albumData);
 
   const modal = classNames("album-window__modal", {
     "album-window__modal--add": !selectedAlbum,
@@ -76,10 +78,10 @@ const AdminAlbumWindow = ({
     return false;
   };
 
-  const handleClickCreate = async () => {
+  const handleCreate = async () => {
     try {
       if (validateAllAlbum()) {
-        await onCreating(albumData);
+        await onCreate(albumData);
       } else {
         console.log("Validation wrong");
       }
@@ -88,10 +90,10 @@ const AdminAlbumWindow = ({
     }
   };
 
-  const handleClickUpdate = async () => {
+  const handleUpdate = async () => {
     try {
       if (validateAllAlbum()) {
-        await onUpdating(albumData);
+        await onUpdate(albumData);
       }
     } catch (e) {
       console.log(e.message);
@@ -100,7 +102,7 @@ const AdminAlbumWindow = ({
 
   const handleClickDelete = async () => {
     try {
-      await onDeleting(albumData._id);
+      await onDelete(albumData._id);
     } catch (e) {
       console.log(e.message);
     }
@@ -205,7 +207,7 @@ const AdminAlbumWindow = ({
                 <>
                   <button
                     className="album-window__button"
-                    onClick={handleClickUpdate}
+                    onClick={handleUpdate}
                   >
                     Update Album
                   </button>
@@ -217,10 +219,7 @@ const AdminAlbumWindow = ({
                   </button>
                 </>
               ) : (
-                <button
-                  className="album-window__button"
-                  onClick={handleClickCreate}
-                >
+                <button className="album-window__button" onClick={handleCreate}>
                   Add Album
                 </button>
               )}
@@ -232,4 +231,4 @@ const AdminAlbumWindow = ({
   );
 };
 
-export default AdminAlbumWindow;
+export default AdminAlbumModal;

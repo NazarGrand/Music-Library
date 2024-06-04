@@ -10,9 +10,9 @@ const AdminTrackWindow = ({
   closeModal,
   selectedTrack,
   setSelectedTrack,
-  onCreating,
-  onUpdating,
-  onDeleting,
+  onCreate,
+  onUpdate,
+  onDelete,
   albums,
 }) => {
   const initialEmptyTrack = {
@@ -75,7 +75,7 @@ const AdminTrackWindow = ({
   const handleClickCreate = async () => {
     try {
       if (validateAllTrack()) {
-        await onCreating(trackData);
+        await onCreate(trackData);
       } else {
         console.log("Validation wrong");
       }
@@ -87,7 +87,7 @@ const AdminTrackWindow = ({
   const handleClickUpdate = async () => {
     try {
       if (validateAllTrack()) {
-        await onUpdating(trackData);
+        await onUpdate(trackData);
       }
     } catch (e) {
       console.log(e.message);
@@ -96,7 +96,7 @@ const AdminTrackWindow = ({
 
   const handleClickDelete = async () => {
     try {
-      await onDeleting(trackData._id);
+      await onDelete(trackData._id);
     } catch (e) {
       console.log(e.message);
     }
