@@ -6,8 +6,6 @@ import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 import { useContext, useEffect, useState } from "react";
 import { StateTrackContext } from "./context/MusicContext";
 import { useAuth } from "./context/AuthContext";
-import LoginPage from "./pages/Login/LoginPage";
-import RegistrationPage from "./pages/Registration/RegistrationPage";
 import Loader from "./components/Loader/Loader";
 
 function App() {
@@ -34,7 +32,7 @@ function App() {
               <div className="app__info">
                 <AppRoutes />
               </div>
-              <Footer />
+              {user.role === "user" && <Footer />}
             </div>
           </div>
           {trackName && <MusicPlayer />}

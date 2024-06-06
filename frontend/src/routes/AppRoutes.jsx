@@ -11,8 +11,10 @@ import LoginPage from "../pages/Login/LoginPage";
 import RegistrationPage from "../pages/Registration/RegistrationPage";
 import AccountActivatedPage from "../pages/AccountActivated/AccountActivatedPage";
 import { ROLE } from "../constants/Roles";
-import AdminDashboard from "../components/AdminDashboard/AdminDashboard";
 import { useAuth } from "../context/AuthContext";
+import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
+import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";
+import AdminArtistsPage from "../pages/AdminArtists/AdminArtistsPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -38,9 +40,11 @@ const AppRoutes = () => {
         <>
           <Route
             path={ROUTES.HOME}
-            element={<Navigate to={ROUTES.ADMIN_DASHBOARD} />}
+            element={<Navigate to={ROUTES.ADMIN_TRACKS} />}
           />
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+          <Route path={ROUTES.ADMIN_TRACKS} element={<AdminTracksPage />} />
+          <Route path={ROUTES.ADMIN_ALBUMS} element={<AdminAlbumsPage />} />
+          <Route path={ROUTES.ADMIN_ARTISTS} element={<AdminArtistsPage />} />
         </>
       )}
 

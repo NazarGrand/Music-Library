@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./MusicPlayer.scss";
 
-import * as trackService from "../../services/TrackService";
+import * as trackService from "../../services/TrackApiService";
 import { musicContextActions } from "../../constants/MusicContextActions";
 
 import imgLoading from "../../assets/images/LoadingTrack.svg";
