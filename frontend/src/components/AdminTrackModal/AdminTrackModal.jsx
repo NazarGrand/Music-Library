@@ -15,12 +15,14 @@ const AdminTrackModal = ({
   onUpdate,
   onDelete,
   albums,
+  artists,
 }) => {
   const formDefaultValues = {
     name: "",
     previewImage: null,
     audio: null,
     albumReference: null,
+    artistReference: null,
     duration: "",
     releaseDate: new Date(),
     label: "",
@@ -50,6 +52,23 @@ const AdminTrackModal = ({
     setTrackData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleChangeSelect = (e) => {
+    const { name, value } = e.target;
+
+    let anotherSelect;
+    if (name === "albumReference") {
+      anotherSelect = "artistReference";
+    } else {
+      anotherSelect = "albumReference";
+    }
+
+    setTrackData((prev) => ({
+      ...prev,
+      [name]: value,
+      [anotherSelect]: null,
     }));
   };
 
@@ -177,12 +196,32 @@ const AdminTrackModal = ({
                   value={
                     trackData.albumReference ? trackData.albumReference : ""
                   }
-                  onChange={handleInput}
+                  onChange={handleChangeSelect}
                 >
                   <option value="">Not Album</option>
                   {albums.map((album) => (
                     <option key={album._id} value={album._id}>
                       {album.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="track-modal__field-track">
+                <p className="track-modal__detail">Artist:</p>
+
+                <select
+                  className="track-modal__select"
+                  name="artistReference"
+                  value={
+                    trackData.artistReference ? trackData.artistReference : ""
+                  }
+                  onChange={handleChangeSelect}
+                >
+                  <option value="">Not Artist</option>
+                  {artists.map((artist) => (
+                    <option key={artist._id} value={artist._id}>
+                      {artist.name}
                     </option>
                   ))}
                 </select>

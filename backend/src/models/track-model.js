@@ -5,6 +5,11 @@ const TrackSchema = new Schema({
     type: String,
     required: true,
   },
+  artistReference: {
+    type: Schema.Types.ObjectId,
+    ref: "Artist",
+    required: false,
+  },
   albumReference: {
     type: Schema.Types.ObjectId,
     ref: "Album",

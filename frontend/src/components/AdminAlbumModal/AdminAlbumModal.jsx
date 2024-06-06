@@ -19,10 +19,12 @@ const AdminAlbumModal = ({
   onCreate,
   onUpdate,
   onDelete,
+  artists,
 }) => {
   const formDefaultValues = {
     name: "",
     previewImage: null,
+    artistReference: null,
     releaseDate: new Date(),
   };
 
@@ -184,6 +186,28 @@ const AdminAlbumModal = ({
                       onChange={handleInput}
                       required={true}
                     />
+                  </div>
+
+                  <div className="track-modal__field-track">
+                    <p className="track-modal__detail">Artist:</p>
+
+                    <select
+                      className="track-modal__select"
+                      name="artistReference"
+                      value={
+                        albumData.artistReference
+                          ? albumData.artistReference
+                          : ""
+                      }
+                      onChange={handleInput}
+                    >
+                      <option value="">Not Artist</option>
+                      {artists.map((artist) => (
+                        <option key={artist._id} value={artist._id}>
+                          {artist.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="album-modal__field-album">

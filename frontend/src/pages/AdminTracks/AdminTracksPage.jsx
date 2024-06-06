@@ -3,6 +3,7 @@ import AdminTracksList from "../../components/AdminTracksList/AdminTracksList";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
 import * as albumService from "../../services/AlbumService";
+import * as artistService from "../../services/ArtistService";
 import AdminTrackModal from "../../components/AdminTrackModal/AdminTrackModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
@@ -10,6 +11,7 @@ const AdminTracksPage = () => {
   const [loading, setLoading] = useState(true);
   const [tracks, setTracks] = useState([]);
   const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
 
@@ -72,6 +74,9 @@ const AdminTracksPage = () => {
 
       const adminAlbums = await albumService.getAllAlbums();
       setAlbums(adminAlbums.data);
+
+      const adminArtists = await artistService.getAllArtists();
+      setArtists(adminArtists.data);
     } catch (e) {
       console.error("Error getting data:", e);
     } finally {
@@ -104,6 +109,7 @@ const AdminTracksPage = () => {
           onUpdate={onUpdate}
           onDelete={onDelete}
           albums={albums}
+          artists={artists}
         />
       )}
     </>

@@ -13,6 +13,11 @@ const AlbumSchema = new Schema({
     type: Date,
     required: true,
   },
+  artistReference: {
+    type: Schema.Types.ObjectId,
+    ref: "Artist",
+    required: false,
+  },
   tracksReferences: [
     {
       type: Schema.Types.ObjectId,

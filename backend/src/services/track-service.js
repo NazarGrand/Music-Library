@@ -1,12 +1,22 @@
 const AlbumModel = require("../models/album-model");
 const TrackModel = require("../models/track-model");
+const ArtistModel = require("../models/artist-model");
 const mongoose = require("mongoose");
 const { Types } = mongoose;
 
 async function createTrack(trackData) {
+  if (trackData.albumReference && trackData.artistReference) {
+    throw new Error(
+      "Track can only have either albumReference or artistReference, not both"
+    );
+  }
+
   const isTrackExist = await TrackModel.findOne({
     name: trackData.name,
-    albumReference: trackData.albumReference,
+    $or: [
+      { albumReference: trackData.albumReference || null },
+      { artistReference: trackData.artistReference || null },
+    ],
   });
 
   if (isTrackExist) {
@@ -29,6 +39,17 @@ async function createTrack(trackData) {
         await album.save({ session });
       } else {
         throw new Error("Album not found");
+      }
+    } else if (trackData.artistReference) {
+      const artist = await ArtistModel.findById(
+        trackData.artistReference
+      ).session(session);
+
+      if (artist) {
+        artist.singleSongs.push(track[0]._id);
+        await artist.save({ session });
+      } else {
+        throw new Error("Artist not found");
       }
     }
 
@@ -68,11 +89,27 @@ async function updateTrack(trackId, trackData) {
     ? trackData.albumReference
     : null;
 
+  const artistReference = Types.ObjectId.isValid(trackData.artistReference)
+    ? trackData.artistReference
+    : null;
+
+  if (!albumReference && !artistReference) {
+    throw new Error(
+      "Track must have either an albumReference or an artistReference."
+    );
+  }
+
+  if (albumReference && artistReference) {
+    throw new Error(
+      "Track can only have either albumReference or artistReference, not both."
+    );
+  }
+
   if (
     (albumReference &&
-      existingTrack.albumReference &&
-      existingTrack.albumReference.toString() === albumReference) ||
-    (!albumReference && !existingTrack.albumReference)
+      existingTrack.albumReference?.toString() === albumReference) ||
+    (artistReference &&
+      existingTrack.artistReference?.toString() === artistReference)
   ) {
     const updatedTrack = await TrackModel.findByIdAndUpdate(
       trackId,
@@ -89,12 +126,7 @@ async function updateTrack(trackId, trackData) {
   session.startTransaction();
 
   try {
-    let updatedTrackData;
-    if (!albumReference) {
-      updatedTrackData = { ...trackData, albumReference: null };
-    } else {
-      updatedTrackData = { ...trackData };
-    }
+    const updatedTrackData = { ...trackData, albumReference, artistReference };
 
     const track = await TrackModel.findByIdAndUpdate(
       trackId,
@@ -125,31 +157,53 @@ async function updateTrack(trackId, trackData) {
           oldAlbum.tracksReferences.pull(track._id);
           await oldAlbum.save({ session });
         }
-
-        newAlbum.tracksReferences.push(track._id);
-        await newAlbum.save({ session });
-
-        track.albumReference = albumReference;
-        await track.save({ session });
-      } else if (!existingTrack.albumReference) {
-        newAlbum.tracksReferences.push(track._id);
-        await newAlbum.save({ session });
-
-        track.albumReference = albumReference;
-        await track.save({ session });
-      }
-    } else if (existingTrack.albumReference) {
-      const oldAlbum = await AlbumModel.findById(
-        existingTrack.albumReference
-      ).session(session);
-
-      if (oldAlbum) {
-        oldAlbum.tracksReferences.pull(track._id);
-        await oldAlbum.save({ session });
       }
 
-      track.albumReference = null;
-      await track.save({ session });
+      newAlbum.tracksReferences.push(track._id);
+      await newAlbum.save({ session });
+
+      if (existingTrack.artistReference) {
+        const oldArtist = await ArtistModel.findById(
+          existingTrack.artistReference
+        ).session(session);
+        if (oldArtist) {
+          oldArtist.singleSongs.pull(track._id);
+          await oldArtist.save({ session });
+        }
+      }
+    } else if (artistReference) {
+      const newArtist = await ArtistModel.findById(artistReference).session(
+        session
+      );
+      if (!newArtist) {
+        throw new Error("New artist not found");
+      }
+
+      if (
+        existingTrack.artistReference &&
+        existingTrack.artistReference.toString() !== artistReference
+      ) {
+        const oldArtist = await ArtistModel.findById(
+          existingTrack.artistReference
+        ).session(session);
+        if (oldArtist) {
+          oldArtist.singleSongs.pull(track._id);
+          await oldArtist.save({ session });
+        }
+      }
+
+      newArtist.singleSongs.push(track._id);
+      await newArtist.save({ session });
+
+      if (existingTrack.albumReference) {
+        const oldAlbum = await AlbumModel.findById(
+          existingTrack.albumReference
+        ).session(session);
+        if (oldAlbum) {
+          oldAlbum.tracksReferences.pull(track._id);
+          await oldAlbum.save({ session });
+        }
+      }
     }
 
     await session.commitTransaction();
@@ -180,6 +234,14 @@ async function deleteTrack(trackId) {
       if (album) {
         album.tracksReferences.pull(track._id);
         await album.save({ session });
+      }
+    } else if (track.artistReference) {
+      const artist = await ArtistModel.findById(track.artistReference).session(
+        session
+      );
+      if (artist) {
+        artist.singleSongs.pull(track._id);
+        await artist.save({ session });
       }
     }
 
