@@ -4,8 +4,18 @@ const ArtistSchema = new Schema(
   {
     name: { type: String, required: true },
     photoUrl: { type: String, required: false },
-    singleSongs: { type: Schema.Types.ObjectId, ref: "Track", default: [] },
-    albums: { type: Schema.Types.ObjectId, ref: "Album", default: [] },
+    singleSongs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Track",
+      },
+    ],
+    albums: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Album",
+      },
+    ],
   },
   { timestamps: true }
 );

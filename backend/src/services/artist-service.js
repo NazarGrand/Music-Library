@@ -59,6 +59,7 @@ async function deleteArtist(artistId) {
     await TrackModel.deleteMany({ _id: { $in: artist.singleSongs } }).session(
       session
     );
+
     await AlbumModel.deleteMany({ _id: { $in: artist.albums } }).session(
       session
     );

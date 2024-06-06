@@ -1,32 +1,28 @@
-import "./AdminAlbumModal.scss";
-
-import imgExit from "../../assets/images/Exit.svg";
 import { useEffect, useState } from "react";
-import AdminFileInput from "../AdminFileInput/AdminFileInput";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "./AdminArtistModal.scss";
+import * as artistService from "../../services/ArtistService";
+import imgExit from "../../assets/images/Exit.svg";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgLoader from "../../assets/images/Loader.svg";
 import classNames from "classnames";
-import * as albumService from "../../services/AlbumService";
 import Loader from "../Loader/Loader";
+import AdminFileInput from "../AdminFileInput/AdminFileInput";
 
-const AdminAlbumModal = ({
+const AdminArtistModal = ({
   closeModal,
-  selectedAlbum,
-  setSelectedAlbum,
+  selectedArtist,
+  setSelectedArtist,
   onCreate,
   onUpdate,
   onDelete,
 }) => {
   const formDefaultValues = {
     name: "",
-    previewImage: null,
-    releaseDate: new Date(),
+    photoUrl: null,
   };
 
-  const [albumData, setAlbumData] = useState(formDefaultValues);
+  const [artistData, setArtistData] = useState(formDefaultValues);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -36,11 +32,11 @@ const AdminAlbumModal = ({
 
   const [error, setError] = useState("");
 
-  const fetchAlbumDetails = async (id) => {
+  const fetchArtistDetails = async (id) => {
     try {
       setLoading(true);
-      const albumDetails = await albumService.getAlbum(id);
-      setAlbumData(albumDetails.data);
+      const artistDetails = await artistService.getArtist(id);
+      setArtistData(artistDetails.data);
       setLoading(false);
     } catch (e) {
       setError(e.message);
@@ -48,41 +44,34 @@ const AdminAlbumModal = ({
   };
 
   useEffect(() => {
-    if (selectedAlbum) {
-      fetchAlbumDetails(selectedAlbum._id);
+    if (selectedArtist) {
+      fetchArtistDetails(selectedArtist._id);
     } else {
       setLoading(false);
-      setAlbumData(formDefaultValues);
+      setArtistData(formDefaultValues);
     }
-  }, [selectedAlbum]);
+  }, [selectedArtist]);
 
-  const modal = classNames("album-modal__window", {
-    "album-modal__window--add": !selectedAlbum,
+  const modal = classNames("artist-modal__window", {
+    "artist-modal__window--add": !selectedArtist,
   });
 
   const handleInput = (e) => {
     const { name, value } = e.target;
 
-    setAlbumData((prev) => ({
+    setArtistData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
   const handleClose = () => {
-    setSelectedAlbum(null);
+    setSelectedArtist(null);
     closeModal();
   };
 
-  const hangleDateChange = (date) => {
-    setAlbumData({
-      ...albumData,
-      releaseDate: date,
-    });
-  };
-
   const validateAllAlbum = () => {
-    if (albumData.name !== "" && albumData.releaseDate) {
+    if (artistData.name) {
       return true;
     }
     return false;
@@ -96,7 +85,7 @@ const AdminAlbumModal = ({
 
     setIsDisabledCreate(true);
     try {
-      await onCreate(albumData);
+      await onCreate(artistData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -112,7 +101,7 @@ const AdminAlbumModal = ({
 
     setIsDisabledUpdate(true);
     try {
-      await onUpdate(albumData);
+      await onUpdate(artistData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -123,7 +112,7 @@ const AdminAlbumModal = ({
   const handleDelete = async () => {
     setIsDisabledDelete(true);
     try {
-      await onDelete(albumData._id);
+      await onDelete(artistData._id);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -132,85 +121,105 @@ const AdminAlbumModal = ({
   };
 
   return (
-    <div className="album-modal" onClick={handleClose}>
+    <div className="artist-modal" onClick={handleClose}>
       <div className={modal} onClick={(e) => e.stopPropagation()}>
         {loading ? (
           <Loader />
         ) : (
           <>
-            <button className="album-modal__close" onClick={handleClose}>
+            <button className="artist-modal__close" onClick={handleClose}>
               <img src={imgExit} alt="exit" />
             </button>
-            <div className="album-modal__block">
-              <p className="album-modal__title">Album Info</p>
+            <div className="artist-modal__block">
+              <p className="artist-modal__title">Artist Info</p>
 
-              <div className="album-modal__block-info">
-                <div className="album-modal__image-block">
-                  {!albumData.previewImage ? (
+              <div className="artist-modal__block-info">
+                <div className="artist-modal__image-block">
+                  {!artistData.photoUrl ? (
                     <img
-                      className="album-modal__image"
+                      className="artist-modal__image"
                       src={imgAddPhoto}
                       alt="addPhoto"
                     />
                   ) : (
                     <img
-                      className="album-modal__image"
-                      src={albumData.previewImage}
+                      className="artist-modal__image"
+                      src={artistData.photoUrl}
                       alt="album name"
                     />
                   )}
 
                   <AdminFileInput
-                    fileField="previewImage"
+                    fileField="photoUrl"
                     accept="image/*"
-                    trackData={albumData}
-                    setTrackData={setAlbumData}
+                    trackData={artistData}
+                    setTrackData={setArtistData}
                     isUploadedFile={isImageUploaded}
                     setIsUploadedFile={setIsImageUploaded}
                     setError={setError}
                   />
                 </div>
 
-                <div className="album-modal__details">
-                  <div className="album-modal__field-album">
-                    <p className="album-modal__detail">Album Name:</p>
+                <div className="artist-modal__details">
+                  <div className="artist-modal__field-album">
+                    <p className="artist-modal__detail">Artist Name:</p>
 
                     <input
-                      className="album-modal__input"
+                      className="artist-modal__input"
                       type="text"
                       name="name"
-                      placeholder="Name Album"
-                      value={albumData.name}
+                      placeholder="Name Artist"
+                      value={artistData.name}
                       onChange={handleInput}
                       required={true}
                     />
                   </div>
 
-                  <div className="album-modal__field-album">
-                    <p className="album-modal__detail">Release Date:</p>
-
-                    <DatePicker
-                      selected={albumData.releaseDate}
-                      onChange={hangleDateChange}
-                      calendarStartDay={1}
-                      dateFormat="dd/MM/yyyy"
-                      isClearable={true}
-                      className="album-modal__datepicker-input"
-                    />
-                  </div>
-
-                  {albumData.tracksReferences && (
-                    <div className="album-modal__field-album">
-                      <p className="album-modal__detail">Tracks:</p>
-                      <div className="album-modal__tracks">
-                        {albumData.tracksReferences.length !== 0 ? (
-                          albumData.tracksReferences.map((track) => (
+                  {artistData.albums && (
+                    <div className="artist-modal__field-album">
+                      <p className="artist-modal__detail">Albums:</p>
+                      <div className="artist-modal__records">
+                        {artistData.albums.length !== 0 ? (
+                          artistData.albums.map((album) => (
                             <div
-                              key={track._id}
-                              className="album-modal__block-track"
+                              key={album._id}
+                              className="artist-modal__block-record"
                             >
                               <img
-                                className="album-modal__icon-track"
+                                className="artist-modal__icon-record"
+                                src={
+                                  album.previewImage
+                                    ? album.previewImage
+                                    : imgTrack
+                                }
+                                alt="img"
+                              />
+                              <p className="artist-modal__record">
+                                {album.name}
+                              </p>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="artist-modal__record">
+                            Not albums
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {artistData.singleSongs && (
+                    <div className="artist-modal__field-album">
+                      <p className="artist-modal__detail">Tracks:</p>
+                      <div className="artist-modal__records">
+                        {artistData.singleSongs.length !== 0 ? (
+                          artistData.singleSongs.map((track) => (
+                            <div
+                              key={track._id}
+                              className="artist-modal__block-record"
+                            >
+                              <img
+                                className="artist-modal__icon-record"
                                 src={
                                   track.previewImage
                                     ? track.previewImage
@@ -218,11 +227,15 @@ const AdminAlbumModal = ({
                                 }
                                 alt="img"
                               />
-                              <p className="album-modal__track">{track.name}</p>
+                              <p className="artist-modal__record">
+                                {track.name}
+                              </p>
                             </div>
                           ))
                         ) : (
-                          <span className="album-modal__track">Not tracks</span>
+                          <span className="artist-modal__record">
+                            Not tracks
+                          </span>
                         )}
                       </div>
                     </div>
@@ -230,33 +243,34 @@ const AdminAlbumModal = ({
                 </div>
               </div>
 
-              <p className="album-modal__error-message">{error}</p>
+              <p className="artist-modal__error-message">{error}</p>
             </div>
 
-            <div className="album-modal__block-buttons">
-              {selectedAlbum ? (
+            <div className="artist-modal__block-buttons">
+              {selectedArtist ? (
                 <>
                   <button
-                    className="album-modal__button"
+                    className="artist-modal__button"
                     onClick={handleUpdate}
                     disabled={isDisabledUpdate}
                   >
                     {!isDisabledUpdate && "Update Album"}
                     <img
-                      className="album-modal__image-loading"
+                      className="artist-modal__image-loading"
                       src={imgLoader}
                       alt="loader"
                       style={{ display: isDisabledUpdate ? "block" : "none" }}
                     />
                   </button>
+
                   <button
-                    className="album-modal__button"
+                    className="artist-modal__button"
                     onClick={handleDelete}
                     disabled={isDisabledDelete}
                   >
                     {!isDisabledDelete && "Delete Album"}
                     <img
-                      className="album-modal__image-loading"
+                      className="artist-modal__image-loading"
                       src={imgLoader}
                       alt="loader"
                       style={{ display: isDisabledDelete ? "block" : "none" }}
@@ -265,13 +279,13 @@ const AdminAlbumModal = ({
                 </>
               ) : (
                 <button
-                  className="album-modal__button"
+                  className="artist-modal__button"
                   onClick={handleCreate}
                   disabled={isDisabledCreate}
                 >
                   {!isDisabledCreate && "Add Album"}
                   <img
-                    className="album-modal__image-loading"
+                    className="artist-modal__image-loading"
                     src={imgLoader}
                     alt="loader"
                     style={{ display: isDisabledCreate ? "block" : "none" }}
@@ -286,4 +300,4 @@ const AdminAlbumModal = ({
   );
 };
 
-export default AdminAlbumModal;
+export default AdminArtistModal;
