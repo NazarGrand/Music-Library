@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import HeaderArtist from "../../components/HeaderArtist/HeaderArtist";
 
-import * as artistService from "../../services/ArtistService";
+import * as artistService from "../../services/ArtistApiService";
 import Loader from "../../components/Loader/Loader";
 import { useLocation, useParams } from "react-router-dom";
 import ArtistMusic from "../../components/ArtistMusic/ArtistMusic";

@@ -1,23 +1,21 @@
-import axios from "axios";
+import api from "./AxiosService";
 
-const options = {
-  method: "GET",
-  url: "https://spotify81.p.rapidapi.com/artist_overview",
-  headers: {
-    "X-RapidAPI-Key": "ec0785e3ccmsh1ea5cee02fdacc3p1fc185jsna8790c59c7be",
-    "X-RapidAPI-Host": "spotify81.p.rapidapi.com",
-  },
+export const createArtist = async (artistData) => {
+  return await api.post("/artists", artistData);
 };
 
-export const getArtist = async (idArtist) => {
-  const response = await axios.request({
-    ...options,
-    params: {
-      id: idArtist,
-    },
-  });
+export const getArtist = async (id) => {
+  return await api.get(`/artists/${id}`);
+};
 
-  const data = response.data.data.artist;
+export const getAllArtists = async () => {
+  return await api.get("/artists");
+};
 
-  return data;
+export const updateArtist = async (id, artistData) => {
+  return await api.put(`/artists/${id}`, artistData);
+};
+
+export const deleteArtist = async (id) => {
+  return await api.delete(`/artists/${id}`);
 };
