@@ -78,13 +78,14 @@ const AdminTrackModal = ({
   };
 
   const handleCreate = async () => {
+    if (!validateAllTrack()) {
+      setError("Not all fields are filled");
+      return;
+    }
+
+    setIsDisabledCreate(true);
     try {
-      setIsDisabledCreate(true);
-      if (validateAllTrack()) {
-        await onCreate(trackData);
-      } else {
-        setError("Not all fields are filled");
-      }
+      await onCreate(trackData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -93,13 +94,14 @@ const AdminTrackModal = ({
   };
 
   const handleUpdate = async () => {
+    if (!validateAllTrack()) {
+      setError("Not all fields are filled");
+      return;
+    }
+
+    setIsDisabledUpdate(true);
     try {
-      setIsDisabledUpdate(true);
-      if (validateAllTrack()) {
-        await onUpdate(trackData);
-      } else {
-        setError("Not all fields are filled");
-      }
+      await onUpdate(trackData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -108,8 +110,8 @@ const AdminTrackModal = ({
   };
 
   const handleDelete = async () => {
+    setIsDisabledDelete(true);
     try {
-      setIsDisabledDelete(true);
       await onDelete(trackData._id);
     } catch (e) {
       setError(e.message);

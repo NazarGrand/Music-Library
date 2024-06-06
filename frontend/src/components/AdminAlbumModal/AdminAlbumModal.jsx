@@ -89,13 +89,14 @@ const AdminAlbumModal = ({
   };
 
   const handleCreate = async () => {
+    if (!validateAllAlbum()) {
+      setError("Not all fields are filled");
+      return;
+    }
+
+    setIsDisabledCreate(true);
     try {
-      setIsDisabledCreate(true);
-      if (validateAllAlbum()) {
-        await onCreate(albumData);
-      } else {
-        setError("Not all fields are filled");
-      }
+      await onCreate(albumData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -104,13 +105,14 @@ const AdminAlbumModal = ({
   };
 
   const handleUpdate = async () => {
+    if (!validateAllAlbum()) {
+      setError("Not all fields are filled");
+      return;
+    }
+
+    setIsDisabledUpdate(true);
     try {
-      setIsDisabledUpdate(true);
-      if (validateAllAlbum()) {
-        await onUpdate(albumData);
-      } else {
-        setError("Not all fields are filled");
-      }
+      await onUpdate(albumData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -119,8 +121,8 @@ const AdminAlbumModal = ({
   };
 
   const handleDelete = async () => {
+    setIsDisabledDelete(true);
     try {
-      setIsDisabledDelete(true);
       await onDelete(albumData._id);
     } catch (e) {
       setError(e.message);
