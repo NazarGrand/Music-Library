@@ -1,7 +1,7 @@
 const Permissions = require("./permissions");
 const { getUserById } = require("../../services/user-service");
 
-exports.checkPermission = (permission) => {
+exports.checkPermission = (permissions) => {
   return async (req, res, next) => {
     let user = null;
 
@@ -15,7 +15,11 @@ exports.checkPermission = (permission) => {
       user.role
     );
 
-    if (userPermissions.includes(permission)) {
+    const hasPermission = permissions.some((permission) =>
+      userPermissions.includes(permission)
+    );
+
+    if (hasPermission) {
       return next();
     } else {
       return res.status(403).json({ error: "Access denied" });

@@ -3,11 +3,12 @@ import "./Sidebar.scss";
 import { Link } from "react-router-dom";
 import SidebarNav from "../SidebarNav/SidebarNav";
 import * as infoSidebar from "../../data/InformationSidebar";
+import * as infoSidebarAdmin from "../../data/InformationAdminSidebar";
 import { useAuth } from "../../context/AuthContext";
 import iconLogout from "../../assets/images/Logout.svg";
 
 const Sidebar = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div className="sidebar">
@@ -15,14 +16,26 @@ const Sidebar = () => {
         Melodies
       </Link>
 
-      <SidebarNav menuTitle="Menu" menuItems={infoSidebar.MenuItems} />
+      {user.role === "user" ? (
+        <>
+          <SidebarNav menuTitle="Menu" menuItems={infoSidebar.MenuItems} />
 
-      <SidebarNav menuTitle="Library" menuItems={infoSidebar.LibraryItems} />
+          <SidebarNav
+            menuTitle="Library"
+            menuItems={infoSidebar.LibraryItems}
+          />
 
-      <SidebarNav
-        menuTitle="Playlist and favorite"
-        menuItems={infoSidebar.FavoriteItems}
-      />
+          <SidebarNav
+            menuTitle="Playlist and favorite"
+            menuItems={infoSidebar.FavoriteItems}
+          />
+        </>
+      ) : (
+        <SidebarNav
+          menuTitle="Menu"
+          menuItems={infoSidebarAdmin.MenuItemsAdmin}
+        />
+      )}
 
       <div className="sidebar-nav">
         <p className="sidebar-nav__menu">general</p>
