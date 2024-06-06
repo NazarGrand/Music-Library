@@ -51,6 +51,8 @@ class TrackController {
   async deleteTrack(req, res) {
     try {
       await trackService.deleteTrack(req.params.id);
+
+      return res.status(200).json("Track deleted successfully");
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: e.message });

@@ -60,6 +60,7 @@ async function deleteAlbum(albumId) {
     }
 
     await TrackModel.deleteMany({ albumReference: albumId }).session(session);
+
     await AlbumModel.deleteOne({ _id: albumId }).session(session);
 
     await session.commitTransaction();

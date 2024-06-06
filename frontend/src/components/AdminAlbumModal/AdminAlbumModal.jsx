@@ -6,6 +6,8 @@ import AdminFileInput from "../AdminFileInput/AdminFileInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
+import imgTrack from "../../assets/images/Track.jpg";
+import imgLoader from "../../assets/images/Loader.svg";
 import classNames from "classnames";
 import * as albumService from "../../services/AlbumService";
 import Loader from "../Loader/Loader";
@@ -18,23 +20,30 @@ const AdminAlbumModal = ({
   onUpdate,
   onDelete,
 }) => {
-  const initialEmptyAlbum = {
+  const formDefaultValues = {
     name: "",
     previewImage: null,
     releaseDate: new Date(),
   };
 
-  const [albumData, setAlbumData] = useState(initialEmptyAlbum);
+  const [albumData, setAlbumData] = useState(formDefaultValues);
   const [isUploadedImage, setIsUploadedImage] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [isDisabledCreate, setIsDisabledCreate] = useState(false);
+  const [isDisabledUpdate, setIsDisabledUpdate] = useState(false);
+  const [isDisabledDelete, setIsDisabledDelete] = useState(false);
+
+  const [error, setError] = useState("");
+
   const fetchAlbumDetails = async (id) => {
     try {
+      setLoading(true);
       const albumDetails = await albumService.getAlbum(id);
       setAlbumData(albumDetails.data);
       setLoading(false);
     } catch (e) {
-      console.log(e.message);
+      setError(e.message);
     }
   };
 
@@ -42,12 +51,13 @@ const AdminAlbumModal = ({
     if (selectedAlbum) {
       fetchAlbumDetails(selectedAlbum._id);
     } else {
-      setAlbumData(initialEmptyAlbum);
+      setLoading(false);
+      setAlbumData(formDefaultValues);
     }
   }, [selectedAlbum]);
 
-  const modal = classNames("album-window__modal", {
-    "album-window__modal--add": !selectedAlbum,
+  const modal = classNames("album-modal__window", {
+    "album-modal__window--add": !selectedAlbum,
   });
 
   const handleInput = (e) => {
@@ -72,7 +82,7 @@ const AdminAlbumModal = ({
   };
 
   const validateAllAlbum = () => {
-    if (albumData.name !== "" && isUploadedImage && albumData.releaseDate) {
+    if (albumData.name !== "" && albumData.releaseDate) {
       return true;
     }
     return false;
@@ -80,55 +90,69 @@ const AdminAlbumModal = ({
 
   const handleCreate = async () => {
     try {
+      setIsDisabledCreate(true);
       if (validateAllAlbum()) {
         await onCreate(albumData);
       } else {
-        console.log("Validation wrong");
+        setError("Not all fields are filled");
       }
     } catch (e) {
-      console.log(e.message);
+      setError(e.message);
+    } finally {
+      setIsDisabledCreate(false);
     }
   };
 
   const handleUpdate = async () => {
     try {
+      setIsDisabledUpdate(true);
       if (validateAllAlbum()) {
         await onUpdate(albumData);
+      } else {
+        setError("Not all fields are filled");
       }
     } catch (e) {
-      console.log(e.message);
+      setError(e.message);
+    } finally {
+      setIsDisabledUpdate(false);
     }
   };
 
-  const handleClickDelete = async () => {
+  const handleDelete = async () => {
     try {
+      setIsDisabledDelete(true);
       await onDelete(albumData._id);
     } catch (e) {
-      console.log(e.message);
+      setError(e.message);
+    } finally {
+      setIsDisabledDelete(false);
     }
   };
 
   return (
-    <div className="album-window" onClick={handleClose}>
+    <div className="album-modal" onClick={handleClose}>
       <div className={modal} onClick={(e) => e.stopPropagation()}>
         {loading ? (
           <Loader />
         ) : (
           <>
-            {" "}
-            <button className="album-window__close" onClick={handleClose}>
+            <button className="album-modal__close" onClick={handleClose}>
               <img src={imgExit} alt="exit" />
             </button>
-            <div className="album-window__block">
-              <p className="album-window__title">Album Info</p>
+            <div className="album-modal__block">
+              <p className="album-modal__title">Album Info</p>
 
-              <div className="album-window__block-info">
-                <div className="album-window__image-block">
+              <div className="album-modal__block-info">
+                <div className="album-modal__image-block">
                   {!albumData.previewImage ? (
-                    <img src={imgAddPhoto} alt="addPhoto" />
+                    <img
+                      className="album-modal__image"
+                      src={imgAddPhoto}
+                      alt="addPhoto"
+                    />
                   ) : (
                     <img
-                      className="album-window__image"
+                      className="album-modal__image"
                       src={albumData.previewImage}
                       alt="album name"
                     />
@@ -141,15 +165,16 @@ const AdminAlbumModal = ({
                     setTrackData={setAlbumData}
                     isUploadedFile={isUploadedImage}
                     setIsUploadedFile={setIsUploadedImage}
+                    setError={setError}
                   />
                 </div>
 
-                <div className="album-window__details">
-                  <div className="album-window__field-album">
-                    <p className="album-window__detail">Album Name:</p>
+                <div className="album-modal__details">
+                  <div className="album-modal__field-album">
+                    <p className="album-modal__detail">Album Name:</p>
 
                     <input
-                      className="album-window__input"
+                      className="album-modal__input"
                       type="text"
                       name="name"
                       placeholder="Name Album"
@@ -158,8 +183,8 @@ const AdminAlbumModal = ({
                       required={true}
                     />
                   </div>
-                  <div className="album-window__field-album">
-                    <p className="album-window__detail">Release Date:</p>
+                  <div className="album-modal__field-album">
+                    <p className="album-modal__detail">Release Date:</p>
 
                     <DatePicker
                       selected={albumData.releaseDate}
@@ -167,60 +192,87 @@ const AdminAlbumModal = ({
                       calendarStartDay={1}
                       dateFormat="dd/MM/yyyy"
                       isClearable={true}
-                      className="album-window__datepicker-input"
+                      className="album-modal__datepicker-input"
                     />
                   </div>
 
                   {albumData.tracksReferences && (
-                    <div className="album-window__field-album">
-                      <p className="album-window__detail">Tracks:</p>
-                      <div className="album-window__tracks">
+                    <div className="album-modal__field-album">
+                      <p className="album-modal__detail">Tracks:</p>
+                      <div className="album-modal__tracks">
                         {albumData.tracksReferences.length !== 0 ? (
-                          albumData.tracksReferences.map((track, index) => (
-                            <div className="album-window__block-track">
+                          albumData.tracksReferences.map((track) => (
+                            <div
+                              key={track._id}
+                              className="album-modal__block-track"
+                            >
                               <img
-                                className="album-window__icon-track"
-                                src={track.previewImage}
+                                className="album-modal__icon-track"
+                                src={
+                                  track.previewImage
+                                    ? track.previewImage
+                                    : imgTrack
+                                }
                                 alt="img"
                               />
-                              <p
-                                key={track._id}
-                                className="album-window__track"
-                              >
-                                {track.name}
-                              </p>
+                              <p className="album-modal__track">{track.name}</p>
                             </div>
                           ))
                         ) : (
-                          <span className="album-window__track">
-                            Not tracks
-                          </span>
+                          <span className="album-modal__track">Not tracks</span>
                         )}
                       </div>
                     </div>
                   )}
                 </div>
               </div>
+
+              <p className="album-modal__error-message">{error}</p>
             </div>
-            <div className="album-window__block-buttons">
+
+            <div className="album-modal__block-buttons">
               {selectedAlbum ? (
                 <>
                   <button
-                    className="album-window__button"
+                    className="album-modal__button"
                     onClick={handleUpdate}
+                    disabled={isDisabledUpdate}
                   >
-                    Update Album
+                    {!isDisabledUpdate && "Update Album"}
+                    <img
+                      className="album-modal__image-loading"
+                      src={imgLoader}
+                      alt="loader"
+                      style={{ display: isDisabledUpdate ? "block" : "none" }}
+                    />
                   </button>
                   <button
-                    className="album-window__button"
-                    onClick={handleClickDelete}
+                    className="album-modal__button"
+                    onClick={handleDelete}
+                    disabled={isDisabledDelete}
                   >
-                    Delete Album
+                    {!isDisabledDelete && "Delete Album"}
+                    <img
+                      className="album-modal__image-loading"
+                      src={imgLoader}
+                      alt="loader"
+                      style={{ display: isDisabledDelete ? "block" : "none" }}
+                    />
                   </button>
                 </>
               ) : (
-                <button className="album-window__button" onClick={handleCreate}>
-                  Add Album
+                <button
+                  className="album-modal__button"
+                  onClick={handleCreate}
+                  disabled={isDisabledCreate}
+                >
+                  {!isDisabledCreate && "Add Album"}
+                  <img
+                    className="album-modal__image-loading"
+                    src={imgLoader}
+                    alt="loader"
+                    style={{ display: isDisabledCreate ? "block" : "none" }}
+                  />
                 </button>
               )}
             </div>

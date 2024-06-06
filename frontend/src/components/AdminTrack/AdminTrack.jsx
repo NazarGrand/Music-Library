@@ -1,15 +1,20 @@
 import "./AdminTrack.scss";
 import { formatDurationTrack } from "../../utils/formatDurationTrack";
 import { formatDate } from "../../utils/formatDateTrack";
+import imgTrack from "../../assets/images/Track.jpg";
 
 const AdminTrack = ({ indexTrack, track, openModal, setSelectedTrack }) => {
-  const durationSong = formatDurationTrack(track.duration);
-  const releaseDateTrack = formatDate(track.releaseDate);
+  const { name, previewImage, releaseDate, label, duration } = track;
+
+  const durationSong = formatDurationTrack(duration);
+  const releaseDateTrack = formatDate(releaseDate);
 
   const handleTrackClick = () => {
     setSelectedTrack(track);
     openModal();
   };
+
+  const trackImage = previewImage ? previewImage : imgTrack;
 
   return (
     <div className="admin-track">
@@ -20,21 +25,21 @@ const AdminTrack = ({ indexTrack, track, openModal, setSelectedTrack }) => {
           <button className="admin-track__button" onClick={handleTrackClick}>
             <img
               className="admin-track__image"
-              src={track.previewImage}
+              src={trackImage}
               alt="imgTrack"
             />
           </button>
 
           <div className="admin-track__title">
             <button className="admin-track__button" onClick={handleTrackClick}>
-              <span className="admin-track__title-song">{track.name}</span>
+              <span className="admin-track__title-song">{name}</span>
             </button>
           </div>
         </div>
 
         <p className="admin-track__relase-date">{releaseDateTrack}</p>
 
-        <p className="admin-track__label">{track.label}</p>
+        <p className="admin-track__label">{label}</p>
 
         <p className="admin-track__time">{durationSong}</p>
       </div>

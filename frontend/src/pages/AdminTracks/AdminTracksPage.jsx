@@ -3,7 +3,7 @@ import AdminTracksList from "../../components/AdminTracksList/AdminTracksList";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
 import * as albumService from "../../services/AlbumService";
-import AdminTrackWindow from "../../components/AdminTrackWindow/AdminTrackWindow";
+import AdminTrackModal from "../../components/AdminTrackModal/AdminTrackModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
 const AdminTracksPage = () => {
@@ -96,7 +96,7 @@ const AdminTracksPage = () => {
       />
 
       {isOpenModal && (
-        <AdminTrackWindow
+        <AdminTrackModal
           closeModal={closeModal}
           selectedTrack={selectedTrack}
           setSelectedTrack={setSelectedTrack}

@@ -10,6 +10,7 @@ const AdminFileInput = ({
   setTrackData,
   isUploadedFile,
   setIsUploadedFile,
+  setError,
 }) => {
   const [isUploading, setIsUploading] = useState(false);
 
@@ -44,21 +45,21 @@ const AdminFileInput = ({
                 setIsUploading(false);
                 setIsUploadedFile(true);
               })
-              .catch((error) => {
-                console.error("Error getting download URL:", error);
+              .catch((e) => {
+                setError(`Error getting download URL: ${e.message}`);
                 setIsUploading(false);
               });
           })
-          .catch((error) => {
-            console.error("Error uploading file:", error);
+          .catch((e) => {
+            setError(`Error uploading file: ${e.message}`);
             setIsUploading(false);
           });
       } catch (e) {
-        console.log("Error in try-catch:", e.message);
+        setError(e.message);
         setIsUploading(false);
       }
     } else {
-      console.log("No file selected!");
+      setError("No file selected!");
       setIsUploading(false);
     }
   };

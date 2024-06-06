@@ -17,5 +17,7 @@ export const updateAlbum = async (id, albumData) => {
 };
 
 export const deleteAlbum = async (id) => {
-  return await api.delete(`/albums/${id}`);
+  const response = await api.delete(`/albums/${id}`);
+  console.log(response);
+  return response;
 };

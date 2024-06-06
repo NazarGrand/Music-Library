@@ -1,6 +1,6 @@
 @import "../../styles/variables.scss";
 
-.album-window {
+.album-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
 
-  &__modal {
+  &__window {
     position: relative;
     background-color: #9e929a;
     padding: 10px;
@@ -27,7 +27,7 @@
 
     &--add {
       width: 600px;
-      height: 350px;
+      height: 380px;
     }
   }
 
@@ -133,7 +133,7 @@
 
   &__tracks {
     width: 300px;
-    max-height: 100px;
+    max-height: 120px;
     overflow-y: auto;
     padding: 5px 10px;
     border: 1px solid #ccc;
@@ -152,8 +152,20 @@
     height: 20px;
   }
 
+  &__error-message {
+    height: 30px;
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+
+    color: #59191f;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+  }
+
   &__block-buttons {
-    margin-top: 30px;
+    margin-top: 10px;
 
     display: flex;
     justify-content: center;
@@ -169,5 +181,14 @@
     color: $white-text-color;
     font-size: 20px;
     cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__image-loading {
+    height: 40px;
+    animation: spin 2s linear infinite;
   }
 }

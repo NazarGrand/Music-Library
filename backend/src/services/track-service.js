@@ -64,14 +64,31 @@ async function updateTrack(trackId, trackData) {
     throw new Error("Track not found");
   }
 
+  const albumReference = Types.ObjectId.isValid(trackData.albumReference)
+    ? trackData.albumReference
+    : null;
+
+  if (
+    (albumReference &&
+      existingTrack.albumReference &&
+      existingTrack.albumReference.toString() === albumReference) ||
+    (!albumReference && !existingTrack.albumReference)
+  ) {
+    const updatedTrack = await TrackModel.findByIdAndUpdate(
+      trackId,
+      trackData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    return updatedTrack;
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const albumReference = Types.ObjectId.isValid(trackData.albumReference)
-      ? trackData.albumReference
-      : null;
-
     let updatedTrackData;
     if (!albumReference) {
       updatedTrackData = { ...trackData, albumReference: null };

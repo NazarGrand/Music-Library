@@ -51,6 +51,8 @@ class AlbumController {
   async deleteAlbum(req, res) {
     try {
       await albumService.deleteAlbum(req.params.id);
+
+      return res.status(200).json("Album deleted successfully");
     } catch (e) {
       console.log(e);
       return res.status(401).json({ message: e.message });
