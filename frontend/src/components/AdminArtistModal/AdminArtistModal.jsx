@@ -4,6 +4,7 @@ import * as artistService from "../../services/ArtistService";
 import imgExit from "../../assets/images/Exit.svg";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
 import imgTrack from "../../assets/images/Track.jpg";
+import imgAlbum from "../../assets/images/AlbumImage.jpg";
 import imgLoader from "../../assets/images/Loader.svg";
 import classNames from "classnames";
 import Loader from "../Loader/Loader";
@@ -190,7 +191,7 @@ const AdminArtistModal = ({
                                 src={
                                   album.previewImage
                                     ? album.previewImage
-                                    : imgTrack
+                                    : imgAlbum
                                 }
                                 alt="img"
                               />

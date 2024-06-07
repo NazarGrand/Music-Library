@@ -53,7 +53,7 @@ const NavAlbums = () => {
         </nav>
       </div>
 
-      <img className="nav-album__icon" src={iconLogin} alt="iconLogin" />
+      {/* <img className="nav-album__icon" src={iconLogin} alt="iconLogin" /> */}
     </div>
   );
 };

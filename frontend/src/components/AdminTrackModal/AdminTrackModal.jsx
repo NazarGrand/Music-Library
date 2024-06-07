@@ -36,11 +36,18 @@ const AdminTrackModal = ({
   const [isDisabledUpdate, setIsDisabledUpdate] = useState(false);
   const [isDisabledDelete, setIsDisabledDelete] = useState(false);
 
+  const [selectedOption, setSelectedOption] = useState("");
+
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (selectedTrack) {
       setTrackData(selectedTrack);
+      if (selectedTrack.albumReference) {
+        setSelectedOption("album");
+      } else if (selectedTrack.artistReference) {
+        setSelectedOption("artist");
+      }
     } else {
       setTrackData(formDefaultValues);
     }
@@ -139,6 +146,10 @@ const AdminTrackModal = ({
     }
   };
 
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
     <div className="track-modal" onClick={handleClose}>
       <div className="track-modal__window" onClick={(e) => e.stopPropagation()}>
@@ -174,7 +185,7 @@ const AdminTrackModal = ({
 
             <div className="track-modal__details">
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Track Name:</p>
+                <p className="track-modal__detail">Type track:</p>
 
                 <input
                   className="track-modal__input"
@@ -188,44 +199,75 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Album:</p>
+                <p className="track-modal__detail">Track Name:</p>
+                <div className="track-modal__option-area">
+                  <label className="track-modal__option-title">
+                    <input
+                      type="radio"
+                      name="option"
+                      value="album"
+                      checked={selectedOption === "album"}
+                      onChange={handleOptionChange}
+                    />{" "}
+                    Album
+                  </label>
 
-                <select
-                  className="track-modal__select"
-                  name="albumReference"
-                  value={
-                    trackData.albumReference ? trackData.albumReference : ""
-                  }
-                  onChange={handleChangeSelect}
-                >
-                  <option value="">Not Album</option>
-                  {albums.map((album) => (
-                    <option key={album._id} value={album._id}>
-                      {album.name}
-                    </option>
-                  ))}
-                </select>
+                  <label className="track-modal__option-title">
+                    <input
+                      type="radio"
+                      name="option"
+                      value="artist"
+                      checked={selectedOption === "artist"}
+                      onChange={handleOptionChange}
+                    />{" "}
+                    Artist
+                  </label>
+                </div>
               </div>
 
-              <div className="track-modal__field-track">
-                <p className="track-modal__detail">Artist:</p>
+              {selectedOption === "album" && (
+                <div className="track-modal__field-track">
+                  <p className="track-modal__detail">Album:</p>
 
-                <select
-                  className="track-modal__select"
-                  name="artistReference"
-                  value={
-                    trackData.artistReference ? trackData.artistReference : ""
-                  }
-                  onChange={handleChangeSelect}
-                >
-                  <option value="">Not Artist</option>
-                  {artists.map((artist) => (
-                    <option key={artist._id} value={artist._id}>
-                      {artist.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <select
+                    className="track-modal__select"
+                    name="albumReference"
+                    value={
+                      trackData.albumReference ? trackData.albumReference : ""
+                    }
+                    onChange={handleChangeSelect}
+                  >
+                    <option value="">Not Album</option>
+                    {albums.map((album) => (
+                      <option key={album._id} value={album._id}>
+                        {album.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {selectedOption === "artist" && (
+                <div className="track-modal__field-track">
+                  <p className="track-modal__detail">Artist:</p>
+
+                  <select
+                    className="track-modal__select"
+                    name="artistReference"
+                    value={
+                      trackData.artistReference ? trackData.artistReference : ""
+                    }
+                    onChange={handleChangeSelect}
+                  >
+                    <option value="">Not Artist</option>
+                    {artists.map((artist) => (
+                      <option key={artist._id} value={artist._id}>
+                        {artist.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="track-modal__field-track">
                 <p className="track-modal__detail">Audio:</p>

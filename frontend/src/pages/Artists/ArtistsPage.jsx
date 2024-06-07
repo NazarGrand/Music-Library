@@ -132,7 +132,7 @@ const ArtistsPage = () => {
             popularTracks={popularTracks ?? []}
             albums={albums ?? []}
             songs={songs ?? []}
-            playlists={playlists ?? []}
+            // playlists={playlists ?? []}
           />
         </>
       )}

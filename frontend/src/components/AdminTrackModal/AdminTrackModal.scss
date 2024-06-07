@@ -168,4 +168,16 @@
     height: 40px;
     animation: spin 2s linear infinite;
   }
+
+  &__option-area {
+    margin-top: 7px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__option-title {
+    font-weight: 550;
+    font-size: 16px;
+    color: $login-button-color;
+  }
 }

@@ -12,11 +12,11 @@ const AdminArtist = ({ artist, openModal, setSelectedArtist }) => {
   const image = photoUrl ? photoUrl : imgArtist;
 
   return (
-    <div className="artist">
-      <button className="artist__button" onClick={handleArtistClick}>
-        <img className="artist__image" src={image} alt="artistimg" />
+    <div className="admin-artist">
+      <button className="admin-artist__button" onClick={handleArtistClick}>
+        <img className="admin-artist__image" src={image} alt="artistimg" />
 
-        <p className="artist__title">{name}</p>
+        <p className="admin-artist__title">{name}</p>
       </button>
     </div>
   );
