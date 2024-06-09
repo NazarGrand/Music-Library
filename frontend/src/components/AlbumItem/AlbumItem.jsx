@@ -5,8 +5,9 @@ import iconAlbum from "../../assets/images/AlbumIcon.svg";
 import { Link, useLocation } from "react-router-dom";
 
 const AlbumItem = ({ albumItem }) => {
-  const { image, title, yearAlbum, albumId } = albumItem;
+  const { image, albumName, yearAlbum, albumId } = albumItem;
 
+  console.log(image);
   const location = useLocation();
 
   const path = `/albums/${albumId}`;
@@ -25,7 +26,7 @@ const AlbumItem = ({ albumItem }) => {
       >
         <img className="album-item__image" src={image} alt="musicimg" />
 
-        <p className="album-item__title">{title}</p>
+        <p className="album-item__title">{albumName}</p>
 
         <div className="album-item__block">
           <p className="album-item__year">{yearAlbum}</p>

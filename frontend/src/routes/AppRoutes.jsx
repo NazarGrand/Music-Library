@@ -4,7 +4,6 @@ import { ROUTES } from "../utils/routes";
 import HomePage from "../pages/Home/HomePage";
 import DiscoverPage from "../pages/Discover/DiscoverPage";
 import ErrorPage from "../pages/Error/ErrorPage";
-import AlbumsPage from "../pages/Albums/AlbumsPage";
 import FavouriteTracksPage from "../pages/FavouriteTracksPage/FavouriteTracksPage";
 import LoginPage from "../pages/Login/LoginPage";
 import RegistrationPage from "../pages/Registration/RegistrationPage";
@@ -16,6 +15,8 @@ import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";
 import AdminArtistsPage from "../pages/AdminArtists/AdminArtistsPage";
 import ArtistPage from "../pages/Artist/ArtistPage";
 import ArtistsPage from "../pages/Artists/ArtistsPage";
+import AlbumPage from "../pages/Album/AlbumPage";
+import AlbumsPage from "../pages/Albums/AlbumsPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -29,7 +30,8 @@ const AppRoutes = () => {
           <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
           <Route exact path={ROUTES.ARTISTS} element={<ArtistsPage />} />
           <Route path={ROUTES.ARTIST} element={<ArtistPage />} />
-          <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
+          <Route exact path={ROUTES.ALBUMS} element={<AlbumsPage />} />
+          <Route path={ROUTES.ALBUM} element={<AlbumPage />} />
           <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
           <Route
             path={ROUTES.ACCOUNT_ACTIVATED}
