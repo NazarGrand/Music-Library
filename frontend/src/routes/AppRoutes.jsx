@@ -15,6 +15,7 @@ import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
 import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";
 import AdminArtistsPage from "../pages/AdminArtists/AdminArtistsPage";
 import ArtistPage from "../pages/Artist/ArtistPage";
+import ArtistsPage from "../pages/Artists/ArtistsPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -26,6 +27,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
+          <Route exact path={ROUTES.ARTISTS} element={<ArtistsPage />} />
           <Route path={ROUTES.ARTIST} element={<ArtistPage />} />
           <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
           <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />

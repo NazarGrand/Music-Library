@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+
+.music-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 1150px;
+
+  &__title {
+    margin: 0;
+    margin-top: 10px;
+    font-size: 36px;
+    font-weight: 500;
+    color: $pink-text-color;
+  }
+}
