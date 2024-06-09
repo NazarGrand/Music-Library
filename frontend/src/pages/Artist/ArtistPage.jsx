@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import HeaderArtist from "../../components/HeaderArtist/HeaderArtist";
 
-import * as artistService from "../../services/ArtistApiService";
+import * as artistService from "../../services/ArtistService";
 import Loader from "../../components/Loader/Loader";
 import { useLocation, useParams } from "react-router-dom";
 import ArtistMusic from "../../components/ArtistMusic/ArtistMusic";
+import imgArtist from "../../assets/images/Artist.jpg";
+import imgTrack from "../../assets/images/Track.jpg";
+import imgAlbum from "../../assets/images/AlbumImage.jpg";
 
-const ArtistsPage = () => {
+const ArtistPage = () => {
   const { artistId } = useParams();
 
   const [artist, setArtist] = useState({});
@@ -14,7 +17,6 @@ const ArtistsPage = () => {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
 
   const location = useLocation();
 
@@ -23,53 +25,41 @@ const ArtistsPage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const getArtist = await artistService.getArtist(artistId);
+      const getArtistData = await artistService.getArtist(artistId);
+      const getArtist = getArtistData.data;
 
       const artist = {
-        nameArtist: getArtist.profile.name,
-        imageArtist: getArtist.visuals.headerImage.sources[0].url,
-        biographyArtist: getArtist.profile.biography.text,
+        nameArtist: getArtist.name,
+        imageArtist: getArtist.photoUrl ? getArtist.photoUrl : imgArtist,
       };
 
-      const tracks = getArtist.discography.topTracks.items.map((item) => ({
-        image: item.track.album.coverArt.sources[0].url,
-        titleSong: item.track.name,
-        artists: item.track.artists.items.map((artist) => ({
-          name: artist.profile.name,
-          artistId: artist.uri.split(":")[2],
-        })),
-        duration: item.track.duration.totalMilliseconds,
-        idTrack: item.track.uri.split(":")[2],
+      const tracks = getArtist.singleSongs.map((song) => ({
+        image: song.previewImage ? song.previewImage : imgTrack,
+        titleSong: song.name,
+        artistId: song.artistReference._id,
+        artistName: song.artistReference.name,
+        duration: song.duration,
+        idTrack: song._id,
       }));
 
-      const albumsArtist = getArtist.discography.popularReleases.items.map(
-        (item) => ({
-          image: item.releases.items[0].coverArt.sources[0].url,
-          title: item.releases.items[0].name,
-          yearAlbum: item.releases.items[0].date.year,
-          albumId: item.releases.items[0].uri.split(":")[2],
-        })
-      );
-
-      const songsArtist = getArtist.discography.singles.items.map((item) => ({
-        image: item.releases.items[0].coverArt.sources[0].url,
-        titleSong: item.releases.items[0].name,
-        artists: [{ name: artist.nameArtist }],
-        yearSong: item.releases.items[0].date.year,
+      const albumsArtist = getArtist.albums.map((album) => ({
+        image: album.previewImage ? album.previewImage : imgAlbum,
+        title: album.name,
+        yearAlbum: new Date(album.releaseDate).getFullYear(),
+        albumId: album._id,
       }));
 
-      const playlistsArtist = getArtist.relatedContent.discoveredOn.items.map(
-        (item) => ({
-          image: item.images.items[0].sources[0].url,
-          title: item.name,
-        })
-      );
+      const songsArtist = getArtist.singleSongs.map((song) => ({
+        image: song.previewImage ? song.previewImage : imgTrack,
+        titleSong: song.name,
+        artistName: song.artistReference.name,
+        yearSong: new Date(song.releaseDate).getFullYear(),
+      }));
 
       setArtist(artist);
       setPopularTracks(tracks);
       setAlbums(albumsArtist);
       setSongs(songsArtist);
-      setPlaylists(playlistsArtist);
     } catch (error) {
       console.error("Error getting data:", error);
     } finally {
@@ -139,4 +129,4 @@ const ArtistsPage = () => {
   );
 };
 
-export default ArtistsPage;
+export default ArtistPage;

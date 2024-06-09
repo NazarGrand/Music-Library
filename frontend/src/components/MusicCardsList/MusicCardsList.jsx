@@ -40,9 +40,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
                   indexTrack={index}
                   musicCard={item}
                   isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
+                    trackName === item.titleSong && trackAuthor === item.artist
                   }
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}

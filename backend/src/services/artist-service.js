@@ -17,7 +17,13 @@ async function createArtist(artistData) {
 
 async function getArtistById(artistId) {
   const artist = await ArtistModel.findById(artistId)
-    .populate("singleSongs")
+    .populate({
+      path: "singleSongs",
+      populate: {
+        path: "artistReference",
+        model: "Artist",
+      },
+    })
     .populate("albums");
 
   if (!artist) {

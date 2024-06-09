@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ROUTES } from "../utils/routes";
 import HomePage from "../pages/Home/HomePage";
 import DiscoverPage from "../pages/Discover/DiscoverPage";
-import ArtistsPage from "../pages/Artists/ArtistsPage";
 import ErrorPage from "../pages/Error/ErrorPage";
 import AlbumsPage from "../pages/Albums/AlbumsPage";
 import FavouriteTracksPage from "../pages/FavouriteTracksPage/FavouriteTracksPage";
@@ -15,6 +14,7 @@ import { useAuth } from "../context/AuthContext";
 import AdminTracksPage from "../pages/AdminTracks/AdminTracksPage";
 import AdminAlbumsPage from "../pages/AdminAlbums/AdminAlbumsPage";
 import AdminArtistsPage from "../pages/AdminArtists/AdminArtistsPage";
+import ArtistPage from "../pages/Artist/ArtistPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -26,7 +26,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Navigate to={ROUTES.HOME} />} />
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.DISCOVER} element={<DiscoverPage />} />
-          <Route path={ROUTES.ARTISTS} element={<ArtistsPage />} />
+          <Route path={ROUTES.ARTIST} element={<ArtistPage />} />
           <Route path={ROUTES.ALBUMS} element={<AlbumsPage />} />
           <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
           <Route

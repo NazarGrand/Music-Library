@@ -41,12 +41,11 @@ const PopularArtistListTracks = ({ popularTracks }) => {
                   idTrack={item.idTrack}
                   image={item.image}
                   titleSong={item.titleSong}
-                  artists={item.artists}
+                  artistId={item.artistId}
+                  artistName={item.artistName}
                   durationSong={item.duration}
                   isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
+                    trackName === item.titleSong && trackAuthor === item.artist
                   }
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}

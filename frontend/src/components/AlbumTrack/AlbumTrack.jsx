@@ -58,7 +58,8 @@ const AlbumTrack = ({
   idTrack,
   image,
   titleSong,
-  artists,
+  artistId,
+  artistName,
   durationSong,
   isPlayingSong,
   isPlaying,
@@ -88,7 +89,7 @@ const AlbumTrack = ({
       type: musicContextActions.setTrack,
       payload: {
         trackName: titleSong,
-        trackAuthor: artists.map((item) => item.name).join(", "),
+        trackAuthor: artistName,
         trackImage: image,
       },
     });
@@ -114,7 +115,7 @@ const AlbumTrack = ({
           idTrack,
           image,
           titleSong,
-          artists,
+          artistName,
         },
       });
     } else {
@@ -141,26 +142,22 @@ const AlbumTrack = ({
             </button>
 
             <span className="album-track__block-artists">
-              {artists.map((item, index) => (
-                <div key={index}>
-                  <Link
-                    className="album-track__link-author"
-                    to={`/artists/${item.artistId}`}
-                    onClick={() =>
-                      sessionStorage.setItem(
-                        `scrollPosition_${location.pathname}`,
-                        window.pageYOffset
-                      )
-                    }
-                  >
-                    <span className="album-track__title-author">
-                      {item.name}
-                    </span>
-                  </Link>
-
-                  {index !== artists.length - 1 && ",\u00A0"}
-                </div>
-              ))}
+              <div>
+                <Link
+                  className="album-track__link-author"
+                  to={`/artists/${artistId}`}
+                  onClick={() =>
+                    sessionStorage.setItem(
+                      `scrollPosition_${location.pathname}`,
+                      window.pageYOffset
+                    )
+                  }
+                >
+                  <span className="album-track__title-author">
+                    {artistName}
+                  </span>
+                </Link>
+              </div>
             </span>
           </div>
         </div>

@@ -27,7 +27,7 @@ const MusicCard = ({
   initializePlaylistContext,
   type,
 }) => {
-  const { image, titleSong, artists, yearSong } = musicCard;
+  const { image, titleSong, artistId, artistName, yearSong } = musicCard;
 
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
@@ -44,7 +44,7 @@ const MusicCard = ({
       type: musicContextActions.setTrack,
       payload: {
         trackName: titleSong,
-        trackAuthor: artists.map((item) => item.name).join(", "),
+        trackAuthor: artistName,
         trackImage: image,
       },
     });
@@ -76,21 +76,15 @@ const MusicCard = ({
         <div className="music-card__block">
           {type !== "artist-songs" && (
             <span className="music-card__block-artists">
-              {artists.map((item, index) => (
-                <div key={index}>
-                  <Link
-                    className="music-card__link-author"
-                    to={`/artists/${item.artistId}`}
-                    onClick={handleClickLink}
-                  >
-                    <span className="music-card__title-artist">
-                      {item.name}
-                    </span>
-                  </Link>
-
-                  {index !== artists.length - 1 && ",\u00A0"}
-                </div>
-              ))}
+              <div>
+                <Link
+                  className="music-card__link-author"
+                  to={`/artists/${artistId}`}
+                  onClick={handleClickLink}
+                >
+                  <span className="music-card__title-artist">{artistName}</span>
+                </Link>
+              </div>
             </span>
           )}
 
