@@ -24,11 +24,6 @@ const Sidebar = () => {
             menuTitle="Library"
             menuItems={infoSidebar.LibraryItems}
           />
-
-          <SidebarNav
-            menuTitle="Playlist and favorite"
-            menuItems={infoSidebar.FavoriteItems}
-          />
         </>
       ) : (
         <SidebarNav

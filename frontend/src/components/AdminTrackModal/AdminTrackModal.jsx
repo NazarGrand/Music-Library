@@ -15,12 +15,12 @@ const AdminTrackModal = ({
   onUpdate,
   onDelete,
   albums,
+  artists,
 }) => {
   const formDefaultValues = {
     name: "",
     previewImage: null,
     audio: null,
-    albumReference: null,
     duration: "",
     releaseDate: new Date(),
     label: "",
@@ -34,11 +34,18 @@ const AdminTrackModal = ({
   const [isDisabledUpdate, setIsDisabledUpdate] = useState(false);
   const [isDisabledDelete, setIsDisabledDelete] = useState(false);
 
+  const [selectedOption, setSelectedOption] = useState(null);
+
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (selectedTrack) {
       setTrackData(selectedTrack);
+      if (selectedTrack.albumReference) {
+        setSelectedOption("album");
+      } else if (selectedTrack.artistReference) {
+        setSelectedOption("artist");
+      }
     } else {
       setTrackData(formDefaultValues);
     }
@@ -50,6 +57,23 @@ const AdminTrackModal = ({
     setTrackData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleChangeSelect = (e) => {
+    const { name, value } = e.target;
+
+    let anotherSelect;
+    if (name === "albumReference") {
+      anotherSelect = "artistReference";
+    } else {
+      anotherSelect = "albumReference";
+    }
+
+    setTrackData((prev) => ({
+      ...prev,
+      [name]: value,
+      [anotherSelect]: null,
     }));
   };
 
@@ -87,7 +111,7 @@ const AdminTrackModal = ({
     try {
       await onCreate(trackData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledCreate(false);
     }
@@ -103,7 +127,7 @@ const AdminTrackModal = ({
     try {
       await onUpdate(trackData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledUpdate(false);
     }
@@ -114,10 +138,14 @@ const AdminTrackModal = ({
     try {
       await onDelete(trackData._id);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledDelete(false);
     }
+  };
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
   return (
@@ -155,7 +183,7 @@ const AdminTrackModal = ({
 
             <div className="track-modal__details">
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Track Name:</p>
+                <p className="track-modal__detail">Type track:</p>
 
                 <input
                   className="track-modal__input"
@@ -169,24 +197,71 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Album:</p>
+                <p className="track-modal__detail">Track Name:</p>
+                <div className="track-modal__option-area">
+                  <label className="track-modal__option-title">
+                    <input
+                      type="radio"
+                      name="option"
+                      value="album"
+                      checked={selectedOption === "album"}
+                      onChange={handleOptionChange}
+                    />{" "}
+                    Album
+                  </label>
 
-                <select
-                  className="track-modal__select"
-                  name="albumReference"
-                  value={
-                    trackData.albumReference ? trackData.albumReference : ""
-                  }
-                  onChange={handleInput}
-                >
-                  <option value="">Not Album</option>
-                  {albums.map((album) => (
-                    <option key={album._id} value={album._id}>
-                      {album.name}
-                    </option>
-                  ))}
-                </select>
+                  <label className="track-modal__option-title">
+                    <input
+                      type="radio"
+                      name="option"
+                      value="artist"
+                      checked={selectedOption === "artist"}
+                      onChange={handleOptionChange}
+                    />{" "}
+                    Artist
+                  </label>
+                </div>
               </div>
+
+              {selectedOption === "album" && (
+                <div className="track-modal__field-track">
+                  <p className="track-modal__detail">Album:</p>
+
+                  <select
+                    className="track-modal__select"
+                    name="albumReference"
+                    value={trackData.albumReference}
+                    onChange={handleChangeSelect}
+                  >
+                    <option value={undefined}>Not Album</option>
+                    {albums.map((album) => (
+                      <option key={album._id} value={album._id}>
+                        {album.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {selectedOption === "artist" && (
+                <div className="track-modal__field-track">
+                  <p className="track-modal__detail">Artist:</p>
+
+                  <select
+                    className="track-modal__select"
+                    name="artistReference"
+                    value={trackData.artistReference}
+                    onChange={handleChangeSelect}
+                  >
+                    <option value={undefined}>Not Artist</option>
+                    {artists.map((artist) => (
+                      <option key={artist._id} value={artist._id}>
+                        {artist.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="track-modal__field-track">
                 <p className="track-modal__detail">Audio:</p>

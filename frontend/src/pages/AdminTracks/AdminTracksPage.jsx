@@ -3,6 +3,7 @@ import AdminTracksList from "../../components/AdminTracksList/AdminTracksList";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
 import * as albumService from "../../services/AlbumService";
+import * as artistService from "../../services/ArtistService";
 import AdminTrackModal from "../../components/AdminTrackModal/AdminTrackModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 
@@ -10,6 +11,7 @@ const AdminTracksPage = () => {
   const [loading, setLoading] = useState(true);
   const [tracks, setTracks] = useState([]);
   const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
 
@@ -25,13 +27,11 @@ const AdminTracksPage = () => {
 
   const onCreate = async (track) => {
     try {
-      const createdTrack = await trackService.createTrack(track);
+      await trackService.createTrack(track);
 
-      if (createdTrack) {
-        setSelectedTrack(null);
-        closeModal();
-        fetchData();
-      }
+      setSelectedTrack(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -40,12 +40,11 @@ const AdminTracksPage = () => {
 
   const onUpdate = async (track) => {
     try {
-      const updatedTrack = await trackService.updateTrack(track._id, track);
-      if (updatedTrack) {
-        setSelectedTrack(null);
-        closeModal();
-        fetchData();
-      }
+      await trackService.updateTrack(track._id, track);
+
+      setSelectedTrack(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -72,6 +71,9 @@ const AdminTracksPage = () => {
 
       const adminAlbums = await albumService.getAllAlbums();
       setAlbums(adminAlbums.data);
+
+      const adminArtists = await artistService.getAllArtists();
+      setArtists(adminArtists.data);
     } catch (e) {
       console.error("Error getting data:", e);
     } finally {
@@ -104,6 +106,7 @@ const AdminTracksPage = () => {
           onUpdate={onUpdate}
           onDelete={onDelete}
           albums={albums}
+          artists={artists}
         />
       )}
     </>

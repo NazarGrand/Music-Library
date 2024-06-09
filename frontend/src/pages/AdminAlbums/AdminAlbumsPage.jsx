@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminAlbumCatalog from "../../components/AdminAlbumCatalog/AdminAlbumCatalog";
 import * as albumService from "../../services/AlbumService";
+import * as artistService from "../../services/ArtistService";
 import Loader from "../../components/Loader/Loader";
 import AdminAlbumModal from "../../components/AdminAlbumModal/AdminAlbumModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
@@ -8,6 +9,7 @@ import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 const AdminAlbumsPage = () => {
   const [loading, setLoading] = useState(true);
   const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
 
@@ -23,13 +25,11 @@ const AdminAlbumsPage = () => {
 
   const onCreate = async (album) => {
     try {
-      const createdAlbum = await albumService.createAlbum(album);
+      await albumService.createAlbum(album);
 
-      if (createdAlbum) {
-        setSelectedAlbum(null);
-        closeModal();
-        fetchData();
-      }
+      setSelectedAlbum(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -38,12 +38,11 @@ const AdminAlbumsPage = () => {
 
   const onUpdate = async (album) => {
     try {
-      const updatedAlbum = await albumService.updateAlbum(album._id, album);
-      if (updatedAlbum) {
-        setSelectedAlbum(null);
-        closeModal();
-        fetchData();
-      }
+      await albumService.updateAlbum(album._id, album);
+
+      setSelectedAlbum(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -67,6 +66,9 @@ const AdminAlbumsPage = () => {
     try {
       const adminAlbums = await albumService.getAllAlbums();
       setAlbums(adminAlbums.data);
+
+      const adminArtists = await artistService.getAllArtists();
+      setArtists(adminArtists.data);
     } catch (e) {
       console.error("Error getting data:", e);
     } finally {
@@ -100,6 +102,7 @@ const AdminAlbumsPage = () => {
               onCreate={onCreate}
               onUpdate={onUpdate}
               onDelete={onDelete}
+              artists={artists}
             />
           )}
         </>

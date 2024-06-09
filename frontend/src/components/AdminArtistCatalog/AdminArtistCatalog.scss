@@ -1,4 +1,6 @@
-.admin-album-catalog {
+@import "../../styles/variables.scss";
+
+.artist-catalog {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,5 +15,14 @@
     margin: 0;
     gap: 30px;
     max-width: 1120px;
+  }
+
+  &__subtitle {
+    color: $pink-text-color;
+    font-style: italic;
+    font-size: 35px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    text-align: center;
   }
 }

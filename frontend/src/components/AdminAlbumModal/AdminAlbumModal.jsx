@@ -19,6 +19,7 @@ const AdminAlbumModal = ({
   onCreate,
   onUpdate,
   onDelete,
+  artists,
 }) => {
   const formDefaultValues = {
     name: "",
@@ -27,7 +28,7 @@ const AdminAlbumModal = ({
   };
 
   const [albumData, setAlbumData] = useState(formDefaultValues);
-  const [isUploadedImage, setIsUploadedImage] = useState(false);
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [isDisabledCreate, setIsDisabledCreate] = useState(false);
@@ -98,7 +99,7 @@ const AdminAlbumModal = ({
     try {
       await onCreate(albumData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledCreate(false);
     }
@@ -114,7 +115,7 @@ const AdminAlbumModal = ({
     try {
       await onUpdate(albumData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledUpdate(false);
     }
@@ -125,7 +126,7 @@ const AdminAlbumModal = ({
     try {
       await onDelete(albumData._id);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledDelete(false);
     }
@@ -165,8 +166,8 @@ const AdminAlbumModal = ({
                     accept="image/*"
                     trackData={albumData}
                     setTrackData={setAlbumData}
-                    isUploadedFile={isUploadedImage}
-                    setIsUploadedFile={setIsUploadedImage}
+                    isUploadedFile={isImageUploaded}
+                    setIsUploadedFile={setIsImageUploaded}
                     setError={setError}
                   />
                 </div>
@@ -185,6 +186,25 @@ const AdminAlbumModal = ({
                       required={true}
                     />
                   </div>
+
+                  <div className="track-modal__field-track">
+                    <p className="track-modal__detail">Artist:</p>
+
+                    <select
+                      className="track-modal__select"
+                      name="artistReference"
+                      value={albumData.artistReference}
+                      onChange={handleInput}
+                    >
+                      <option value={undefined}>Not Artist</option>
+                      {artists.map((artist) => (
+                        <option key={artist._id} value={artist._id}>
+                          {artist.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   <div className="album-modal__field-album">
                     <p className="album-modal__detail">Release Date:</p>
 

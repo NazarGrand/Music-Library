@@ -3,11 +3,11 @@ import "./AdminAlbumCatalog.scss";
 
 const AdminAlbumCatalog = ({ albumItems, openModal, setSelectedAlbum }) => {
   return (
-    <div className="album-catalog">
+    <div className="admin-album-catalog">
       {albumItems.length !== 0 ? (
-        <ul className="album-catalog__list">
+        <ul className="admin-album-catalog__list">
           {albumItems.map((item, index) => (
-            <li key={index} className="album-catalog__item">
+            <li key={index} className="admin-album-catalog__item">
               <AdminAlbum
                 album={item}
                 openModal={openModal}
@@ -17,7 +17,7 @@ const AdminAlbumCatalog = ({ albumItems, openModal, setSelectedAlbum }) => {
           ))}
         </ul>
       ) : (
-        <p className="album-catalog__subtitle">No albums found</p>
+        <p className="admin-album-catalog__subtitle">No albums found</p>
       )}
     </div>
   );

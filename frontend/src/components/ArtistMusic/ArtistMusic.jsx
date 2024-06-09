@@ -9,11 +9,9 @@ const ArtistMusic = ({ popularTracks, albums, songs, playlists }) => {
     <div className="artist">
       <PopularArtistListTracks popularTracks={popularTracks} />
 
-      <AlbumCatalog albumItems={albums} type="album" />
+      <AlbumCatalog albumItems={albums} />
 
       <MusicCardsList title="Single" cardItems={songs} type="artist-songs" />
-
-      <AlbumCatalog albumItems={playlists} type="playlist" />
     </div>
   );
 };
