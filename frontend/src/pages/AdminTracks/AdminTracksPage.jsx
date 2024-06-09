@@ -27,13 +27,11 @@ const AdminTracksPage = () => {
 
   const onCreate = async (track) => {
     try {
-      const createdTrack = await trackService.createTrack(track);
+      await trackService.createTrack(track);
 
-      if (createdTrack) {
-        setSelectedTrack(null);
-        closeModal();
-        fetchData();
-      }
+      setSelectedTrack(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -42,12 +40,11 @@ const AdminTracksPage = () => {
 
   const onUpdate = async (track) => {
     try {
-      const updatedTrack = await trackService.updateTrack(track._id, track);
-      if (updatedTrack) {
-        setSelectedTrack(null);
-        closeModal();
-        fetchData();
-      }
+      await trackService.updateTrack(track._id, track);
+
+      setSelectedTrack(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;

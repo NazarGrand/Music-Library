@@ -24,7 +24,6 @@ const AdminAlbumModal = ({
   const formDefaultValues = {
     name: "",
     previewImage: null,
-    artistReference: null,
     releaseDate: new Date(),
   };
 
@@ -100,7 +99,7 @@ const AdminAlbumModal = ({
     try {
       await onCreate(albumData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledCreate(false);
     }
@@ -116,7 +115,7 @@ const AdminAlbumModal = ({
     try {
       await onUpdate(albumData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledUpdate(false);
     }
@@ -127,7 +126,7 @@ const AdminAlbumModal = ({
     try {
       await onDelete(albumData._id);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledDelete(false);
     }
@@ -194,14 +193,10 @@ const AdminAlbumModal = ({
                     <select
                       className="track-modal__select"
                       name="artistReference"
-                      value={
-                        albumData.artistReference
-                          ? albumData.artistReference
-                          : ""
-                      }
+                      value={albumData.artistReference}
                       onChange={handleInput}
                     >
-                      <option value="">Not Artist</option>
+                      <option value={undefined}>Not Artist</option>
                       {artists.map((artist) => (
                         <option key={artist._id} value={artist._id}>
                           {artist.name}

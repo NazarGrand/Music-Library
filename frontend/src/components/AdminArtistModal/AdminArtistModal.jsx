@@ -34,13 +34,14 @@ const AdminArtistModal = ({
   const [error, setError] = useState("");
 
   const fetchArtistDetails = async (id) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const artistDetails = await artistService.getArtist(id);
       setArtistData(artistDetails.data);
-      setLoading(false);
     } catch (e) {
       setError(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,15 +72,12 @@ const AdminArtistModal = ({
     closeModal();
   };
 
-  const validateAllAlbum = () => {
-    if (artistData.name) {
-      return true;
-    }
-    return false;
+  const validateAllArtist = () => {
+    return artistData.name;
   };
 
   const handleCreate = async () => {
-    if (!validateAllAlbum()) {
+    if (!validateAllArtist()) {
       setError("Not all fields are filled");
       return;
     }
@@ -88,14 +86,14 @@ const AdminArtistModal = ({
     try {
       await onCreate(artistData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledCreate(false);
     }
   };
 
   const handleUpdate = async () => {
-    if (!validateAllAlbum()) {
+    if (!validateAllArtist()) {
       setError("Not all fields are filled");
       return;
     }
@@ -104,7 +102,7 @@ const AdminArtistModal = ({
     try {
       await onUpdate(artistData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledUpdate(false);
     }
@@ -115,7 +113,7 @@ const AdminArtistModal = ({
     try {
       await onDelete(artistData._id);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledDelete(false);
     }

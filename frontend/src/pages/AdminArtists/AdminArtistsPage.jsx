@@ -23,13 +23,11 @@ const AdminArtistsPage = () => {
 
   const onCreate = async (artist) => {
     try {
-      const createdArtist = await artistService.createArtist(artist);
+      await artistService.createArtist(artist);
 
-      if (createdArtist) {
-        setSelectedArtist(null);
-        closeModal();
-        fetchData();
-      }
+      setSelectedArtist(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -38,15 +36,11 @@ const AdminArtistsPage = () => {
 
   const onUpdate = async (artist) => {
     try {
-      const updatedArtist = await artistService.updateArtist(
-        artist._id,
-        artist
-      );
-      if (updatedArtist) {
-        setSelectedArtist(null);
-        closeModal();
-        fetchData();
-      }
+      await artistService.updateArtist(artist._id, artist);
+
+      setSelectedArtist(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;

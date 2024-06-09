@@ -19,6 +19,10 @@ async function createAlbum(albumData) {
     throw new Error("Release date cannot be in the future");
   }
 
+  if (!albumData.artistReference) {
+    return await AlbumModel.create(albumData);
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 

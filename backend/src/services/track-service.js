@@ -11,6 +11,12 @@ async function createTrack(trackData) {
     );
   }
 
+  if (!trackData.albumReference && !trackData.artistReference) {
+    throw new Error(
+      "Track must have either an albumReference or an artistReference."
+    );
+  }
+
   const isTrackExist = await TrackModel.findOne({
     name: trackData.name,
     $or: [

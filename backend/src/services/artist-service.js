@@ -28,9 +28,7 @@ async function getArtistById(artistId) {
 }
 
 async function getAllArtists() {
-  const artists = await ArtistModel.find();
-
-  return artists;
+  return await ArtistModel.find();
 }
 
 async function updateArtist(artistId, artistData) {

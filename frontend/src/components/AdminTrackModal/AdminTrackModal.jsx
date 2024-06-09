@@ -21,8 +21,6 @@ const AdminTrackModal = ({
     name: "",
     previewImage: null,
     audio: null,
-    albumReference: null,
-    artistReference: null,
     duration: "",
     releaseDate: new Date(),
     label: "",
@@ -36,7 +34,7 @@ const AdminTrackModal = ({
   const [isDisabledUpdate, setIsDisabledUpdate] = useState(false);
   const [isDisabledDelete, setIsDisabledDelete] = useState(false);
 
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const [error, setError] = useState("");
 
@@ -113,7 +111,7 @@ const AdminTrackModal = ({
     try {
       await onCreate(trackData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledCreate(false);
     }
@@ -129,7 +127,7 @@ const AdminTrackModal = ({
     try {
       await onUpdate(trackData);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledUpdate(false);
     }
@@ -140,7 +138,7 @@ const AdminTrackModal = ({
     try {
       await onDelete(trackData._id);
     } catch (e) {
-      setError(e.message);
+      setError(e.response.data.message);
     } finally {
       setIsDisabledDelete(false);
     }
@@ -232,12 +230,10 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="albumReference"
-                    value={
-                      trackData.albumReference ? trackData.albumReference : ""
-                    }
+                    value={trackData.albumReference}
                     onChange={handleChangeSelect}
                   >
-                    <option value="">Not Album</option>
+                    <option value={undefined}>Not Album</option>
                     {albums.map((album) => (
                       <option key={album._id} value={album._id}>
                         {album.name}
@@ -254,12 +250,10 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="artistReference"
-                    value={
-                      trackData.artistReference ? trackData.artistReference : ""
-                    }
+                    value={trackData.artistReference}
                     onChange={handleChangeSelect}
                   >
-                    <option value="">Not Artist</option>
+                    <option value={undefined}>Not Artist</option>
                     {artists.map((artist) => (
                       <option key={artist._id} value={artist._id}>
                         {artist.name}

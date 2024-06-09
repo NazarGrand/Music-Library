@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./NavAlbums.scss";
 
 import imgBackArrow from "../../assets/images/BackArrow.svg";
-import iconLogin from "../../assets/images/Artists.svg";
 
 import { Link } from "react-router-dom";
 
@@ -52,8 +51,6 @@ const NavAlbums = () => {
           </ul>
         </nav>
       </div>
-
-      {/* <img className="nav-album__icon" src={iconLogin} alt="iconLogin" /> */}
     </div>
   );
 };

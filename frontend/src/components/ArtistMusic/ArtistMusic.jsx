@@ -12,8 +12,6 @@ const ArtistMusic = ({ popularTracks, albums, songs, playlists }) => {
       <AlbumCatalog albumItems={albums} />
 
       <MusicCardsList title="Single" cardItems={songs} type="artist-songs" />
-
-      {/* <AlbumCatalog albumItems={playlists} type="playlist" /> */}
     </div>
   );
 };

@@ -25,13 +25,11 @@ const AdminAlbumsPage = () => {
 
   const onCreate = async (album) => {
     try {
-      const createdAlbum = await albumService.createAlbum(album);
+      await albumService.createAlbum(album);
 
-      if (createdAlbum) {
-        setSelectedAlbum(null);
-        closeModal();
-        fetchData();
-      }
+      setSelectedAlbum(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;
@@ -40,12 +38,11 @@ const AdminAlbumsPage = () => {
 
   const onUpdate = async (album) => {
     try {
-      const updatedAlbum = await albumService.updateAlbum(album._id, album);
-      if (updatedAlbum) {
-        setSelectedAlbum(null);
-        closeModal();
-        fetchData();
-      }
+      await albumService.updateAlbum(album._id, album);
+
+      setSelectedAlbum(null);
+      closeModal();
+      fetchData();
     } catch (e) {
       console.error("Error getting data:", e);
       throw e;

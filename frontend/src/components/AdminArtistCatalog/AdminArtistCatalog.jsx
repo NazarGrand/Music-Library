@@ -6,8 +6,8 @@ const AdminArtistCatalog = ({ artistItems, openModal, setSelectedArtist }) => {
     <div className="artist-catalog">
       {artistItems.length !== 0 ? (
         <ul className="artist-catalog__list">
-          {artistItems.map((item, index) => (
-            <li key={index} className="album-catalog__item">
+          {artistItems.map((item) => (
+            <li key={item._id} className="album-catalog__item">
               <AdminArtist
                 artist={item}
                 openModal={openModal}
