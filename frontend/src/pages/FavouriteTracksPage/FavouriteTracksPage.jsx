@@ -15,8 +15,6 @@ const FavouriteTracksPage = () => {
     countSongs: favouriteTracks.length,
   };
 
-  console.log(albumData);
-
   return (
     <>
       <HeaderAlbum

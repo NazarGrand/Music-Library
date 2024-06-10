@@ -31,3 +31,7 @@ export const incrementTrackListens = async (id) => {
 export const recentlyAdded = async (limit) => {
   return await api.get(`/tracks/recently-added/${limit}`);
 };
+
+export const getTopSongs = async (limit) => {
+  return await api.get(`/tracks/top-chart/${limit}`);
+};

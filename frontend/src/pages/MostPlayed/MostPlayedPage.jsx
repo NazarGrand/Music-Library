@@ -4,9 +4,9 @@ import * as trackService from "../../services/TrackService";
 import AlbumList from "../../components/AlbumList/AlbumList";
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 import imgTrack from "../../assets/images/Track.jpg";
-import imgRecentlyAdded from "../../assets/images/RecentlyAdded.png";
+import imgMostPlayed from "../../assets/images/MostPlayed.png";
 
-const RecentlyAddedPage = () => {
+const MostPlayedPage = () => {
   const [loading, setLoading] = useState(true);
   const [tracks, setTracks] = useState([]);
   const [albumData, setAlbumData] = useState(null);
@@ -14,21 +14,21 @@ const RecentlyAddedPage = () => {
 
   const fetchData = async () => {
     try {
-      const tracksData = await trackService.recentlyAdded(limit);
+      const tracksData = await trackService.getTopSongs(limit);
 
-      const recentlyTracks = tracksData.data.map((track) => ({
+      const mostPlayedTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
         image: track.previewImage ? track.previewImage : imgTrack,
         duration: track.duration,
         idTrack: track._id,
       }));
 
-      setTracks(recentlyTracks);
+      setTracks(mostPlayedTracks);
 
       const album = {
-        nameAlbum: "Recently added",
-        imageAlbum: imgRecentlyAdded,
-        countSongs: recentlyTracks.length,
+        nameAlbum: "Most played",
+        imageAlbum: imgMostPlayed,
+        countSongs: mostPlayedTracks.length,
       };
 
       setAlbumData(album);
@@ -50,7 +50,7 @@ const RecentlyAddedPage = () => {
       ) : (
         <>
           <HeaderAlbum
-            album="recently-added"
+            album="most-played"
             albumData={albumData}
             tracks={tracks}
           />
@@ -61,4 +61,4 @@ const RecentlyAddedPage = () => {
   );
 };
 
-export default RecentlyAddedPage;
+export default MostPlayedPage;

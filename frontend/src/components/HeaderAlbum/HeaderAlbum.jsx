@@ -78,18 +78,18 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
           )}
 
           <p className="header-album__title-count">
-            {album !== "weekly-top" &&
-              album !== "trending-songs" &&
-              album !== "favourites" && (
+            {album !== "favourites" &&
+              album !== "recently-added" &&
+              album !== "most-played" && (
                 <>
                   {formatDate(albumData.releaseDate)}
                   <img src={imgDot} alt="dot" />{" "}
                 </>
               )}
             {albumData.countSongs} songs
-            {album !== "weekly-top" &&
-              album !== "trending-songs" &&
-              album !== "favourites" && (
+            {album !== "favourites" &&
+              album !== "recently-added" &&
+              album !== "most-played" && (
                 <>
                   <img src={imgDot} alt="dot" />
                   {formatDurationTrack(albumData.durationSongs)}
