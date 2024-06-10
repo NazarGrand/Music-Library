@@ -54,7 +54,10 @@ async function createAlbum(albumData) {
 
 async function getAlbumById(albumId) {
   const album = await AlbumModel.findById(albumId)
-    .populate("tracksReferences")
+    .populate({
+      path: "tracksReferences",
+      select: "-audio",
+    })
     .populate("artistReference");
 
   if (!album) {

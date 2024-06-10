@@ -28,7 +28,10 @@ const ArtistPage = () => {
       const getArtistData = await artistService.getArtist(artistId);
       const getArtist = getArtistData.data;
 
+      console.log(getArtist);
+
       const artist = {
+        artistId: getArtist._id,
         nameArtist: getArtist.name,
         imageArtist: getArtist.photoUrl ? getArtist.photoUrl : imgArtist,
       };
@@ -36,8 +39,8 @@ const ArtistPage = () => {
       const tracks = getArtist.singleSongs.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
         titleSong: song.name,
-        artistId: song.artistReference._id,
-        artistName: song.artistReference.name,
+        artistId: artist.artistId,
+        artistName: artist.nameArtist,
         duration: song.duration,
         idTrack: song._id,
       }));

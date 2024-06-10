@@ -19,10 +19,7 @@ async function getArtistById(artistId) {
   const artist = await ArtistModel.findById(artistId)
     .populate({
       path: "singleSongs",
-      populate: {
-        path: "artistReference",
-        model: "Artist",
-      },
+      select: "-audio",
     })
     .populate("albums");
 

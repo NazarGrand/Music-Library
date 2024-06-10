@@ -70,7 +70,9 @@ async function createTrack(trackData) {
 }
 
 async function getTrackById(trackId) {
-  const track = await TrackModel.findById(trackId).populate("albumReference");
+  const track = await TrackModel.findById(trackId)
+    .populate("albumReference")
+    .select("-audio");
 
   if (!track) {
     throw new Error("Track not found");
@@ -80,7 +82,7 @@ async function getTrackById(trackId) {
 }
 
 async function getAllTracks() {
-  const tracks = await TrackModel.find();
+  const tracks = await TrackModel.find().select("-audio");
 
   return tracks;
 }

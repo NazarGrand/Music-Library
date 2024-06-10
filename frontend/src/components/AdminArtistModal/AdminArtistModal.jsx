@@ -253,7 +253,7 @@ const AdminArtistModal = ({
                     onClick={handleUpdate}
                     disabled={isDisabledUpdate}
                   >
-                    {!isDisabledUpdate && "Update Album"}
+                    {!isDisabledUpdate && "Update Artist"}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -267,7 +267,7 @@ const AdminArtistModal = ({
                     onClick={handleDelete}
                     disabled={isDisabledDelete}
                   >
-                    {!isDisabledDelete && "Delete Album"}
+                    {!isDisabledDelete && "Delete Artist"}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -282,7 +282,7 @@ const AdminArtistModal = ({
                   onClick={handleCreate}
                   disabled={isDisabledCreate}
                 >
-                  {!isDisabledCreate && "Add Album"}
+                  {!isDisabledCreate && "Add Artist"}
                   <img
                     className="artist-modal__image-loading"
                     src={imgLoader}
