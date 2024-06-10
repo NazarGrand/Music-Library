@@ -29,8 +29,6 @@ const ArtistPage = () => {
       const getArtistData = await artistService.getArtist(artistId);
       const getArtist = getArtistData.data;
 
-      console.log(getArtist);
-
       const artist = {
         artistId: getArtist._id,
         nameArtist: getArtist.name,

@@ -5,14 +5,16 @@ import Loader from "../../components/Loader/Loader";
 import * as musicService from "../../services/MusicService";
 import TracksList from "../../components/TracksList/TracksList";
 import ArtistsList from "../../components/ArtistsList/ArtistsList";
-import { ArtistItems } from "../../data/InformationArtists";
 import Slider from "../../components/Slider/Slider";
 import Header from "../../components/Header/Header";
+import * as artistService from "../../services/ArtistService";
+import imgArtist from "../../assets/images/Artist.jpg";
 
 import { useLocation } from "react-router-dom";
 
 const HomePage = () => {
   const [topSongs, setTopSongs] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
@@ -21,6 +23,17 @@ const HomePage = () => {
 
   const fetchData = async () => {
     try {
+      const getArtistsData = await artistService.getAllArtists();
+      const getArtists = getArtistsData.data;
+
+      const artists = getArtists.map((artist) => ({
+        artistName: artist.name,
+        image: artist.photoUrl ? artist.photoUrl : imgArtist,
+        artistId: artist._id,
+      }));
+
+      setArtists(artists);
+
       const weeklyTopSongs = await musicService.getWeekTopChart();
 
       const newTopSongs = weeklyTopSongs.map((item) => ({
@@ -89,20 +102,20 @@ const HomePage = () => {
         <div>
           <Header />
 
-          <Slider />
+          <Slider artists={artists} />
 
           <MusicCardsList
-            title="Weekly Top"
+            title="Top"
             cardItems={topSongs ?? []}
             type="weekly-top"
           />
 
-          <TracksList
+          {/* <TracksList
             title="Trending"
             trackItems={topSongs.slice(5, 12) ?? []}
-          />
+          />  */}
 
-          <ArtistsList title="Popular" artistItems={ArtistItems ?? []} />
+          <ArtistsList title="Popular" artistItems={artists ?? []} />
         </div>
       )}
     </>

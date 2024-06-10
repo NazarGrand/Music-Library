@@ -26,6 +26,8 @@ const roles = [
       userRoles.READ_RECORD,
       userRoles.READ_ALBUM,
       userRoles.READ_ARTIST,
+
+      userRoles.INCREMENT_LISTENES,
     ],
   },
 ];

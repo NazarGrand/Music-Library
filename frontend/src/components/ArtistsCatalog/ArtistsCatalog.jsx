@@ -2,7 +2,6 @@ import ArtistItem from "../ArtistItem/ArtistItem";
 import "./ArtistsCatalog.scss";
 
 const ArtistsCatalog = ({ artistItems }) => {
-  console.log(artistItems);
   return (
     <div className="artists-catalog">
       {artistItems.length !== 0 ? (

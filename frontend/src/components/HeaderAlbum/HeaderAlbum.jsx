@@ -31,6 +31,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
       dispatch({
         type: musicContextActions.setTrack,
         payload: {
+          trackId: tracks[0].idTrack,
           trackName: tracks[0].titleSong,
           trackAuthor: tracks[0].artistName,
           trackImage: tracks[0].image,

@@ -2,7 +2,6 @@ import AlbumItem from "../AlbumItem/AlbumItem";
 import "./AllAlbums.scss";
 
 const AllAlbums = ({ albumItems }) => {
-  console.log(albumItems);
   return (
     <div className="all-albums">
       {albumItems.length !== 0 ? (

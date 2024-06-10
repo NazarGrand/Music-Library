@@ -14,7 +14,6 @@ const AlbumsPage = () => {
     try {
       const getAlbumsData = await albumService.getAllAlbums();
       const getAlbums = getAlbumsData.data;
-      console.log(getAlbums);
 
       const albums = getAlbums.map((album) => ({
         albumName: album.name,

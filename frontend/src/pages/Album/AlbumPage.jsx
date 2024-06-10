@@ -70,8 +70,6 @@ const AlbumPage = () => {
 
         const albumData = albumMetadata.data;
 
-        console.log(albumData);
-
         const durationSong = albumData.tracksReferences.map(
           (item) => item.duration
         );

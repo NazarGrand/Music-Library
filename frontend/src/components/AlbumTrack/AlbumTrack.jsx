@@ -58,8 +58,6 @@ const AlbumTrack = ({
         ? !isPlaying
         : true;
 
-    console.log(playing);
-
     dispatch({
       type: musicContextActions.setTrack,
       payload: {

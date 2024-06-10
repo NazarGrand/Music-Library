@@ -262,10 +262,52 @@ async function deleteTrack(trackId) {
   }
 }
 
+async function getTrackAudioById(trackId) {
+  const track = await TrackModel.findById(trackId).select("audio");
+
+  if (!track) {
+    throw new Error("Track not found");
+  }
+
+  return track;
+}
+
+async function incrementTrackListens(trackId) {
+  const track = await TrackModel.findByIdAndUpdate(
+    trackId,
+    { $inc: { totalListens: 1 } },
+    { new: true, select: "totalListens" }
+  );
+
+  if (!track) {
+    throw new Error("Track not found");
+  }
+
+  return track;
+}
+
+async function topSongs(limit) {
+  const tracks = await TrackModel.find()
+    .sort({ totalListens: -1 })
+    .limit(limit);
+
+  return tracks;
+}
+
+async function recentlyAdded(limit) {
+  const tracks = await TrackModel.find().sort({ createdAt: -1 }).limit(limit);
+
+  return tracks;
+}
+
 module.exports = {
   createTrack,
   getTrackById,
   getAllTracks,
   updateTrack,
   deleteTrack,
+  getTrackAudioById,
+  incrementTrackListens,
+  topSongs,
+  recentlyAdded,
 };

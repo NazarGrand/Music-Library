@@ -4,6 +4,7 @@ const userRoles = {
   READ_ARTIST: "read_artist",
 
   UPDATE_RECORD: "update_record",
+  INCREMENT_LISTENES: "increment_listenes",
 };
 
 const adminRoles = {

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./MusicPlayer.scss";
 
-// import * as trackService from "../../services/TrackApiService";
-import * as listenMusicService from "../../services/ListenMusicService";
+import * as trackService from "../../services/TrackService";
 import { musicContextActions } from "../../constants/MusicContextActions";
 
 import imgLoading from "../../assets/images/LoadingTrack.svg";
@@ -67,7 +66,7 @@ const MusicPlayer = () => {
   const [loadingUrlTrack, setLoadingUrlTrack] = useState(true);
 
   const incrementTrackListens = async () => {
-    await listenMusicService.incrementTrackListens(trackId);
+    await trackService.incrementTrackListens(trackId);
   };
 
   const fetchData = async () => {
@@ -80,11 +79,9 @@ const MusicPlayer = () => {
       if (!playlistTracks[currentIndexTrackPlaying].trackPlayingUrl) {
         setLoadingUrlTrack(true);
 
-        const track = await listenMusicService.getTrackAudio(trackId);
+        const track = await trackService.getTrackAudio(trackId);
 
         const trackUrl = track.data.audio;
-
-        console.log(trackUrl);
 
         const action = {
           type: musicContextActions.setTrackUrl,
