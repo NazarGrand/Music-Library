@@ -4,38 +4,18 @@ import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContex
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 
 import imgFavourites from "../../assets/images/FavouriteTracks.jpg";
-import { DispatchPlaylistContext } from "../../context/PlayListContext";
-import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const FavouriteTracksPage = () => {
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
 
-  const dispatch = useContext(DispatchPlaylistContext);
-
   const albumData = {
     nameAlbum: "Favourite tracks",
     imageAlbum: imgFavourites,
-    artistsAlbum: favouriteTracks
-      .flatMap((favorite) =>
-        favorite.artists ? favorite.artists.map((artist) => artist.name) : []
-      )
-      .slice(0, 4)
-      .join(", "),
+    artistAlbum: favouriteTracks.map((track) => track.artistName).join(", "),
     countSongs: favouriteTracks.length,
   };
 
-  const initializePlaylist = () => {
-    dispatch({
-      type: playlistContextActions.setPlaylist,
-      payload: {
-        playlistTracks: favouriteTracks.slice(0, 20),
-      },
-    });
-  };
-
-  useEffect(() => {
-    initializePlaylist();
-  }, [favouriteTracks]);
+  console.log(albumData);
 
   return (
     <>

@@ -6,6 +6,7 @@ export const ROUTES = {
   ARTISTS: "/artists",
   ARTIST: "/artists/:artistId",
   FAVOURITES: "/favorites",
+  RECENTLY_ADDED: "/recently-added",
   LOGIN: "/login",
   REGISTRATION: "/registration",
   ACCOUNT_ACTIVATED: "/account-activated",

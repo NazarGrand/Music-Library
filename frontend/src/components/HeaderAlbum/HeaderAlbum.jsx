@@ -66,14 +66,16 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         <div className="header-album__block-title">
           <p className="header-album__title">{albumData.nameAlbum}</p>
 
-          <Link
-            className="header-album__link-author"
-            to={`/artists/${albumData.artistId}`}
-          >
-            <p className="header-album__title-author">
-              {albumData.artistAlbum}
-            </p>
-          </Link>
+          {albumData.artistId && (
+            <Link
+              className="header-album__link-author"
+              to={`/artists/${albumData.artistId}`}
+            >
+              <p className="header-album__title-author">
+                {albumData.artistAlbum}
+              </p>
+            </Link>
+          )}
 
           <p className="header-album__title-count">
             {album !== "weekly-top" &&

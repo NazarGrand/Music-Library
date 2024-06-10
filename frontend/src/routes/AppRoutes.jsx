@@ -17,6 +17,7 @@ import ArtistPage from "../pages/Artist/ArtistPage";
 import ArtistsPage from "../pages/Artists/ArtistsPage";
 import AlbumPage from "../pages/Album/AlbumPage";
 import AlbumsPage from "../pages/Albums/AlbumsPage";
+import RecentlyAddedPage from "../pages/RecentlyAdded/RecentlyAddedPage";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ const AppRoutes = () => {
           <Route exact path={ROUTES.ALBUMS} element={<AlbumsPage />} />
           <Route path={ROUTES.ALBUM} element={<AlbumPage />} />
           <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
+          <Route path={ROUTES.RECENTLY_ADDED} element={<RecentlyAddedPage />} />
           <Route
             path={ROUTES.ACCOUNT_ACTIVATED}
             element={<AccountActivatedPage />}

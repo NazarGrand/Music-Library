@@ -27,3 +27,7 @@ export const getTrackAudio = async (id) => {
 export const incrementTrackListens = async (id) => {
   return await api.post(`/tracks/listen-music/${id}`);
 };
+
+export const recentlyAdded = async (limit) => {
+  return await api.get(`/tracks/recently-added/${limit}`);
+};
