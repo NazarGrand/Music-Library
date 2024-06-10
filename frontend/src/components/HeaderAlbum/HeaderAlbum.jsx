@@ -12,6 +12,7 @@ import { DispatchTrackContext } from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { formatDurationTrack } from "../../utils/formatDurationTrack";
 
 function formatDate(inputDate) {
   const dateObj = dayjs(inputDate);
@@ -79,7 +80,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         <div className="header-album__block-title">
           <p className="header-album__title">{albumData.nameAlbum}</p>
 
-          <p className="header-album__title-author">{albumData.artistsAlbum}</p>
+          <p className="header-album__title-author">{albumData.artistAlbum}</p>
 
           <p className="header-album__title-count">
             {album !== "weekly-top" &&
@@ -96,7 +97,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
               album !== "favourites" && (
                 <>
                   <img src={imgDot} alt="dot" />
-                  {formatMilliseconds(albumData.durationSongs)}
+                  {formatDurationTrack(albumData.durationSongs)}
                 </>
               )}
           </p>

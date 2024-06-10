@@ -84,9 +84,8 @@ const AlbumList = ({ tracks, album }) => {
                       idTrack={item.idTrack}
                       image={item.image}
                       titleSong={item.titleSong}
-                      artists={item.artists}
-                      releaseDate={item.releaseDate}
-                      label={item.label}
+                      artistId={item.artistId}
+                      artistName={item.artistName}
                       durationSong={item.duration}
                       isPlayingSong={
                         trackName === item.titleSong &&

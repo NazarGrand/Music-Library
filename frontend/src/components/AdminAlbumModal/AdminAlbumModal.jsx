@@ -193,7 +193,11 @@ const AdminAlbumModal = ({
                     <select
                       className="track-modal__select"
                       name="artistReference"
-                      value={albumData.artistReference}
+                      value={
+                        albumData.artistReference
+                          ? albumData.artistReference
+                          : undefined
+                      }
                       onChange={handleInput}
                     >
                       <option value={undefined}>Not Artist</option>

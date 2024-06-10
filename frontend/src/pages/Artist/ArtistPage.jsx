@@ -44,7 +44,7 @@ const ArtistPage = () => {
 
       const albumsArtist = getArtist.albums.map((album) => ({
         image: album.previewImage ? album.previewImage : imgAlbum,
-        title: album.name,
+        albumName: album.name,
         yearAlbum: new Date(album.releaseDate).getFullYear(),
         albumId: album._id,
       }));

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import _ from "lodash";
 import * as musicService from "../../services/MusicService.js";
+import * as albumService from "../../services/AlbumService.js";
 import * as albumTracksService from "../../services/AlbumTracksService.js";
 import * as albumMetadataService from "../../services/AlbumMetadataService.js";
 import Loader from "../../components/Loader/Loader.jsx";
@@ -9,6 +10,7 @@ import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum.jsx";
 import AlbumList from "../../components/AlbumList/AlbumList.jsx";
 
 import imgTrendingMusic from "../../assets/images/TrendingMusic.png";
+import imgAlbum from "../../assets/images/AlbumImage.jpg";
 import { DispatchPlaylistContext } from "../../context/PlayListContext.jsx";
 import { playlistContextActions } from "../../constants/PlaylistContextActions.js";
 
@@ -25,9 +27,8 @@ const AlbumPage = () => {
   const pageKey = `scrollPosition_${location.pathname}`;
 
   const fetchData = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-
       if (album === "weekly-top" || album === "trending-songs") {
         const weeklyTopSongs = await musicService.getWeekTopChart();
 
@@ -65,12 +66,14 @@ const AlbumPage = () => {
 
         setAlbumData(albumInfo);
       } else {
-        const albumMetadata = await albumMetadataService.getAlbumMetadata(
-          album
-        );
+        const albumMetadata = await albumService.getAlbum(album);
 
-        const durationSong = albumMetadata.tracks.items.map(
-          (item) => item.track.duration.totalMilliseconds
+        const albumData = albumMetadata.data;
+
+        console.log(albumData);
+
+        const durationSong = albumData.tracksReferences.map(
+          (item) => item.duration
         );
 
         const durationSongs = durationSong.reduce(
@@ -79,32 +82,31 @@ const AlbumPage = () => {
         );
 
         const albumInfo = {
-          nameAlbum: albumMetadata.name,
-          imageAlbum: albumMetadata.coverArt.sources[0].url,
-          artistsAlbum: albumMetadata.artists.items
-            .map((item) => item.profile.name)
-            .join(", "),
-          countSongs: albumMetadata.tracks.totalCount,
-          label: albumMetadata.label,
-          releaseDate: albumMetadata.date.isoString,
+          nameAlbum: albumData.name,
+          imageAlbum: albumData.previewImage
+            ? albumData.previewImage
+            : imgAlbum,
+          artistAlbum: albumData.artistReference?.name,
+          artistId: albumData.artistReference?._id,
+          countSongs: albumData.tracksReferences.length,
+          label: albumData.label,
+          releaseDate: albumData.releaseDate,
           durationSongs: durationSongs,
         };
 
         setAlbumData(albumInfo);
 
-        const albumTracks = await albumTracksService.getTracks(album);
+        const albumTracks = albumData.tracksReferences;
 
         const albumSongs = albumTracks.map((item) => ({
           image: albumInfo.imageAlbum,
-          titleSong: item.track.name,
-          artists: item.track.artists.items.map((artist) => ({
-            name: artist.profile.name,
-            artistId: artist.uri.split(":")[2],
-          })),
+          titleSong: item.name,
+          artistId: albumInfo.artistId,
+          artistName: albumInfo.artistAlbum,
           releaseDate: albumInfo.releaseDate,
           label: albumInfo.label,
-          duration: item.track.duration.totalMilliseconds,
-          idTrack: item.track.uri.split(":")[2],
+          duration: item.duration,
+          idTrack: item._id,
         }));
 
         setSongs(albumSongs);
