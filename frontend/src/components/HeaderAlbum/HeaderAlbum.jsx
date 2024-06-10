@@ -28,6 +28,11 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
 
   const handlePlayAllClick = () => {
     if (tracks.length !== 0) {
+      dispatchPlaylist({
+        type: playlistContextActions.setPlaylist,
+        payload: { playlistTracks: tracks },
+      });
+
       dispatch({
         type: musicContextActions.setTrack,
         payload: {

@@ -296,7 +296,6 @@ async function topSongs(limit) {
 
 async function recentlyAdded(limit) {
   const tracks = await TrackModel.find().sort({ createdAt: -1 }).limit(limit);
-  // .populate("artistReference");
 
   return tracks;
 }

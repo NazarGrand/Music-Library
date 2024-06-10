@@ -76,10 +76,29 @@ async function deleteArtist(artistId) {
   }
 }
 
+async function getSortedSingleSongs(artistId) {
+  const artist = await ArtistModel.findById(artistId)
+    .populate({
+      path: "singleSongs",
+      options: { sort: { totalListens: -1 } },
+    })
+    .exec();
+
+  if (!artist) {
+    console.log("Artist not found");
+    return;
+  }
+
+  const sortedSingleSongs = artist.singleSongs;
+
+  return sortedSingleSongs;
+}
+
 module.exports = {
   createArtist,
   getArtistById,
   getAllArtists,
   updateArtist,
   deleteArtist,
+  getSortedSingleSongs,
 };

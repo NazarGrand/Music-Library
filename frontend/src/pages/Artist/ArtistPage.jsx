@@ -35,7 +35,9 @@ const ArtistPage = () => {
         imageArtist: getArtist.photoUrl ? getArtist.photoUrl : imgArtist,
       };
 
-      const tracks = getArtist.singleSongs.map((song) => ({
+      const singleTracks = await artistService.popularSongs(artistId);
+
+      const topTracks = singleTracks.data.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
         titleSong: song.name,
         artistId: artist.artistId,
@@ -44,6 +46,8 @@ const ArtistPage = () => {
         releaseDate: song.releaseDate,
         idTrack: song._id,
       }));
+
+      console.log(topTracks);
 
       const albumsArtist = getArtist.albums.map((album) => ({
         image: album.previewImage ? album.previewImage : imgAlbum,
@@ -61,7 +65,7 @@ const ArtistPage = () => {
       }));
 
       setArtist(artist);
-      setPopularTracks(tracks);
+      setPopularTracks(topTracks);
       setAlbums(albumsArtist);
       setSongs(songsArtist);
     } catch (error) {
