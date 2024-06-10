@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 
 import MusicCardsList from "../../components/MusicCardsList/MusicCardsList";
 import Loader from "../../components/Loader/Loader";
-import * as musicService from "../../services/MusicService";
 import TracksList from "../../components/TracksList/TracksList";
 import ArtistsList from "../../components/ArtistsList/ArtistsList";
 import Slider from "../../components/Slider/Slider";
 import Header from "../../components/Header/Header";
 import * as artistService from "../../services/ArtistService";
+import * as trackService from "../../services/TrackService";
 import imgArtist from "../../assets/images/Artist.jpg";
+import imgTrack from "../../assets/images/Track.jpg";
 
 import { useLocation } from "react-router-dom";
 
@@ -34,21 +35,20 @@ const HomePage = () => {
 
       setArtists(artists);
 
-      const weeklyTopSongs = await musicService.getWeekTopChart();
+      const limit = 10;
+      const tracksData = await trackService.getTopSongs(limit);
 
-      const newTopSongs = weeklyTopSongs.map((item) => ({
-        image: item.trackMetadata.displayImageUri,
-        titleSong: item.trackMetadata.trackName,
-        artists: item.trackMetadata.artists.map((artist) => ({
-          name: artist.name,
-          artistId: artist.spotifyUri.split(":")[2],
-        })),
-        releaseDate: item.trackMetadata.releaseDate,
-        label: item.trackMetadata.labels[0].name,
-        idTrack: item.trackMetadata.trackUri.split(":")[2],
+      const topTracks = tracksData.data.map((track) => ({
+        titleSong: track.name,
+        image: track.previewImage ? track.previewImage : imgTrack,
+        releaseDate: track.releaseDate,
+        duration: track.duration,
+        idTrack: track._id,
       }));
 
-      setTopSongs(newTopSongs);
+      console.log(topTracks);
+
+      setTopSongs(topTracks);
     } catch (error) {
       console.error("Error getting data:", error);
     } finally {
@@ -107,13 +107,13 @@ const HomePage = () => {
           <MusicCardsList
             title="Top"
             cardItems={topSongs ?? []}
-            type="weekly-top"
+            type="top-songs"
           />
 
-          {/* <TracksList
+          <TracksList
             title="Trending"
-            trackItems={topSongs.slice(5, 12) ?? []}
-          />  */}
+            trackItems={topSongs.slice(5, 10) ?? []}
+          />
 
           <ArtistsList title="Popular" artistItems={artists ?? []} />
         </div>

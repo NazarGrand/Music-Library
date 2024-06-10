@@ -8,9 +8,10 @@ import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import { ROUTES } from "../../utils/routes";
 
 const TracksList = ({ title, trackItems }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
   const album = "trending-songs";
 
   const dispatch = useContext(DispatchPlaylistContext);
@@ -37,7 +38,7 @@ const TracksList = ({ title, trackItems }) => {
           <div className="tracks__headlines">
             <span className="tracks__relase-date">Relase Date</span>
 
-            <span className="tracks__labels">Label</span>
+            <span className="tracks__time">Time</span>
           </div>
 
           <ul className="tracks__list">
@@ -45,17 +46,8 @@ const TracksList = ({ title, trackItems }) => {
               <li key={index}>
                 <TrackItem
                   indexTrack={index + 1}
-                  idTrack={item.idTrack}
-                  image={item.image}
-                  titleSong={item.titleSong}
-                  artists={item.artists}
-                  releaseDate={item.releaseDate}
-                  label={item.label}
-                  isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
-                  }
+                  track={item}
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
@@ -69,7 +61,7 @@ const TracksList = ({ title, trackItems }) => {
           <div className="tracks__view-all">
             <Link
               className="tracks__link-view"
-              to={`/albums/${album}`}
+              to={ROUTES.MOST_PLAYED}
               onClick={() =>
                 sessionStorage.setItem(
                   `scrollPosition_${location.pathname}`,

@@ -41,6 +41,9 @@ const MostPlayedPage = () => {
 
   useEffect(() => {
     fetchData();
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
   return (

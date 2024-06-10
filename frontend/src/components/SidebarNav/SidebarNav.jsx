@@ -9,7 +9,7 @@ const SidebarNav = ({ menuTitle, menuItems }) => {
   const handleIsActive = (title) => {
     return classnames("sidebar-nav__item-link", {
       "sidebar-nav__item-link--active-link": location.pathname.includes(
-        title.toLowerCase()
+        title.toLowerCase().replace(/ /g, "-")
       ),
     });
   };
@@ -28,7 +28,7 @@ const SidebarNav = ({ menuTitle, menuItems }) => {
             <li key={index} className="sidebar-nav__item">
               <NavLink
                 className={() => handleIsActive(item.title)}
-                to={item.link}
+                to={item.link.toLowerCase().replace(/ /g, "-")}
                 onClick={() => handleClick(item.link)}
               >
                 <div className="sidebar-nav__item-block">

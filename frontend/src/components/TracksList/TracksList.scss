@@ -24,18 +24,19 @@
   &__headlines {
     display: flex;
     align-items: center;
+    width: 1115px;
     margin-bottom: 8px;
     @include customText(400, 20px);
     letter-spacing: 0.3px;
   }
 
   &__relase-date {
-    margin-left: 395px;
+    margin-left: 405px;
     margin-bottom: 0;
   }
 
-  &__labels {
-    margin-left: 217px;
+  &__time {
+    margin-left: auto;
     margin-bottom: 0;
   }
 

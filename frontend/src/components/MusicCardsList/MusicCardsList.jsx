@@ -5,6 +5,7 @@ import { StateTrackContext } from "../../context/MusicContext";
 import { Link, useLocation } from "react-router-dom";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { ROUTES } from "../../utils/routes";
 
 const MusicCardsList = ({ title, cardItems, type }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
@@ -15,7 +16,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
 
   const location = useLocation();
 
-  const path = type === "weekly-top" ? `/albums/${album}` : "#";
+  const path = type === "top-songs" ? ROUTES.MOST_PLAYED : "#";
 
   const initializePlaylistContext = () => {
     dispatch({

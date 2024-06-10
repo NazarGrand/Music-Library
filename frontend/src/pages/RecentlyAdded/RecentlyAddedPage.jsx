@@ -41,6 +41,9 @@ const RecentlyAddedPage = () => {
 
   useEffect(() => {
     fetchData();
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
   return (
