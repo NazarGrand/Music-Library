@@ -66,6 +66,10 @@ const MusicPlayer = () => {
 
   const [loadingUrlTrack, setLoadingUrlTrack] = useState(true);
 
+  const incrementTrackListens = async () => {
+    await listenMusicService.incrementTrackListens(trackId);
+  };
+
   const fetchData = async () => {
     dispatch({
       type: musicContextActions.setIsLoading,
@@ -105,7 +109,7 @@ const MusicPlayer = () => {
         };
         dispatch(action);
       }
-      await listenMusicService.incrementTrackListens(trackId);
+      incrementTrackListens();
 
       setCurrentTime(null);
       setDurationSong(null);
@@ -127,6 +131,7 @@ const MusicPlayer = () => {
         setProgressSong({ ...progressSong, progress: 0 });
         audioElem.current.currentTime = 0;
         audioElem.current.play();
+        incrementTrackListens();
       }
       if (currentTime && audioElem.current) audioElem.current.play();
     } else {

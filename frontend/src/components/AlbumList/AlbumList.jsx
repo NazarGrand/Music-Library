@@ -9,7 +9,7 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 
 const AlbumList = ({ tracks, album }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
   const [numberTracks, setNumberTracks] = useState(20);
   const tracksPerPage = 20;
 
@@ -68,11 +68,7 @@ const AlbumList = ({ tracks, album }) => {
                       titleSong={item.titleSong}
                       artists={item.artists}
                       releaseDate={item.releaseDate}
-                      label={item.label}
-                      isPlayingSong={
-                        trackName === item.titleSong &&
-                        trackAuthor === item.artistName
-                      }
+                      isPlayingSong={trackId === item.idTrack}
                       isPlaying={isPlaying}
                       isFavouriteTrack={favouriteTracks.find(
                         (elem) => elem.idTrack === item.idTrack
@@ -87,16 +83,8 @@ const AlbumList = ({ tracks, album }) => {
                   <li key={index}>
                     <AlbumTrack
                       indexTrack={index + 1}
-                      idTrack={item.idTrack}
-                      image={item.image}
-                      titleSong={item.titleSong}
-                      artistId={item.artistId}
-                      artistName={item.artistName}
-                      durationSong={item.duration}
-                      isPlayingSong={
-                        trackName === item.titleSong &&
-                        trackAuthor === item.artistName
-                      }
+                      albumItem={item}
+                      isPlayingSong={trackId === item.idTrack}
                       isPlaying={isPlaying}
                       isFavouriteTrack={favouriteTracks.find(
                         (elem) => elem.idTrack === item.idTrack

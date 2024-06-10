@@ -13,27 +13,12 @@ import { musicContextActions } from "../../constants/MusicContextActions";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { formatDurationTrack } from "../../utils/formatDurationTrack";
+import { Link } from "react-router-dom";
 
 function formatDate(inputDate) {
   const dateObj = dayjs(inputDate);
   const formattedDate = dateObj.format("MMM D, YYYY");
   return formattedDate;
-}
-
-function formatMilliseconds(milliseconds) {
-  const duration = moment.duration(milliseconds);
-
-  let formattedTime = "";
-  if (duration.hours() > 0) {
-    formattedTime += `${duration.hours()}h `;
-  }
-  if (duration.minutes() > 0) {
-    formattedTime += `${duration.minutes()}m `;
-  }
-  if (duration.seconds() > 0) {
-    formattedTime += `${duration.seconds()}s`;
-  }
-  return formattedTime;
 }
 
 const HeaderAlbum = ({ albumData, tracks, album }) => {
@@ -80,7 +65,14 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         <div className="header-album__block-title">
           <p className="header-album__title">{albumData.nameAlbum}</p>
 
-          <p className="header-album__title-author">{albumData.artistAlbum}</p>
+          <Link
+            className="header-album__link-author"
+            to={`/artists/${albumData.artistId}`}
+          >
+            <p className="header-album__title-author">
+              {albumData.artistAlbum}
+            </p>
+          </Link>
 
           <p className="header-album__title-count">
             {album !== "weekly-top" &&

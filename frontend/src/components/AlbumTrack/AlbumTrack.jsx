@@ -26,18 +26,16 @@ import { favouriteTracksContextActions } from "../../constants/FavouriteTracksCo
 
 const AlbumTrack = ({
   indexTrack,
-  idTrack,
-  image,
-  titleSong,
-  artistId,
-  artistName,
-  durationSong,
+  albumItem,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   isFavouriteTrack,
   album,
 }) => {
+  const { idTrack, image, titleSong, artistId, artistName, duration } =
+    albumItem;
+
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
@@ -155,7 +153,7 @@ const AlbumTrack = ({
 
           {album !== "favourites" && (
             <p className="album-track__duration-song">
-              {formatDurationTrack(durationSong)}
+              {formatDurationTrack(duration)}
             </p>
           )}
         </div>

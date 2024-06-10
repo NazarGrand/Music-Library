@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import "./PopularArtistListTracks.scss";
 
-import AlbumTrack from "../AlbumTrack/AlbumTrack";
 import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import TrackItem from "../TrackItem/TrackItem";
 
 const PopularArtistListTracks = ({ popularTracks }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
@@ -29,21 +29,20 @@ const PopularArtistListTracks = ({ popularTracks }) => {
 
       {popularTracks.length !== 0 ? (
         <>
-          <div className="popular-tracks__time">
-            <span className="popular-tracks__title-time">Time</span>
+          <div className="popular-tracks__block-menu">
+            <div className="popular-tracks__release">
+              <span className="popular-tracks__title-track">Relase Date</span>
+            </div>
+
+            <span className="popular-tracks__title-track">Time</span>
           </div>
 
           <ul className="popular-tracks__list">
             {popularTracks.map((item, index) => (
               <li key={index}>
-                <AlbumTrack
+                <TrackItem
                   indexTrack={index + 1}
-                  idTrack={item.idTrack}
-                  image={item.image}
-                  titleSong={item.titleSong}
-                  artistId={item.artistId}
-                  artistName={item.artistName}
-                  durationSong={item.duration}
+                  track={item}
                   isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}

@@ -44,6 +44,11 @@
     text-overflow: ellipsis;
   }
 
+  &__link-author {
+    text-decoration: none;
+    color: $white-text-color;
+  }
+
   &__title-author {
     width: 388px;
 

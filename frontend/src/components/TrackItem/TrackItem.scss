@@ -118,10 +118,18 @@
   }
 
   &__heart {
-    margin-left: 40px;
+    margin-left: auto;
     margin-top: 5px;
     display: flex;
     align-items: center;
+  }
+
+  &__duration-song {
+    padding-top: 2px;
+    width: 80px;
+    text-align: center;
+
+    @include customText(400, 16px);
   }
 
   &__gif-play-track {

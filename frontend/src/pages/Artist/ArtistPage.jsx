@@ -43,6 +43,7 @@ const ArtistPage = () => {
         artistId: artist.artistId,
         artistName: artist.nameArtist,
         duration: song.duration,
+        releaseDate: song.releaseDate,
         idTrack: song._id,
       }));
 
