@@ -7,7 +7,6 @@ import { Link, useLocation } from "react-router-dom";
 const AlbumItem = ({ albumItem }) => {
   const { image, albumName, yearAlbum, albumId } = albumItem;
 
-  console.log(image);
   const location = useLocation();
 
   const path = `/albums/${albumId}`;

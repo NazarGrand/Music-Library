@@ -8,7 +8,7 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 
 const PopularArtistListTracks = ({ popularTracks }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchPlaylistContext);
 
   const initializePlaylistContext = () => {
@@ -44,9 +44,7 @@ const PopularArtistListTracks = ({ popularTracks }) => {
                   artistId={item.artistId}
                   artistName={item.artistName}
                   durationSong={item.duration}
-                  isPlayingSong={
-                    trackName === item.titleSong && trackAuthor === item.artist
-                  }
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(

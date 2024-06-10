@@ -47,7 +47,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         type: musicContextActions.setTrack,
         payload: {
           trackName: tracks[0].titleSong,
-          trackAuthor: tracks[0].artists.map((item) => item.name).join(", "),
+          trackAuthor: tracks[0].artistName,
           trackImage: tracks[0].image,
         },
       });

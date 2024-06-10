@@ -8,6 +8,7 @@ import ArtistMusic from "../../components/ArtistMusic/ArtistMusic";
 import imgArtist from "../../assets/images/Artist.jpg";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgAlbum from "../../assets/images/AlbumImage.jpg";
+import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const ArtistPage = () => {
   const { artistId } = useParams();
@@ -57,6 +58,7 @@ const ArtistPage = () => {
         titleSong: song.name,
         artistName: song.artistReference.name,
         yearSong: new Date(song.releaseDate).getFullYear(),
+        idTrack: song._id,
       }));
 
       setArtist(artist);

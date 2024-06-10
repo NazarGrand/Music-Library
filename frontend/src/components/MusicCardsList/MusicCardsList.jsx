@@ -7,7 +7,7 @@ import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const MusicCardsList = ({ title, cardItems, type }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
 
   const dispatch = useContext(DispatchPlaylistContext);
 
@@ -39,9 +39,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
                 <MusicCard
                   indexTrack={index}
                   musicCard={item}
-                  isPlayingSong={
-                    trackName === item.titleSong && trackAuthor === item.artist
-                  }
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   type={type}

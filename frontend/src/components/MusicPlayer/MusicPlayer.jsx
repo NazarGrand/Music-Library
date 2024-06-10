@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./MusicPlayer.scss";
 
-import * as trackService from "../../services/TrackApiService";
+// import * as trackService from "../../services/TrackApiService";
+import * as listenMusicService from "../../services/ListenMusicService";
 import { musicContextActions } from "../../constants/MusicContextActions";
 
 import imgLoading from "../../assets/images/LoadingTrack.svg";
@@ -28,6 +29,7 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const MusicPlayer = () => {
   const {
+    trackId,
     trackName,
     trackAuthor,
     trackUrl,
@@ -74,9 +76,11 @@ const MusicPlayer = () => {
       if (!playlistTracks[currentIndexTrackPlaying].trackPlayingUrl) {
         setLoadingUrlTrack(true);
 
-        const track = await trackService.getTrackUrl(trackName, trackAuthor);
+        const track = await listenMusicService.getTrackAudio(trackId);
 
-        const trackUrl = track !== null ? track.url : null;
+        const trackUrl = track.data.audio;
+
+        console.log(trackUrl);
 
         const action = {
           type: musicContextActions.setTrackUrl,
@@ -101,6 +105,7 @@ const MusicPlayer = () => {
         };
         dispatch(action);
       }
+      await listenMusicService.incrementTrackListens(trackId);
 
       setCurrentTime(null);
       setDurationSong(null);
@@ -336,10 +341,9 @@ const MusicPlayer = () => {
       dispatch({
         type: musicContextActions.setTrack,
         payload: {
+          trackId: playlistTracks[newCurrentIndexTrackPlaying].idTrack,
           trackName: playlistTracks[newCurrentIndexTrackPlaying].titleSong,
-          trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artists
-            .map((item) => item.name)
-            .join(", "),
+          trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artistName,
           trackImage: playlistTracks[newCurrentIndexTrackPlaying].image,
         },
       });
@@ -367,10 +371,9 @@ const MusicPlayer = () => {
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: playlistTracks[newCurrentIndexTrackPlaying].idTrack,
         trackName: playlistTracks[newCurrentIndexTrackPlaying].titleSong,
-        trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artists
-          .map((item) => item.name)
-          .join(", "),
+        trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artistName,
         trackImage: playlistTracks[newCurrentIndexTrackPlaying].image,
       },
     });

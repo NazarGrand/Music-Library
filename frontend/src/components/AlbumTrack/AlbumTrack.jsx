@@ -41,7 +41,8 @@ const AlbumTrack = ({
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
-  const { currentIndexTrackPlaying } = useContext(StatePlaylistContext);
+  const { playlistTracks, currentIndexTrackPlaying } =
+    useContext(StatePlaylistContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
@@ -54,11 +55,17 @@ const AlbumTrack = ({
     if (initializePlaylistContext) initializePlaylistContext();
 
     const playing =
-      currentIndexTrackPlaying === indexTrack - 1 ? !isPlaying : true;
+      currentIndexTrackPlaying === indexTrack - 1 &&
+      playlistTracks[currentIndexTrackPlaying].idTrack === idTrack
+        ? !isPlaying
+        : true;
+
+    console.log(playing);
 
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: idTrack,
         trackName: titleSong,
         trackAuthor: artistName,
         trackImage: image,

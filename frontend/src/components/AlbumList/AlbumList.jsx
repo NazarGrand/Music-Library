@@ -15,6 +15,13 @@ const AlbumList = ({ tracks, album }) => {
 
   const dispatch = useContext(DispatchPlaylistContext);
 
+  const initializePlaylistContext = () => {
+    dispatch({
+      type: playlistContextActions.setPlaylist,
+      payload: { playlistTracks: tracks },
+    });
+  };
+
   const handleClick = () => {
     setNumberTracks(numberTracks + tracksPerPage);
 
@@ -64,8 +71,7 @@ const AlbumList = ({ tracks, album }) => {
                       label={item.label}
                       isPlayingSong={
                         trackName === item.titleSong &&
-                        trackAuthor ===
-                          item.artists.map((item) => item.name).join(", ")
+                        trackAuthor === item.artistName
                       }
                       isPlaying={isPlaying}
                       isFavouriteTrack={favouriteTracks.find(
@@ -89,13 +95,13 @@ const AlbumList = ({ tracks, album }) => {
                       durationSong={item.duration}
                       isPlayingSong={
                         trackName === item.titleSong &&
-                        trackAuthor ===
-                          item.artists.map((item) => item.name).join(", ")
+                        trackAuthor === item.artistName
                       }
                       isPlaying={isPlaying}
                       isFavouriteTrack={favouriteTracks.find(
                         (elem) => elem.idTrack === item.idTrack
                       )}
+                      initializePlaylistContext={initializePlaylistContext}
                       album={album}
                     />
                   </li>

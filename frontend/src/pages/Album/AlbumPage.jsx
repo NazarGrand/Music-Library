@@ -111,12 +111,12 @@ const AlbumPage = () => {
 
         setSongs(albumSongs);
 
-        dispatch({
-          type: playlistContextActions.setPlaylist,
-          payload: {
-            playlistTracks: albumSongs.slice(0, 20),
-          },
-        });
+        // dispatch({
+        //   type: playlistContextActions.setPlaylist,
+        //   payload: {
+        //     playlistTracks: albumSongs.slice(0, 20),
+        //   },
+        // });
       }
     } catch (error) {
       console.error("Error getting data:", error);
@@ -169,12 +169,12 @@ const AlbumPage = () => {
         <Loader />
       ) : (
         <>
-          {" "}
           <HeaderAlbum
             album={album}
             albumData={albumData}
             tracks={songs ?? []}
-          />{" "}
+          />
+
           <AlbumList album={album} tracks={songs ?? []} />
         </>
       )}

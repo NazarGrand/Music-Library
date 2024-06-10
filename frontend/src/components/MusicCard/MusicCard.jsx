@@ -27,7 +27,8 @@ const MusicCard = ({
   initializePlaylistContext,
   type,
 }) => {
-  const { image, titleSong, artistId, artistName, yearSong } = musicCard;
+  const { idTrack, image, titleSong, artistId, artistName, yearSong } =
+    musicCard;
 
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
@@ -43,6 +44,7 @@ const MusicCard = ({
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: idTrack,
         trackName: titleSong,
         trackAuthor: artistName,
         trackImage: image,
