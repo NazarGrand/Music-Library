@@ -18,6 +18,7 @@
     padding: 10px;
     border-radius: 20px;
     width: 650px;
+    max-height: 400px;
 
     display: flex;
     justify-content: center;
@@ -27,6 +28,10 @@
     &--add {
       width: 600px;
       height: 380px;
+    }
+
+    &--loading {
+      padding: 0;
     }
   }
 

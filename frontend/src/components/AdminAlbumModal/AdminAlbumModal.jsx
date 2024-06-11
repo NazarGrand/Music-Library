@@ -59,6 +59,7 @@ const AdminAlbumModal = ({
 
   const modal = classNames("album-modal__window", {
     "album-modal__window--add": !selectedAlbum,
+    "album-modal__window--loading": loading,
   });
 
   const handleInput = (e) => {

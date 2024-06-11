@@ -37,10 +37,6 @@ const AppRoutes = () => {
           <Route path={ROUTES.FAVOURITES} element={<FavouriteTracksPage />} />
           <Route path={ROUTES.RECENTLY_ADDED} element={<RecentlyAddedPage />} />
           <Route path={ROUTES.MOST_PLAYED} element={<MostPlayedPage />} />
-          <Route
-            path={ROUTES.ACCOUNT_ACTIVATED}
-            element={<AccountActivatedPage />}
-          />
         </>
       )}
 
@@ -58,9 +54,13 @@ const AppRoutes = () => {
 
       {!user && (
         <>
-          <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
+          <Route
+            path={ROUTES.ACCOUNT_ACTIVATED}
+            element={<AccountActivatedPage />}
+          />
+          <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
         </>
       )}
 

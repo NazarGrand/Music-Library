@@ -15,8 +15,8 @@ export const MelodiesItems = [
 
 export const AccessItems = [
   {
-    link: "/explor",
-    title: "Explor",
+    link: "/explore",
+    title: "Explore",
   },
   {
     link: "/artists",

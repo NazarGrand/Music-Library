@@ -21,7 +21,7 @@ const ArtistsList = ({ title, artistItems }) => {
           </ul>
 
           {artistItems.length > 5 && (
-            <Link className="artists__view-all" to={ROUTES.ARTIST}>
+            <Link className="artists__view-all" to={ROUTES.ARTISTS}>
               <div className="artists__plus">+</div>
 
               <p className="artists__view-all-text">View All</p>

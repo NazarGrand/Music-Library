@@ -110,31 +110,9 @@
   &__area-submit {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 
     margin-top: 15px;
-  }
-
-  &__forgot-password {
-    display: flex;
-    margin-left: 10px;
-
-    background-color: transparent;
-    color: $white-text-color;
-    border: none;
-    cursor: pointer;
-
-    &-title {
-      padding-top: 7px;
-      margin: 0;
-
-      font-weight: 600;
-      font-size: 22px;
-    }
-
-    &-image {
-      padding-top: 3px;
-    }
   }
 
   &__submit {
@@ -148,6 +126,10 @@
     background: $pink-text-color;
     border: none;
     border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     cursor: pointer;
   }
@@ -163,7 +145,7 @@
     justify-content: space-between;
 
     width: 600px;
-    margin-top: 70px;
+    margin-top: 50px;
 
     padding: 15px 55px;
 

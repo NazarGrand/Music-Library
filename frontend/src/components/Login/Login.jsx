@@ -210,31 +210,19 @@ const Login = () => {
         </div>
 
         <div className="login__area-submit">
-          <button className="login__forgot-password">
-            <p className="login__forgot-password-title">Forgot password</p>
-
-            <img
-              className="login__forgot-password-image"
-              src={imgGreater}
-              alt="greater"
-            />
-          </button>
-
           <button
             type="submit"
             className="login__submit"
             onClick={submitClick}
             disabled={isDisabled}
           >
-            {!isDisabled ? (
-              "Login"
-            ) : (
-              <img
-                className="login__image-loading"
-                src={imgLoader}
-                alt="loader"
-              />
-            )}
+            {!isDisabled && "Login"}
+            <img
+              className="login__image-loading"
+              src={imgLoader}
+              alt="loader"
+              style={{ display: isDisabled ? "block" : "none" }}
+            />
           </button>
         </div>
       </form>

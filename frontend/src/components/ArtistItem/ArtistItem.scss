@@ -8,6 +8,9 @@
     color: $white-text-color;
     text-decoration: none;
     cursor: pointer;
+
+    background-color: $login-button-color;
+    border-radius: 10px;
   }
 
   &__image {

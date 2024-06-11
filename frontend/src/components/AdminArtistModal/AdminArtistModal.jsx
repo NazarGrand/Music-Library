@@ -56,6 +56,7 @@ const AdminArtistModal = ({
 
   const modal = classNames("artist-modal__window", {
     "artist-modal__window--add": !selectedArtist,
+    "artist-modal__window--loading": loading,
   });
 
   const handleInput = (e) => {
