@@ -5,6 +5,7 @@ import AlbumList from "../../components/AlbumList/AlbumList";
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgMostPlayed from "../../assets/images/MostPlayed.png";
+import TracksList from "../../components/TracksList/TracksList";
 
 const MostPlayedPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const MostPlayedPage = () => {
       const mostPlayedTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
         image: track.previewImage ? track.previewImage : imgTrack,
+        releaseDate: track.releaseDate,
         duration: track.duration,
         idTrack: track._id,
       }));
@@ -57,7 +59,7 @@ const MostPlayedPage = () => {
             albumData={albumData}
             tracks={tracks}
           />
-          <AlbumList tracks={tracks} />{" "}
+          <TracksList trackItems={tracks} />{" "}
         </>
       )}
     </>

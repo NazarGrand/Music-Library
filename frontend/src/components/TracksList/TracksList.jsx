@@ -58,22 +58,23 @@ const TracksList = ({ title, trackItems }) => {
             ))}
           </ul>
 
-          <div className="tracks__view-all">
-            <Link
-              className="tracks__link-view"
-              to={ROUTES.MOST_PLAYED}
-              onClick={() =>
-                sessionStorage.setItem(
-                  `scrollPosition_${location.pathname}`,
-                  window.pageYOffset
-                )
-              }
-            >
-              {" "}
-              <img src={imgPlus} alt="plus" />{" "}
-              <span className="tracks__view-all-text">View All</span>
-            </Link>
-          </div>
+          {trackItems.length < 10 && (
+            <div className="tracks__view-all">
+              <Link
+                className="tracks__link-view"
+                to={ROUTES.MOST_PLAYED}
+                onClick={() =>
+                  sessionStorage.setItem(
+                    `scrollPosition_${location.pathname}`,
+                    window.pageYOffset
+                  )
+                }
+              >
+                <img src={imgPlus} alt="plus" />{" "}
+                <span className="tracks__view-all-text">View All</span>
+              </Link>
+            </div>
+          )}
         </>
       ) : (
         <p className="tracks__subtitle">No music found</p>
