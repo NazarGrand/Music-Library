@@ -3,7 +3,6 @@ import "./HeaderAlbum.scss";
 import NavAlbums from "../NavAlbums/NavAlbums";
 
 import dayjs from "dayjs";
-import moment from "moment";
 
 import imgPlayAll from "../../assets/images/PlayAll.svg";
 import imgDot from "../../assets/images/Dot.svg";
@@ -12,8 +11,8 @@ import { DispatchTrackContext } from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { formatDurationTrack } from "../../utils/formatDurationTrack";
 import { Link } from "react-router-dom";
+import { formatDurationAlbum } from "../../utils/formatDurationAlbum";
 
 function formatDate(inputDate) {
   const dateObj = dayjs(inputDate);
@@ -92,14 +91,10 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
                 </>
               )}
             {albumData.countSongs} songs
-            {album !== "favourites" &&
-              album !== "recently-added" &&
-              album !== "most-played" && (
-                <>
-                  <img src={imgDot} alt="dot" />
-                  {formatDurationTrack(albumData.durationSongs)}
-                </>
-              )}
+            <>
+              <img src={imgDot} alt="dot" />
+              {formatDurationAlbum(albumData.durationSongs)}
+            </>
           </p>
         </div>
 

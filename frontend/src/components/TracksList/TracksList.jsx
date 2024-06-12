@@ -10,9 +10,8 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import { ROUTES } from "../../utils/routes";
 
-const TracksList = ({ title, trackItems }) => {
+const TracksList = ({ title, trackItems, type }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
-  const album = "trending-songs";
 
   const dispatch = useContext(DispatchPlaylistContext);
 
@@ -36,7 +35,11 @@ const TracksList = ({ title, trackItems }) => {
       {trackItems.length !== 0 ? (
         <>
           <div className="tracks__headlines">
-            <span className="tracks__relase-date">Release Date</span>
+            {type === "recently added" ? (
+              <span className="tracks__relase-date">Date of Addition</span>
+            ) : (
+              <span className="tracks__relase-date">Release Date</span>
+            )}
 
             <span className="tracks__time">Time</span>
           </div>
@@ -58,7 +61,7 @@ const TracksList = ({ title, trackItems }) => {
             ))}
           </ul>
 
-          {trackItems.length < 10 && (
+          {type === "top-songs" && (
             <div className="tracks__view-all">
               <Link
                 className="tracks__link-view"

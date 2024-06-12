@@ -15,17 +15,13 @@ import { DispatchPlaylistContext } from "./context/PlayListContext";
 import { playlistContextActions } from "./constants/PlaylistContextActions";
 
 function App() {
-  const { trackName, trackVolume } = useContext(StateTrackContext);
+  const { trackName } = useContext(StateTrackContext);
 
   const dispatch = useContext(DispatchTrackContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const { user, fetchUser } = useAuth();
   const [loading, setLoading] = useState(true);
-
-  console.log(trackVolume);
-
-  console.log(user);
 
   const fetchData = async () => {
     await fetchUser();

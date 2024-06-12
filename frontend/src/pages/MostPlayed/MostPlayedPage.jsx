@@ -27,10 +27,18 @@ const MostPlayedPage = () => {
 
       setTracks(mostPlayedTracks);
 
+      const durationSong = mostPlayedTracks.map((item) => item.duration);
+
+      const durationSongs = durationSong.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      );
+
       const album = {
         nameAlbum: "Most played",
         imageAlbum: imgMostPlayed,
         countSongs: mostPlayedTracks.length,
+        durationSongs: durationSongs,
       };
 
       setAlbumData(album);
@@ -59,7 +67,8 @@ const MostPlayedPage = () => {
             albumData={albumData}
             tracks={tracks}
           />
-          <TracksList trackItems={tracks} />{" "}
+
+          <TracksList trackItems={tracks} />
         </>
       )}
     </>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
-import AlbumList from "../../components/AlbumList/AlbumList";
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgRecentlyAdded from "../../assets/images/RecentlyAdded.png";
+import TracksList from "../../components/TracksList/TracksList";
 
 const RecentlyAddedPage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,10 +25,18 @@ const RecentlyAddedPage = () => {
 
       setTracks(recentlyTracks);
 
+      const durationSong = recentlyTracks.map((item) => item.duration);
+
+      const durationSongs = durationSong.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      );
+
       const album = {
         nameAlbum: "Recently added",
         imageAlbum: imgRecentlyAdded,
         countSongs: recentlyTracks.length,
+        durationSongs: durationSongs,
       };
 
       setAlbumData(album);
@@ -57,7 +65,8 @@ const RecentlyAddedPage = () => {
             albumData={albumData}
             tracks={tracks}
           />
-          <AlbumList tracks={tracks} />{" "}
+
+          <TracksList trackItems={tracks} type="recently added" />
         </>
       )}
     </>

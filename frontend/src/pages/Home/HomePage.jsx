@@ -111,6 +111,7 @@ const HomePage = () => {
           <TracksList
             title="Trending"
             trackItems={topSongs.slice(5, 10) ?? []}
+            type="top-songs"
           />
 
           <ArtistsList title="Popular" artistItems={artists ?? []} />
