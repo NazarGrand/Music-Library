@@ -56,6 +56,19 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
     }
   };
 
+  const artists = tracks.map((track) => ({
+    artistId: track.artistId,
+    artistName: track.artistName,
+  }));
+  const seen = {};
+  const uniqueArtists = artists.filter((item) => {
+    if (!seen[item.artistId]) {
+      seen[item.artistId] = true;
+      return true;
+    }
+    return false;
+  });
+
   return (
     <div className="header-album">
       <NavAlbums />
@@ -70,7 +83,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         <div className="header-album__block-title">
           <p className="header-album__title">{albumData.nameAlbum}</p>
 
-          {albumData.artistId && (
+          {albumData.artistId ? (
             <Link
               className="header-album__link-author"
               to={`/artists/${albumData.artistId}`}
@@ -79,6 +92,24 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
                 {albumData.artistAlbum}
               </p>
             </Link>
+          ) : (
+            <div className="header-album__artists">
+              {uniqueArtists
+                .map((artist, index) => (
+                  <Link
+                    key={artist.artistId}
+                    className="header-album__link-author"
+                    to={`/artists/${artist.artistId}`}
+                  >
+                    <span className="header-album__title-author">
+                      {artist.artistName}
+                    </span>
+
+                    {index !== uniqueArtists.length - 1 && ",\u00A0"}
+                  </Link>
+                ))
+                .slice(0, 5)}
+            </div>
           )}
 
           <p className="header-album__title-count">

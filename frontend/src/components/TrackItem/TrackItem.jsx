@@ -100,6 +100,7 @@ const TrackItem = ({
           image,
           titleSong,
           artistName,
+          artistId,
           duration,
         },
       });

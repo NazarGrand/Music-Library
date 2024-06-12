@@ -23,8 +23,6 @@ const FavouriteTracksPage = () => {
     countSongs: favouriteTracks.length,
     durationSongs,
   };
-
-  console.log(favouriteTracks);
   return (
     <>
       <HeaderAlbum

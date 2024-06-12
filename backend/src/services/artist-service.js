@@ -80,6 +80,7 @@ async function getSortedSingleSongs(artistId) {
   const artist = await ArtistModel.findById(artistId)
     .populate({
       path: "singleSongs",
+      select: "-audio",
       options: { sort: { totalListens: -1 } },
     })
     .exec();

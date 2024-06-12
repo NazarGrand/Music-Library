@@ -230,7 +230,11 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="albumReference"
-                    value={trackData.albumReference}
+                    value={
+                      trackData.albumReference
+                        ? trackData.albumReference
+                        : undefined
+                    }
                     onChange={handleChangeSelect}
                   >
                     <option value={undefined}>Not Album</option>
@@ -250,7 +254,11 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="artistReference"
-                    value={trackData.artistReference}
+                    value={
+                      trackData.artistReference
+                        ? trackData.artistReference
+                        : undefined
+                    }
                     onChange={handleChangeSelect}
                   >
                     <option value={undefined}>Not Artist</option>

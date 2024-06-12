@@ -41,6 +41,8 @@ const HomePage = () => {
       const topTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
         image: track.previewImage ? track.previewImage : imgTrack,
+        artistName: track.artistReference.name,
+        artistId: track.artistReference._id,
         releaseDate: track.releaseDate,
         duration: track.duration,
         idTrack: track._id,

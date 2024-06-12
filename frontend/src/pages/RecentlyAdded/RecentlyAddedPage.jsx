@@ -19,7 +19,10 @@ const RecentlyAddedPage = () => {
       const recentlyTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
         image: track.previewImage ? track.previewImage : imgTrack,
+        artistName: track.artistReference.name,
+        artistId: track.artistReference._id,
         duration: track.duration,
+        releaseDate: track.createdAt,
         idTrack: track._id,
       }));
 
