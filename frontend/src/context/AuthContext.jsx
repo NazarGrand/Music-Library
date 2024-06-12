@@ -45,7 +45,6 @@ const AuthProvider = ({ children }) => {
       setUser(response.data.user);
     } catch (e) {
       logout();
-      return e.response;
     }
   };
 

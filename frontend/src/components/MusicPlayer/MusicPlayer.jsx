@@ -139,7 +139,9 @@ const MusicPlayer = () => {
   useEffect(() => {
     if (!isLoading) {
       if (isVolume) {
-        audioElem.current.volume = trackVolume / 100;
+        if (audioElem.current) {
+          audioElem.current.volume = trackVolume / 100;
+        }
       } else {
         audioElem.current.volume = 0;
       }

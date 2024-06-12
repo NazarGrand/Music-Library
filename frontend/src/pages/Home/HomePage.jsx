@@ -46,8 +46,6 @@ const HomePage = () => {
         idTrack: track._id,
       }));
 
-      console.log(topTracks);
-
       setTopSongs(topTracks);
     } catch (error) {
       console.error("Error getting data:", error);

@@ -4,14 +4,28 @@ import "./App.scss";
 import Footer from "./components/Footer/Footer";
 import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 import { useContext, useEffect, useState } from "react";
-import { StateTrackContext } from "./context/MusicContext";
+import {
+  DispatchTrackContext,
+  StateTrackContext,
+} from "./context/MusicContext";
 import { useAuth } from "./context/AuthContext";
 import Loader from "./components/Loader/Loader";
+import { musicContextActions } from "./constants/MusicContextActions";
+import { DispatchPlaylistContext } from "./context/PlayListContext";
+import { playlistContextActions } from "./constants/PlaylistContextActions";
 
 function App() {
-  const { trackName } = useContext(StateTrackContext);
+  const { trackName, trackVolume } = useContext(StateTrackContext);
+
+  const dispatch = useContext(DispatchTrackContext);
+  const dispatchPlaylist = useContext(DispatchPlaylistContext);
+
   const { user, fetchUser } = useAuth();
   const [loading, setLoading] = useState(true);
+
+  console.log(trackVolume);
+
+  console.log(user);
 
   const fetchData = async () => {
     await fetchUser();
@@ -21,6 +35,47 @@ function App() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: musicContextActions.setTrack,
+      payload: {
+        trackId: null,
+        trackName: null,
+        trackAuthor: null,
+        trackImage: null,
+      },
+    });
+
+    dispatch({
+      type: musicContextActions.setTrackUrl,
+      payload: {
+        trackUrl: null,
+      },
+    });
+
+    dispatch({
+      type: musicContextActions.setVolume,
+      payload: {
+        trackVolume: 70,
+        trackPrevVolume: 70,
+      },
+    });
+
+    dispatchPlaylist({
+      type: playlistContextActions.setCurrentIndexTrackPlaying,
+      payload: {
+        currentIndexTrackPlaying: null,
+      },
+    });
+
+    dispatchPlaylist({
+      type: playlistContextActions.setPlaylist,
+      payload: {
+        playlistTracks: [],
+      },
+    });
+  }, [user]);
 
   return (
     <>

@@ -47,8 +47,6 @@ const ArtistPage = () => {
         idTrack: song._id,
       }));
 
-      console.log(topTracks);
-
       const albumsArtist = getArtist.albums.map((album) => ({
         image: album.previewImage ? album.previewImage : imgAlbum,
         albumName: album.name,
