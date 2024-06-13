@@ -45,6 +45,7 @@ const TrackItem = ({
     artistId,
     artistName,
     releaseDate,
+    label,
     duration,
   } = track;
 
@@ -101,6 +102,7 @@ const TrackItem = ({
           titleSong,
           artistName,
           artistId,
+          label,
           duration,
         },
       });
@@ -147,6 +149,8 @@ const TrackItem = ({
         </div>
 
         <p className="track-item__relase-date">{formatDate(releaseDate)}</p>
+
+        <p className="track-item__label">{label}</p>
 
         <div className="track-item__heart">
           <button

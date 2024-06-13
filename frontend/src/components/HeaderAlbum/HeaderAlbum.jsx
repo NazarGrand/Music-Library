@@ -108,7 +108,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
                     {index !== uniqueArtists.length - 1 && ",\u00A0"}
                   </Link>
                 ))
-                .slice(0, 5)}
+                .slice(0, 4)}
             </div>
           )}
 

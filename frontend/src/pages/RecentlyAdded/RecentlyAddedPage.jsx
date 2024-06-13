@@ -22,6 +22,7 @@ const RecentlyAddedPage = () => {
         artistName: track.artistReference.name,
         artistId: track.artistReference._id,
         duration: track.duration,
+        label: track.label,
         releaseDate: track.createdAt,
         idTrack: track._id,
       }));

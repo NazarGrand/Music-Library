@@ -35,11 +35,9 @@ const TracksList = ({ title, trackItems, type }) => {
       {trackItems.length !== 0 ? (
         <>
           <div className="tracks__headlines">
-            {type === "recently added" ? (
-              <span className="tracks__relase-date">Date of Addition</span>
-            ) : (
-              <span className="tracks__relase-date">Release Date</span>
-            )}
+            <span className="tracks__relase-date">Release Date</span>
+
+            <span className="tracks__labels">Label</span>
 
             <span className="tracks__time">Time</span>
           </div>

@@ -40,12 +40,13 @@ const AdminTrackModal = ({
 
   useEffect(() => {
     if (selectedTrack) {
-      setTrackData(selectedTrack);
       if (selectedTrack.albumReference) {
         setSelectedOption("album");
+        selectedTrack.artistReference = null;
       } else if (selectedTrack.artistReference) {
         setSelectedOption("artist");
       }
+      setTrackData(selectedTrack);
     } else {
       setTrackData(formDefaultValues);
     }

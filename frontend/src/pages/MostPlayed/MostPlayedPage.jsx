@@ -23,6 +23,7 @@ const MostPlayedPage = () => {
         artistName: track.artistReference.name,
         artistId: track.artistReference._id,
         releaseDate: track.releaseDate,
+        label: track.label,
         duration: track.duration,
         idTrack: track._id,
       }));

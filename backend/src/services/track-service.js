@@ -109,17 +109,9 @@ async function updateTrack(trackId, trackData) {
     );
   }
 
-  if (albumReference && artistReference) {
-    throw new Error(
-      "Track can only have either albumReference or artistReference, not both."
-    );
-  }
-
   if (
-    (albumReference &&
-      existingTrack.albumReference?.toString() === albumReference) ||
-    (artistReference &&
-      existingTrack.artistReference?.toString() === artistReference)
+    existingTrack.albumReference?.toString() === albumReference ||
+    existingTrack.artistReference?.toString() === artistReference
   ) {
     const updatedTrack = await TrackModel.findByIdAndUpdate(
       trackId,
@@ -207,6 +199,8 @@ async function updateTrack(trackId, trackData) {
         }
       }
     }
+
+    console.log(updatedTrackData);
 
     const track = await TrackModel.findByIdAndUpdate(
       trackId,
