@@ -86,8 +86,7 @@ async function getSortedSingleSongs(artistId) {
     .exec();
 
   if (!artist) {
-    console.log("Artist not found");
-    return;
+    throw new Error("Artist not found");
   }
 
   const sortedSingleSongs = artist.singleSongs;

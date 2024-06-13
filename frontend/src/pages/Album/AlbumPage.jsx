@@ -15,7 +15,7 @@ import { DispatchPlaylistContext } from "../../context/PlayListContext.jsx";
 import { playlistContextActions } from "../../constants/PlaylistContextActions.js";
 
 const AlbumPage = () => {
-  let { album } = useParams();
+  let { albumId } = useParams();
 
   const [songs, setSongs] = useState([]);
   const [albumData, setAlbumData] = useState({});
@@ -29,86 +29,46 @@ const AlbumPage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      if (album === "weekly-top" || album === "trending-songs") {
-        const weeklyTopSongs = await musicService.getWeekTopChart();
+      const albumMetadata = await albumService.getAlbum(albumId);
 
-        const newTopSongs = weeklyTopSongs.map((item) => ({
-          image: item.trackMetadata.displayImageUri,
-          titleSong: item.trackMetadata.trackName,
-          artists: item.trackMetadata.artists.map((artist) => ({
-            name: artist.name,
-            artistId: artist.spotifyUri.split(":")[2],
-          })),
-          releaseDate: item.trackMetadata.releaseDate,
-          label: item.trackMetadata.labels[0].name,
-          idTrack: item.trackMetadata.trackUri.split(":")[2],
-        }));
+      const albumData = albumMetadata.data;
 
-        setSongs(newTopSongs);
+      const durationSong = albumData.tracksReferences.map(
+        (item) => item.duration
+      );
 
-        dispatch({
-          type: playlistContextActions.setPlaylist,
-          payload: {
-            playlistTracks: newTopSongs.slice(0, 20),
-          },
-        });
+      const durationSongs = durationSong.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      );
 
-        const albumInfo = {
-          nameAlbum: _.startCase(album),
-          imageAlbum: imgTrendingMusic,
-          artistsAlbum:
-            newTopSongs
-              .map((item) => item.artists.map((item) => item.name).join(", "))
-              .slice(0, 3)
-              .join(", ") + " and ...",
-          countSongs: newTopSongs.length,
-        };
+      const albumInfo = {
+        nameAlbum: albumData.name,
+        imageAlbum: albumData.previewImage ? albumData.previewImage : imgAlbum,
+        artistAlbum: albumData.artistReference?.name,
+        artistId: albumData.artistReference?._id,
+        countSongs: albumData.tracksReferences.length,
+        label: albumData.label,
+        releaseDate: albumData.releaseDate,
+        durationSongs: durationSongs,
+      };
 
-        setAlbumData(albumInfo);
-      } else {
-        const albumMetadata = await albumService.getAlbum(album);
+      setAlbumData(albumInfo);
 
-        const albumData = albumMetadata.data;
+      const albumTracks = albumData.tracksReferences;
 
-        const durationSong = albumData.tracksReferences.map(
-          (item) => item.duration
-        );
+      const albumSongs = albumTracks.map((item) => ({
+        image: albumInfo.imageAlbum,
+        titleSong: item.name,
+        artistId: albumInfo.artistId,
+        artistName: albumInfo.artistAlbum,
+        releaseDate: albumInfo.releaseDate,
+        label: albumInfo.label,
+        duration: item.duration,
+        idTrack: item._id,
+      }));
 
-        const durationSongs = durationSong.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
-          0
-        );
-
-        const albumInfo = {
-          nameAlbum: albumData.name,
-          imageAlbum: albumData.previewImage
-            ? albumData.previewImage
-            : imgAlbum,
-          artistAlbum: albumData.artistReference?.name,
-          artistId: albumData.artistReference?._id,
-          countSongs: albumData.tracksReferences.length,
-          label: albumData.label,
-          releaseDate: albumData.releaseDate,
-          durationSongs: durationSongs,
-        };
-
-        setAlbumData(albumInfo);
-
-        const albumTracks = albumData.tracksReferences;
-
-        const albumSongs = albumTracks.map((item) => ({
-          image: albumInfo.imageAlbum,
-          titleSong: item.name,
-          artistId: albumInfo.artistId,
-          artistName: albumInfo.artistAlbum,
-          releaseDate: albumInfo.releaseDate,
-          label: albumInfo.label,
-          duration: item.duration,
-          idTrack: item._id,
-        }));
-
-        setSongs(albumSongs);
-      }
+      setSongs(albumSongs);
     } catch (error) {
       console.error("Error getting data:", error);
     } finally {
@@ -162,7 +122,7 @@ const AlbumPage = () => {
         <>
           <HeaderAlbum albumData={albumData} tracks={songs ?? []} />
 
-          <AlbumList album={album} tracks={songs ?? []} />
+          <AlbumList album={albumId} tracks={songs ?? []} />
         </>
       )}
     </>

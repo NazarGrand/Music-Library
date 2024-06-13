@@ -50,7 +50,7 @@ router.get(
   trackController.getTrackAudio
 );
 
-router.post(
+router.put(
   "/listen-music/:id",
   rbacMiddleware.checkPermission([userRoles.INCREMENT_LISTENES]),
   trackController.incrementTrackListens
@@ -71,7 +71,7 @@ router.get(
     adminRoles.READ_RECORD,
     userRoles.READ_RECORD,
   ]),
-  trackController.recentlyAdded
+  trackController.getRecentlyAddedSongs
 );
 
 module.exports = router;

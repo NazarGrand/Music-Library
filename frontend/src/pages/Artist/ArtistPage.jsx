@@ -9,6 +9,7 @@ import imgArtist from "../../assets/images/Artist.jpg";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgAlbum from "../../assets/images/AlbumImage.jpg";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import dayjs from "dayjs";
 
 const ArtistPage = () => {
   const { artistId } = useParams();
@@ -26,16 +27,17 @@ const ArtistPage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const getArtistData = await artistService.getArtist(artistId);
-      const getArtist = getArtistData.data;
+      const { data: artistData } = await artistService.getArtist(artistId);
 
       const artist = {
-        artistId: getArtist._id,
-        nameArtist: getArtist.name,
-        imageArtist: getArtist.photoUrl ? getArtist.photoUrl : imgArtist,
+        artistId: artistData._id,
+        nameArtist: artistData.name,
+        imageArtist: artistData.photoUrl ? artistData.photoUrl : imgArtist,
       };
 
-      const singleTracks = await artistService.popularSongs(artistId);
+      const singleTracks = await artistService.getPopularSongs(artistId);
+
+      console.log(singleTracks.data);
 
       const topTracks = singleTracks.data.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
@@ -43,22 +45,23 @@ const ArtistPage = () => {
         artistId: artist.artistId,
         artistName: artist.nameArtist,
         duration: song.duration,
+        label: song.label,
         releaseDate: song.releaseDate,
         idTrack: song._id,
       }));
 
-      const albumsArtist = getArtist.albums.map((album) => ({
+      const albumsArtist = artistData.albums.map((album) => ({
         image: album.previewImage ? album.previewImage : imgAlbum,
         albumName: album.name,
-        yearAlbum: new Date(album.releaseDate).getFullYear(),
+        yearAlbum: dayjs(album.releaseDate).year(),
         albumId: album._id,
       }));
 
-      const songsArtist = getArtist.singleSongs.map((song) => ({
+      const songsArtist = artistData.singleSongs.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
         titleSong: song.name,
         artistName: song.artistReference.name,
-        yearSong: new Date(song.releaseDate).getFullYear(),
+        yearSong: dayjs(song.releaseDate).year(),
         idTrack: song._id,
       }));
 

@@ -12,10 +12,9 @@ const ArtistsPage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const getArtistsData = await artistService.getAllArtists();
-      const getArtists = getArtistsData.data;
+      const { data: artistsData } = await artistService.getAllArtists();
 
-      const artists = getArtists.map((artist) => ({
+      const artists = artistsData.map((artist) => ({
         artistName: artist.name,
         image: artist.photoUrl ? artist.photoUrl : imgArtist,
         artistId: artist._id,

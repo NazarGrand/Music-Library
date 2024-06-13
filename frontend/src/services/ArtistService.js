@@ -20,6 +20,6 @@ export const deleteArtist = async (id) => {
   return await api.delete(`/artists/${id}`);
 };
 
-export const popularSongs = async (id) => {
+export const getPopularSongs = async (id) => {
   return await api.get(`/artists/popular-songs/${id}`);
 };

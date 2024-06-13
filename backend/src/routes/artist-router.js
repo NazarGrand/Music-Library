@@ -42,12 +42,12 @@ router.delete(
 );
 
 router.get(
-  "/popular-songs/:id",
+  "/popular-songs/:artistId",
   rbacMiddleware.checkPermission([
     adminRoles.READ_ARTIST,
     userRoles.READ_ARTIST,
   ]),
-  artistController.getSortedSingleSongs
+  artistController.getTopSingleSongs
 );
 
 module.exports = router;

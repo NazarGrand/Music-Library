@@ -59,10 +59,10 @@ class ArtistController {
     }
   }
 
-  async getSortedSingleSongs(req, res) {
+  async getTopSingleSongs(req, res) {
     try {
       const sortedSongs = await artistService.getSortedSingleSongs(
-        req.params.id
+        req.params.artistId
       );
 
       return res.json(sortedSongs);

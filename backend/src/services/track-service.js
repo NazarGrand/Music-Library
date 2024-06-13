@@ -72,9 +72,7 @@ async function createTrack(trackData) {
 }
 
 async function getTrackById(trackId) {
-  const track = await TrackModel.findById(trackId)
-    .populate("albumReference")
-    .select("-audio");
+  const track = await TrackModel.findById(trackId).select("-audio");
 
   if (!track) {
     throw new Error("Track not found");

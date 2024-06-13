@@ -24,10 +24,9 @@ const HomePage = () => {
 
   const fetchData = async () => {
     try {
-      const getArtistsData = await artistService.getAllArtists();
-      const getArtists = getArtistsData.data;
+      const { data: artistData } = await artistService.getAllArtists();
 
-      const artists = getArtists.map((artist) => ({
+      const artists = artistData.map((artist) => ({
         artistName: artist.name,
         image: artist.photoUrl ? artist.photoUrl : imgArtist,
         artistId: artist._id,
@@ -103,7 +102,7 @@ const HomePage = () => {
         <div>
           <Header />
 
-          <Slider artists={artists} />
+          <Slider artists={artists.slice(0, 5)} />
 
           <MusicCardsList
             title="Top"

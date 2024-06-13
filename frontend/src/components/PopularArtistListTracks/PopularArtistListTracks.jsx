@@ -29,12 +29,12 @@ const PopularArtistListTracks = ({ popularTracks }) => {
 
       {popularTracks.length !== 0 ? (
         <>
-          <div className="popular-tracks__block-menu">
-            <div className="popular-tracks__release">
-              <span className="popular-tracks__title-track">Relase Date</span>
-            </div>
+          <div className="popular-tracks__headlines">
+            <span className="popular-tracks__relase-date">Release Date</span>
 
-            <span className="popular-tracks__title-track">Time</span>
+            <span className="popular-tracks__labels">Label</span>
+
+            <span className="popular-tracks__time">Time</span>
           </div>
 
           <ul className="popular-tracks__list">

@@ -4,6 +4,7 @@ import imgAlbum from "../../assets/images/AlbumImage.jpg";
 import Loader from "../../components/Loader/Loader";
 import MusicPageHeader from "../../components/MusicPageHeader/MusicPageHeader";
 import AllAlbums from "../../components/AllAlbums/AllAlbums";
+import dayjs from "dayjs";
 
 const AlbumsPage = () => {
   const [albums, setAlbums] = useState([]);
@@ -19,7 +20,7 @@ const AlbumsPage = () => {
         albumName: album.name,
         image: album.previewImage ? album.previewImage : imgAlbum,
         albumId: album._id,
-        yearAlbum: new Date(album.releaseDate).getFullYear(),
+        yearAlbum: dayjs(album.releaseDate).year(),
       }));
 
       setAlbums(albums);

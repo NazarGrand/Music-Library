@@ -90,7 +90,7 @@ class TrackController {
     }
   }
 
-  async recentlyAdded(req, res) {
+  async getRecentlyAddedSongs(req, res) {
     try {
       const tracks = await trackService.recentlyAdded(req.params.limit);
 

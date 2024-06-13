@@ -97,7 +97,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
               {uniqueArtists
                 .map((artist, index) => (
                   <Link
-                    key={artist.artistId}
+                    key={index}
                     className="header-album__link-author"
                     to={`/artists/${artist.artistId}`}
                   >
@@ -105,7 +105,9 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
                       {artist.artistName}
                     </span>
 
-                    {index !== uniqueArtists.length - 1 && ",\u00A0"}
+                    {artist.artistId &&
+                      index !== uniqueArtists.length - 1 &&
+                      ",\u00A0"}
                   </Link>
                 ))
                 .slice(0, 4)}
