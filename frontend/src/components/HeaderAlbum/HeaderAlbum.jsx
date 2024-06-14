@@ -62,7 +62,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
   }));
   const seen = {};
   const uniqueArtists = artists.filter((item) => {
-    if (!seen[item.artistId]) {
+    if (item.artistId && !seen[item.artistId]) {
       seen[item.artistId] = true;
       return true;
     }
@@ -97,7 +97,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
               {uniqueArtists
                 .map((artist, index) => (
                   <Link
-                    key={index}
+                    key={artist.artistId}
                     className="header-album__link-author"
                     to={`/artists/${artist.artistId}`}
                   >

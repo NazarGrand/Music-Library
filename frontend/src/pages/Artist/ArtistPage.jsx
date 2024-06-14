@@ -37,8 +37,6 @@ const ArtistPage = () => {
 
       const singleTracks = await artistService.getPopularSongs(artistId);
 
-      console.log(singleTracks.data);
-
       const topTracks = singleTracks.data.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
         titleSong: song.name,

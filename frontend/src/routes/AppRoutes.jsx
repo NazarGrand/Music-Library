@@ -42,6 +42,7 @@ const AppRoutes = () => {
 
       {user && user.role === ROLE.ADMIN && (
         <>
+          <Route path="/" element={<Navigate to={ROUTES.ADMIN_TRACKS} />} />
           <Route
             path={ROUTES.HOME}
             element={<Navigate to={ROUTES.ADMIN_TRACKS} />}

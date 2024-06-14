@@ -198,8 +198,6 @@ async function updateTrack(trackId, trackData) {
       }
     }
 
-    console.log(updatedTrackData);
-
     const track = await TrackModel.findByIdAndUpdate(
       trackId,
       updatedTrackData,
