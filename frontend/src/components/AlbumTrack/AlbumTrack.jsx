@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import "./AlbumTrack.scss";
+import { formatDurationTrack } from "../../utils/formatDurationTrack";
 
 import imgHeart from "../../assets/images/Heart.svg";
 import imgHeartFill from "../../assets/images/HeartFill.svg";
@@ -23,53 +24,23 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions";
 
-function formatMilliseconds(milliseconds) {
-  const duration = moment.duration(milliseconds);
-
-  let formattedTime = "";
-
-  if (duration.hours() > 0) {
-    formattedTime += `${duration.hours()}:`;
-
-    if (duration.minutes() > 0 && duration.minutes() < 10) {
-      formattedTime += `0${duration.minutes()}:`;
-    } else {
-      formattedTime += `${duration.minutes()}:`;
-    }
-
-    if (duration.seconds() > 0 && duration.seconds() < 10) {
-      formattedTime += `0${duration.seconds()}`;
-    } else {
-      formattedTime += `${duration.seconds()}`;
-    }
-  } else {
-    formattedTime += `${duration.minutes()}:`;
-    if (duration.seconds() > 0 && duration.seconds() < 10) {
-      formattedTime += `0${duration.seconds()}`;
-    } else {
-      formattedTime += `${duration.seconds()}`;
-    }
-  }
-  return formattedTime;
-}
-
 const AlbumTrack = ({
   indexTrack,
-  idTrack,
-  image,
-  titleSong,
-  artists,
-  durationSong,
+  albumItem,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   isFavouriteTrack,
   album,
 }) => {
+  const { idTrack, image, titleSong, artistId, artistName, duration } =
+    albumItem;
+
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
-  const { currentIndexTrackPlaying } = useContext(StatePlaylistContext);
+  const { playlistTracks, currentIndexTrackPlaying } =
+    useContext(StatePlaylistContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
@@ -82,13 +53,17 @@ const AlbumTrack = ({
     if (initializePlaylistContext) initializePlaylistContext();
 
     const playing =
-      currentIndexTrackPlaying === indexTrack - 1 ? !isPlaying : true;
+      currentIndexTrackPlaying === indexTrack - 1 &&
+      playlistTracks[currentIndexTrackPlaying].idTrack === idTrack
+        ? !isPlaying
+        : true;
 
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: idTrack,
         trackName: titleSong,
-        trackAuthor: artists.map((item) => item.name).join(", "),
+        trackAuthor: artistName,
         trackImage: image,
       },
     });
@@ -114,7 +89,7 @@ const AlbumTrack = ({
           idTrack,
           image,
           titleSong,
-          artists,
+          artistName,
         },
       });
     } else {
@@ -141,26 +116,22 @@ const AlbumTrack = ({
             </button>
 
             <span className="album-track__block-artists">
-              {artists.map((item, index) => (
-                <div key={index}>
-                  <Link
-                    className="album-track__link-author"
-                    to={`/artists/${item.artistId}`}
-                    onClick={() =>
-                      sessionStorage.setItem(
-                        `scrollPosition_${location.pathname}`,
-                        window.pageYOffset
-                      )
-                    }
-                  >
-                    <span className="album-track__title-author">
-                      {item.name}
-                    </span>
-                  </Link>
-
-                  {index !== artists.length - 1 && ",\u00A0"}
-                </div>
-              ))}
+              <div>
+                <Link
+                  className="album-track__link-author"
+                  to={`/artists/${artistId}`}
+                  onClick={() =>
+                    sessionStorage.setItem(
+                      `scrollPosition_${location.pathname}`,
+                      window.pageYOffset
+                    )
+                  }
+                >
+                  <span className="album-track__title-author">
+                    {artistName}
+                  </span>
+                </Link>
+              </div>
             </span>
           </div>
         </div>
@@ -180,7 +151,7 @@ const AlbumTrack = ({
 
           {album !== "favourites" && (
             <p className="album-track__duration-song">
-              {formatMilliseconds(durationSong)}
+              {formatDurationTrack(duration)}
             </p>
           )}
         </div>

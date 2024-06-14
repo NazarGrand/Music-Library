@@ -24,18 +24,26 @@
   &__headlines {
     display: flex;
     align-items: center;
+    width: 1115px;
     margin-bottom: 8px;
     @include customText(400, 20px);
     letter-spacing: 0.3px;
   }
 
   &__relase-date {
-    margin-left: 395px;
+    margin-left: 310px;
+    width: 300px;
     margin-bottom: 0;
+    text-align: center;
   }
 
   &__labels {
-    margin-left: 217px;
+    width: 293px;
+    text-align: center;
+  }
+
+  &__time {
+    margin-left: auto;
     margin-bottom: 0;
   }
 

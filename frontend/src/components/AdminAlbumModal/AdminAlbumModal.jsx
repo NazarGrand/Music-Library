@@ -59,6 +59,7 @@ const AdminAlbumModal = ({
 
   const modal = classNames("album-modal__window", {
     "album-modal__window--add": !selectedAlbum,
+    "album-modal__window--loading": loading,
   });
 
   const handleInput = (e) => {
@@ -193,7 +194,7 @@ const AdminAlbumModal = ({
                     <select
                       className="track-modal__select"
                       name="artistReference"
-                      value={albumData.artistReference}
+                      value={albumData.artistReference?._id}
                       onChange={handleInput}
                     >
                       <option value={undefined}>Not Artist</option>

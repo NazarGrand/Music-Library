@@ -41,4 +41,37 @@ router.delete(
   trackController.deleteTrack
 );
 
+router.get(
+  "/listen-music/:id",
+  rbacMiddleware.checkPermission([
+    adminRoles.READ_RECORD,
+    userRoles.READ_RECORD,
+  ]),
+  trackController.getTrackAudio
+);
+
+router.put(
+  "/listen-music/:id",
+  rbacMiddleware.checkPermission([userRoles.INCREMENT_LISTENES]),
+  trackController.incrementTrackListens
+);
+
+router.get(
+  "/top-chart/:limit",
+  rbacMiddleware.checkPermission([
+    adminRoles.READ_RECORD,
+    userRoles.READ_RECORD,
+  ]),
+  trackController.getTopSongs
+);
+
+router.get(
+  "/recently-added/:limit",
+  rbacMiddleware.checkPermission([
+    adminRoles.READ_RECORD,
+    userRoles.READ_RECORD,
+  ]),
+  trackController.getRecentlyAddedSongs
+);
+
 module.exports = router;

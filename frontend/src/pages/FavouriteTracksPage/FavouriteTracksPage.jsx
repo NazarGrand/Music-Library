@@ -4,39 +4,25 @@ import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContex
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 
 import imgFavourites from "../../assets/images/FavouriteTracks.jpg";
-import { DispatchPlaylistContext } from "../../context/PlayListContext";
-import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import TracksList from "../../components/TracksList/TracksList";
 
 const FavouriteTracksPage = () => {
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
 
-  const dispatch = useContext(DispatchPlaylistContext);
+  const durationSong = favouriteTracks.map((item) => item.duration);
+
+  const durationSongs = durationSong.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
 
   const albumData = {
     nameAlbum: "Favourite tracks",
     imageAlbum: imgFavourites,
-    artistsAlbum: favouriteTracks
-      .flatMap((favorite) =>
-        favorite.artists ? favorite.artists.map((artist) => artist.name) : []
-      )
-      .slice(0, 4)
-      .join(", "),
+    artistAlbum: favouriteTracks.map((track) => track.artistName).join(", "),
     countSongs: favouriteTracks.length,
+    durationSongs,
   };
-
-  const initializePlaylist = () => {
-    dispatch({
-      type: playlistContextActions.setPlaylist,
-      payload: {
-        playlistTracks: favouriteTracks.slice(0, 20),
-      },
-    });
-  };
-
-  useEffect(() => {
-    initializePlaylist();
-  }, [favouriteTracks]);
-
   return (
     <>
       <HeaderAlbum
@@ -44,7 +30,8 @@ const FavouriteTracksPage = () => {
         albumData={albumData}
         tracks={favouriteTracks}
       />
-      <AlbumList tracks={favouriteTracks} album="favourites" />
+
+      <TracksList trackItems={favouriteTracks} />
     </>
   );
 };

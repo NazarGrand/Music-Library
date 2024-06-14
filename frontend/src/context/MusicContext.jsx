@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from "react";
 import { musicContextActions } from "../constants/MusicContextActions";
 
 const initialState = {
+  trackId: null,
   trackName: null,
   trackAuthor: null,
   trackImage: null,
@@ -21,6 +22,7 @@ export const MusicProvider = ({ children }) => {
       case musicContextActions.setTrack:
         return {
           ...state,
+          trackId: action.payload.trackId,
           trackName: action.payload.trackName,
           trackAuthor: action.payload.trackAuthor,
           trackImage: action.payload.trackImage,

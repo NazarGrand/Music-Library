@@ -399,15 +399,13 @@ const Registration = () => {
               onClick={submitClick}
               disabled={isDisabled}
             >
-              {!isDisabled ? (
-                "Create an account"
-              ) : (
-                <img
-                  className="login__image-loading"
-                  src={imgLoader}
-                  alt="loader"
-                />
-              )}
+              {!isDisabled && "Create an account"}
+              <img
+                className="login__image-loading"
+                src={imgLoader}
+                alt="loader"
+                style={{ display: isDisabled ? "block" : "none" }}
+              />
             </button>
           </div>
         </form>

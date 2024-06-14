@@ -3,7 +3,6 @@ import "./HeaderAlbum.scss";
 import NavAlbums from "../NavAlbums/NavAlbums";
 
 import dayjs from "dayjs";
-import moment from "moment";
 
 import imgPlayAll from "../../assets/images/PlayAll.svg";
 import imgDot from "../../assets/images/Dot.svg";
@@ -12,27 +11,13 @@ import { DispatchTrackContext } from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { Link } from "react-router-dom";
+import { formatDurationAlbum } from "../../utils/formatDurationAlbum";
 
 function formatDate(inputDate) {
   const dateObj = dayjs(inputDate);
   const formattedDate = dateObj.format("MMM D, YYYY");
   return formattedDate;
-}
-
-function formatMilliseconds(milliseconds) {
-  const duration = moment.duration(milliseconds);
-
-  let formattedTime = "";
-  if (duration.hours() > 0) {
-    formattedTime += `${duration.hours()}h `;
-  }
-  if (duration.minutes() > 0) {
-    formattedTime += `${duration.minutes()}m `;
-  }
-  if (duration.seconds() > 0) {
-    formattedTime += `${duration.seconds()}s`;
-  }
-  return formattedTime;
 }
 
 const HeaderAlbum = ({ albumData, tracks, album }) => {
@@ -42,11 +27,17 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
 
   const handlePlayAllClick = () => {
     if (tracks.length !== 0) {
+      dispatchPlaylist({
+        type: playlistContextActions.setPlaylist,
+        payload: { playlistTracks: tracks },
+      });
+
       dispatch({
         type: musicContextActions.setTrack,
         payload: {
+          trackId: tracks[0].idTrack,
           trackName: tracks[0].titleSong,
-          trackAuthor: tracks[0].artists.map((item) => item.name).join(", "),
+          trackAuthor: tracks[0].artistName,
           trackImage: tracks[0].image,
         },
       });
@@ -65,6 +56,19 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
     }
   };
 
+  const artists = tracks.map((track) => ({
+    artistId: track.artistId,
+    artistName: track.artistName,
+  }));
+  const seen = {};
+  const uniqueArtists = artists.filter((item) => {
+    if (item.artistId && !seen[item.artistId]) {
+      seen[item.artistId] = true;
+      return true;
+    }
+    return false;
+  });
+
   return (
     <div className="header-album">
       <NavAlbums />
@@ -79,26 +83,51 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
         <div className="header-album__block-title">
           <p className="header-album__title">{albumData.nameAlbum}</p>
 
-          <p className="header-album__title-author">{albumData.artistsAlbum}</p>
+          {albumData.artistId ? (
+            <Link
+              className="header-album__link-author"
+              to={`/artists/${albumData.artistId}`}
+            >
+              <p className="header-album__title-author">
+                {albumData.artistAlbum}
+              </p>
+            </Link>
+          ) : (
+            <div className="header-album__artists">
+              {uniqueArtists
+                .map((artist, index) => (
+                  <Link
+                    key={artist.artistId}
+                    className="header-album__link-author"
+                    to={`/artists/${artist.artistId}`}
+                  >
+                    <span className="header-album__title-author">
+                      {artist.artistName}
+                    </span>
+
+                    {artist.artistId &&
+                      index !== uniqueArtists.length - 1 &&
+                      ",\u00A0"}
+                  </Link>
+                ))
+                .slice(0, 4)}
+            </div>
+          )}
 
           <p className="header-album__title-count">
-            {album !== "weekly-top" &&
-              album !== "trending-songs" &&
-              album !== "favourites" && (
+            {album !== "favourites" &&
+              album !== "recently-added" &&
+              album !== "most-played" && (
                 <>
                   {formatDate(albumData.releaseDate)}
                   <img src={imgDot} alt="dot" />{" "}
                 </>
               )}
             {albumData.countSongs} songs
-            {album !== "weekly-top" &&
-              album !== "trending-songs" &&
-              album !== "favourites" && (
-                <>
-                  <img src={imgDot} alt="dot" />
-                  {formatMilliseconds(albumData.durationSongs)}
-                </>
-              )}
+            <>
+              <img src={imgDot} alt="dot" />
+              {formatDurationAlbum(albumData.durationSongs)}
+            </>
           </p>
         </div>
 

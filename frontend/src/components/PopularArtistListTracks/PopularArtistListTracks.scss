@@ -34,15 +34,29 @@
     text-align: center;
   }
 
-  &__time {
+  &__headlines {
     display: flex;
+    align-items: center;
     width: 1115px;
-    justify-content: flex-end;
     margin-bottom: 8px;
-  }
-
-  &__title-time {
     @include customText(400, 20px);
     letter-spacing: 0.3px;
+  }
+
+  &__relase-date {
+    margin-left: 310px;
+    width: 300px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  &__labels {
+    width: 293px;
+    text-align: center;
+  }
+
+  &__time {
+    margin-left: auto;
+    margin-bottom: 0;
   }
 }

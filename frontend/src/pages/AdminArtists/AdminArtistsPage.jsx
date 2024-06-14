@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import * as artistService from "../../services/ArtistService";
 import Loader from "../../components/Loader/Loader";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
-import AdminArtistCatalog from "../../components/AdminArtistCatalog/AdminArtistCatalog";
 import AdminArtistModal from "../../components/AdminArtistModal/AdminArtistModal";
+import AdminArtistCatalog from "../../components/AdminArtistCatalog/AdminArtistCatalog";
 
 const AdminArtistsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -81,7 +81,7 @@ const AdminArtistsPage = () => {
         <Loader />
       ) : (
         <>
-          <HeaderAdminPage openModal={openModal} title="Album" />
+          <HeaderAdminPage openModal={openModal} title="Artist" />
 
           <AdminArtistCatalog
             artistItems={artists}

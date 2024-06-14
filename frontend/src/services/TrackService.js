@@ -19,3 +19,19 @@ export const updateTrack = async (id, trackData) => {
 export const deleteTrack = async (id) => {
   return await api.delete(`/tracks/${id}`);
 };
+
+export const getTrackAudio = async (id) => {
+  return await api.get(`/tracks/listen-music/${id}`);
+};
+
+export const incrementTrackListens = async (id) => {
+  return await api.put(`/tracks/listen-music/${id}`);
+};
+
+export const recentlyAdded = async (limit) => {
+  return await api.get(`/tracks/recently-added/${limit}`);
+};
+
+export const getTopSongs = async (limit) => {
+  return await api.get(`/tracks/top-chart/${limit}`);
+};

@@ -2,6 +2,9 @@ const userRoles = {
   READ_RECORD: "read_record",
   READ_ALBUM: "read_album",
   READ_ARTIST: "read_artist",
+
+  UPDATE_RECORD: "update_record",
+  INCREMENT_LISTENES: "increment_listenes",
 };
 
 const adminRoles = {

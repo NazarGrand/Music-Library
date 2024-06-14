@@ -58,6 +58,19 @@ class ArtistController {
       return res.status(401).json({ message: e.message });
     }
   }
+
+  async getTopSingleSongs(req, res) {
+    try {
+      const sortedSongs = await artistService.getSortedSingleSongs(
+        req.params.artistId
+      );
+
+      return res.json(sortedSongs);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
+    }
+  }
 }
 
 module.exports = new ArtistController();

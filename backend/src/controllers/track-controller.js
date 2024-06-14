@@ -58,6 +58,48 @@ class TrackController {
       return res.status(400).json({ message: e.message });
     }
   }
+
+  async getTrackAudio(req, res) {
+    try {
+      const track = await trackService.getTrackAudioById(req.params.id);
+      return res.json(track);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
+    }
+  }
+
+  async incrementTrackListens(req, res) {
+    try {
+      const track = await trackService.incrementTrackListens(req.params.id);
+
+      return res.json(track);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
+    }
+  }
+
+  async getTopSongs(req, res) {
+    try {
+      const tracks = await trackService.topSongs(req.params.limit);
+
+      return res.json(tracks);
+    } catch (e) {
+      return res.status(400).json({ message: e.message });
+    }
+  }
+
+  async getRecentlyAddedSongs(req, res) {
+    try {
+      const tracks = await trackService.recentlyAdded(req.params.limit);
+
+      return res.json(tracks);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
+    }
+  }
 }
 
 module.exports = new TrackController();

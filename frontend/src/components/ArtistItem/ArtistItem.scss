@@ -4,10 +4,13 @@
   &__link {
     display: inline-block;
     width: 180px;
-    padding: 0 15px;
+    padding: 0 15px 5px;
     color: $white-text-color;
     text-decoration: none;
     cursor: pointer;
+
+    background-color: $login-button-color;
+    border-radius: 10px;
   }
 
   &__image {
@@ -15,12 +18,12 @@
     width: 150px;
     height: 150px;
     margin-top: 12px;
+    border-radius: 50px;
   }
 
   &__title-author {
     text-align: center;
     margin: 0;
-    margin-top: 10px;
     white-space: nowrap;
 
     font-weight: 600;

@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import "./PopularArtistListTracks.scss";
 
-import AlbumTrack from "../AlbumTrack/AlbumTrack";
 import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import TrackItem from "../TrackItem/TrackItem";
 
 const PopularArtistListTracks = ({ popularTracks }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchPlaylistContext);
 
   const initializePlaylistContext = () => {
@@ -29,25 +29,21 @@ const PopularArtistListTracks = ({ popularTracks }) => {
 
       {popularTracks.length !== 0 ? (
         <>
-          <div className="popular-tracks__time">
-            <span className="popular-tracks__title-time">Time</span>
+          <div className="popular-tracks__headlines">
+            <span className="popular-tracks__relase-date">Release Date</span>
+
+            <span className="popular-tracks__labels">Label</span>
+
+            <span className="popular-tracks__time">Time</span>
           </div>
 
           <ul className="popular-tracks__list">
             {popularTracks.map((item, index) => (
               <li key={index}>
-                <AlbumTrack
+                <TrackItem
                   indexTrack={index + 1}
-                  idTrack={item.idTrack}
-                  image={item.image}
-                  titleSong={item.titleSong}
-                  artists={item.artists}
-                  durationSong={item.duration}
-                  isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
-                  }
+                  track={item}
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(

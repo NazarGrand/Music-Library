@@ -56,6 +56,7 @@ const AdminArtistModal = ({
 
   const modal = classNames("artist-modal__window", {
     "artist-modal__window--add": !selectedArtist,
+    "artist-modal__window--loading": loading,
   });
 
   const handleInput = (e) => {
@@ -253,7 +254,7 @@ const AdminArtistModal = ({
                     onClick={handleUpdate}
                     disabled={isDisabledUpdate}
                   >
-                    {!isDisabledUpdate && "Update Album"}
+                    {!isDisabledUpdate && "Update Artist"}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -267,7 +268,7 @@ const AdminArtistModal = ({
                     onClick={handleDelete}
                     disabled={isDisabledDelete}
                   >
-                    {!isDisabledDelete && "Delete Album"}
+                    {!isDisabledDelete && "Delete Artist"}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -282,7 +283,7 @@ const AdminArtistModal = ({
                   onClick={handleCreate}
                   disabled={isDisabledCreate}
                 >
-                  {!isDisabledCreate && "Add Album"}
+                  {!isDisabledCreate && "Add Artist"}
                   <img
                     className="artist-modal__image-loading"
                     src={imgLoader}

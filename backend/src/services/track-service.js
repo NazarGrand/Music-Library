@@ -33,31 +33,33 @@ async function createTrack(trackData) {
   session.startTransaction();
 
   try {
-    const track = await TrackModel.create([trackData], { session });
-
     if (trackData.albumReference) {
       const album = await AlbumModel.findById(trackData.albumReference).session(
         session
       );
 
-      if (album) {
-        album.tracksReferences.push(track[0]._id);
-        await album.save({ session });
-      } else {
+      if (!album) {
         throw new Error("Album not found");
       }
+
+      trackData.artistReference = album.artistReference;
+
+      album.tracksReferences.push(trackData._id);
+      await album.save({ session });
     } else if (trackData.artistReference) {
       const artist = await ArtistModel.findById(
         trackData.artistReference
       ).session(session);
 
-      if (artist) {
-        artist.singleSongs.push(track[0]._id);
-        await artist.save({ session });
-      } else {
+      if (!artist) {
         throw new Error("Artist not found");
       }
+
+      artist.singleSongs.push(trackData._id);
+      await artist.save({ session });
     }
+
+    const track = await TrackModel.create([trackData], { session });
 
     await session.commitTransaction();
     return track;
@@ -70,7 +72,7 @@ async function createTrack(trackData) {
 }
 
 async function getTrackById(trackId) {
-  const track = await TrackModel.findById(trackId).populate("albumReference");
+  const track = await TrackModel.findById(trackId).select("-audio");
 
   if (!track) {
     throw new Error("Track not found");
@@ -105,17 +107,9 @@ async function updateTrack(trackId, trackData) {
     );
   }
 
-  if (albumReference && artistReference) {
-    throw new Error(
-      "Track can only have either albumReference or artistReference, not both."
-    );
-  }
-
   if (
-    (albumReference &&
-      existingTrack.albumReference?.toString() === albumReference) ||
-    (artistReference &&
-      existingTrack.artistReference?.toString() === artistReference)
+    existingTrack.albumReference?.toString() === albumReference ||
+    existingTrack.artistReference?.toString() === artistReference
   ) {
     const updatedTrack = await TrackModel.findByIdAndUpdate(
       trackId,
@@ -134,16 +128,6 @@ async function updateTrack(trackId, trackData) {
   try {
     const updatedTrackData = { ...trackData, albumReference, artistReference };
 
-    const track = await TrackModel.findByIdAndUpdate(
-      trackId,
-      updatedTrackData,
-      {
-        new: true,
-        runValidators: true,
-        session: session,
-      }
-    );
-
     if (albumReference) {
       const newAlbum = await AlbumModel.findById(albumReference).session(
         session
@@ -151,6 +135,8 @@ async function updateTrack(trackId, trackData) {
       if (!newAlbum) {
         throw new Error("New album not found");
       }
+
+      updatedTrackData.artistReference = newAlbum.artistReference;
 
       if (
         existingTrack.albumReference &&
@@ -160,12 +146,12 @@ async function updateTrack(trackId, trackData) {
           existingTrack.albumReference
         ).session(session);
         if (oldAlbum) {
-          oldAlbum.tracksReferences.pull(track._id);
+          oldAlbum.tracksReferences.pull(trackId);
           await oldAlbum.save({ session });
         }
       }
 
-      newAlbum.tracksReferences.push(track._id);
+      newAlbum.tracksReferences.push(trackId);
       await newAlbum.save({ session });
 
       if (existingTrack.artistReference) {
@@ -173,7 +159,7 @@ async function updateTrack(trackId, trackData) {
           existingTrack.artistReference
         ).session(session);
         if (oldArtist) {
-          oldArtist.singleSongs.pull(track._id);
+          oldArtist.singleSongs.pull(trackId);
           await oldArtist.save({ session });
         }
       }
@@ -193,12 +179,12 @@ async function updateTrack(trackId, trackData) {
           existingTrack.artistReference
         ).session(session);
         if (oldArtist) {
-          oldArtist.singleSongs.pull(track._id);
+          oldArtist.singleSongs.pull(trackId);
           await oldArtist.save({ session });
         }
       }
 
-      newArtist.singleSongs.push(track._id);
+      newArtist.singleSongs.push(trackId);
       await newArtist.save({ session });
 
       if (existingTrack.albumReference) {
@@ -206,11 +192,21 @@ async function updateTrack(trackId, trackData) {
           existingTrack.albumReference
         ).session(session);
         if (oldAlbum) {
-          oldAlbum.tracksReferences.pull(track._id);
+          oldAlbum.tracksReferences.pull(trackId);
           await oldAlbum.save({ session });
         }
       }
     }
+
+    const track = await TrackModel.findByIdAndUpdate(
+      trackId,
+      updatedTrackData,
+      {
+        new: true,
+        runValidators: true,
+        session: session,
+      }
+    );
 
     await session.commitTransaction();
     return track;
@@ -260,10 +256,58 @@ async function deleteTrack(trackId) {
   }
 }
 
+async function getTrackAudioById(trackId) {
+  const track = await TrackModel.findById(trackId).select("audio");
+
+  if (!track) {
+    throw new Error("Track not found");
+  }
+
+  return track;
+}
+
+async function incrementTrackListens(trackId) {
+  const track = await TrackModel.findByIdAndUpdate(
+    trackId,
+    { $inc: { totalListens: 1 } },
+    { new: true, select: "totalListens" }
+  );
+
+  if (!track) {
+    throw new Error("Track not found");
+  }
+
+  return track;
+}
+
+async function topSongs(limit) {
+  const tracks = await TrackModel.find()
+    .sort({ totalListens: -1 })
+    .limit(limit)
+    .select("-audio")
+    .populate("artistReference");
+
+  return tracks;
+}
+
+async function recentlyAdded(limit) {
+  const tracks = await TrackModel.find()
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .select("-audio")
+    .populate("artistReference");
+
+  return tracks;
+}
+
 module.exports = {
   createTrack,
   getTrackById,
   getAllTracks,
   updateTrack,
   deleteTrack,
+  getTrackAudioById,
+  incrementTrackListens,
+  topSongs,
+  recentlyAdded,
 };

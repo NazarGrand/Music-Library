@@ -33,7 +33,7 @@ const Sidebar = () => {
       )}
 
       <div className="sidebar-nav">
-        <p className="sidebar-nav__menu">general</p>
+        <p className="sidebar-nav__menu">General</p>
 
         <nav className="sidebar-nav__nav">
           <ul className="sidebar-nav__list">

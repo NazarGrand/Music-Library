@@ -17,7 +17,10 @@ async function createArtist(artistData) {
 
 async function getArtistById(artistId) {
   const artist = await ArtistModel.findById(artistId)
-    .populate("singleSongs")
+    .populate({
+      path: "singleSongs",
+      select: "-audio",
+    })
     .populate("albums");
 
   if (!artist) {
@@ -73,10 +76,29 @@ async function deleteArtist(artistId) {
   }
 }
 
+async function getSortedSingleSongs(artistId) {
+  const artist = await ArtistModel.findById(artistId)
+    .populate({
+      path: "singleSongs",
+      select: "-audio",
+      options: { sort: { totalListens: -1 } },
+    })
+    .exec();
+
+  if (!artist) {
+    throw new Error("Artist not found");
+  }
+
+  const sortedSingleSongs = artist.singleSongs;
+
+  return sortedSingleSongs;
+}
+
 module.exports = {
   createArtist,
   getArtistById,
   getAllArtists,
   updateArtist,
   deleteArtist,
+  getSortedSingleSongs,
 };

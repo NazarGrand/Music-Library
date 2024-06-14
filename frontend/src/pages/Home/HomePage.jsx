@@ -2,17 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 
 import MusicCardsList from "../../components/MusicCardsList/MusicCardsList";
 import Loader from "../../components/Loader/Loader";
-import * as musicService from "../../services/MusicService";
 import TracksList from "../../components/TracksList/TracksList";
 import ArtistsList from "../../components/ArtistsList/ArtistsList";
-import { ArtistItems } from "../../data/InformationArtists";
 import Slider from "../../components/Slider/Slider";
 import Header from "../../components/Header/Header";
+import * as artistService from "../../services/ArtistService";
+import * as trackService from "../../services/TrackService";
+import imgArtist from "../../assets/images/Artist.jpg";
+import imgTrack from "../../assets/images/Track.jpg";
 
 import { useLocation } from "react-router-dom";
 
 const HomePage = () => {
   const [topSongs, setTopSongs] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
@@ -21,21 +24,31 @@ const HomePage = () => {
 
   const fetchData = async () => {
     try {
-      const weeklyTopSongs = await musicService.getWeekTopChart();
+      const { data: artistData } = await artistService.getAllArtists();
 
-      const newTopSongs = weeklyTopSongs.map((item) => ({
-        image: item.trackMetadata.displayImageUri,
-        titleSong: item.trackMetadata.trackName,
-        artists: item.trackMetadata.artists.map((artist) => ({
-          name: artist.name,
-          artistId: artist.spotifyUri.split(":")[2],
-        })),
-        releaseDate: item.trackMetadata.releaseDate,
-        label: item.trackMetadata.labels[0].name,
-        idTrack: item.trackMetadata.trackUri.split(":")[2],
+      const artists = artistData.map((artist) => ({
+        artistName: artist.name,
+        image: artist.photoUrl ? artist.photoUrl : imgArtist,
+        artistId: artist._id,
       }));
 
-      setTopSongs(newTopSongs);
+      setArtists(artists);
+
+      const limit = 10;
+      const tracksData = await trackService.getTopSongs(limit);
+
+      const topTracks = tracksData.data.map((track) => ({
+        titleSong: track.name,
+        image: track.previewImage ? track.previewImage : imgTrack,
+        artistName: track.artistReference?.name,
+        artistId: track.artistReference?._id,
+        releaseDate: track.releaseDate,
+        label: track.label,
+        duration: track.duration,
+        idTrack: track._id,
+      }));
+
+      setTopSongs(topTracks);
     } catch (error) {
       console.error("Error getting data:", error);
     } finally {
@@ -89,20 +102,21 @@ const HomePage = () => {
         <div>
           <Header />
 
-          <Slider />
+          <Slider artists={artists.slice(0, 5)} />
 
           <MusicCardsList
-            title="Weekly Top"
+            title="Top"
             cardItems={topSongs ?? []}
-            type="weekly-top"
+            type="top-songs"
           />
 
           <TracksList
             title="Trending"
-            trackItems={topSongs.slice(5, 12) ?? []}
+            trackItems={topSongs.slice(5, 10) ?? []}
+            type="top-songs"
           />
 
-          <ArtistsList title="Popular" artistItems={ArtistItems ?? []} />
+          <ArtistsList title="Popular" artistItems={artists ?? []} />
         </div>
       )}
     </>

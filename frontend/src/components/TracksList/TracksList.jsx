@@ -8,10 +8,10 @@ import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import { ROUTES } from "../../utils/routes";
 
-const TracksList = ({ title, trackItems }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
-  const album = "trending-songs";
+const TracksList = ({ title, trackItems, type }) => {
+  const { trackId, isPlaying } = useContext(StateTrackContext);
 
   const dispatch = useContext(DispatchPlaylistContext);
 
@@ -35,9 +35,11 @@ const TracksList = ({ title, trackItems }) => {
       {trackItems.length !== 0 ? (
         <>
           <div className="tracks__headlines">
-            <span className="tracks__relase-date">Relase Date</span>
+            <span className="tracks__relase-date">Release Date</span>
 
             <span className="tracks__labels">Label</span>
+
+            <span className="tracks__time">Time</span>
           </div>
 
           <ul className="tracks__list">
@@ -45,17 +47,8 @@ const TracksList = ({ title, trackItems }) => {
               <li key={index}>
                 <TrackItem
                   indexTrack={index + 1}
-                  idTrack={item.idTrack}
-                  image={item.image}
-                  titleSong={item.titleSong}
-                  artists={item.artists}
-                  releaseDate={item.releaseDate}
-                  label={item.label}
-                  isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
-                  }
+                  track={item}
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
@@ -66,22 +59,23 @@ const TracksList = ({ title, trackItems }) => {
             ))}
           </ul>
 
-          <div className="tracks__view-all">
-            <Link
-              className="tracks__link-view"
-              to={`/albums/${album}`}
-              onClick={() =>
-                sessionStorage.setItem(
-                  `scrollPosition_${location.pathname}`,
-                  window.pageYOffset
-                )
-              }
-            >
-              {" "}
-              <img src={imgPlus} alt="plus" />{" "}
-              <span className="tracks__view-all-text">View All</span>
-            </Link>
-          </div>
+          {type === "top-songs" && (
+            <div className="tracks__view-all">
+              <Link
+                className="tracks__link-view"
+                to={ROUTES.MOST_PLAYED}
+                onClick={() =>
+                  sessionStorage.setItem(
+                    `scrollPosition_${location.pathname}`,
+                    window.pageYOffset
+                  )
+                }
+              >
+                <img src={imgPlus} alt="plus" />{" "}
+                <span className="tracks__view-all-text">View All</span>
+              </Link>
+            </div>
+          )}
         </>
       ) : (
         <p className="tracks__subtitle">No music found</p>

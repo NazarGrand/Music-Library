@@ -41,4 +41,13 @@ router.delete(
   artistController.deleteArtist
 );
 
+router.get(
+  "/popular-songs/:artistId",
+  rbacMiddleware.checkPermission([
+    adminRoles.READ_ARTIST,
+    userRoles.READ_ARTIST,
+  ]),
+  artistController.getTopSingleSongs
+);
+
 module.exports = router;

@@ -22,6 +22,7 @@ import {
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext.jsx";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions.js";
+import { formatDurationTrack } from "../../utils/formatDurationTrack.js";
 
 function formatDate(inputDate) {
   const dateObj = dayjs(inputDate);
@@ -31,17 +32,23 @@ function formatDate(inputDate) {
 
 const TrackItem = ({
   indexTrack,
-  idTrack,
-  image,
-  titleSong,
-  artists,
-  releaseDate,
-  label,
+  track,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   isFavouriteTrack,
 }) => {
+  const {
+    idTrack,
+    image,
+    titleSong,
+    artistId,
+    artistName,
+    releaseDate,
+    label,
+    duration,
+  } = track;
+
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
@@ -70,8 +77,9 @@ const TrackItem = ({
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: idTrack,
         trackName: titleSong,
-        trackAuthor: artists.map((item) => item.name).join(", "),
+        trackAuthor: artistName,
         trackImage: image,
       },
     });
@@ -92,7 +100,10 @@ const TrackItem = ({
           idTrack,
           image,
           titleSong,
-          artists,
+          artistName,
+          artistId,
+          label,
+          duration,
         },
       });
     } else {
@@ -119,26 +130,20 @@ const TrackItem = ({
             </button>
 
             <span className="track-item__block-artists">
-              {artists.map((item, index) => (
-                <div key={index}>
-                  <Link
-                    className="track-item__link-author"
-                    to={`/artists/${item.artistId}`}
-                    onClick={() =>
-                      sessionStorage.setItem(
-                        `scrollPosition_${location.pathname}`,
-                        window.pageYOffset
-                      )
-                    }
-                  >
-                    <span className="track-item__title-author">
-                      {item.name}
-                    </span>
-                  </Link>
-
-                  {index !== artists.length - 1 && ",\u00A0"}
-                </div>
-              ))}
+              <div>
+                <Link
+                  className="track-item__link-author"
+                  to={`/artists/${artistId}`}
+                  onClick={() =>
+                    sessionStorage.setItem(
+                      `scrollPosition_${location.pathname}`,
+                      window.pageYOffset
+                    )
+                  }
+                >
+                  <span className="track-item__title-author">{artistName}</span>
+                </Link>
+              </div>
             </span>
           </div>
         </div>
@@ -155,6 +160,10 @@ const TrackItem = ({
             <img src={imageHeart} alt="heart" />
           </button>
         </div>
+
+        <p className="track-item__duration-song">
+          {formatDurationTrack(duration)}
+        </p>
 
         <button className="track-item__button" onClick={handleClick}>
           {isPlayingSong && (

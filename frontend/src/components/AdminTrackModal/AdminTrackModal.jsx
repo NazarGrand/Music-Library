@@ -40,12 +40,13 @@ const AdminTrackModal = ({
 
   useEffect(() => {
     if (selectedTrack) {
-      setTrackData(selectedTrack);
       if (selectedTrack.albumReference) {
         setSelectedOption("album");
+        selectedTrack.artistReference = null;
       } else if (selectedTrack.artistReference) {
         setSelectedOption("artist");
       }
+      setTrackData(selectedTrack);
     } else {
       setTrackData(formDefaultValues);
     }
@@ -230,7 +231,11 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="albumReference"
-                    value={trackData.albumReference}
+                    value={
+                      trackData.albumReference
+                        ? trackData.albumReference
+                        : undefined
+                    }
                     onChange={handleChangeSelect}
                   >
                     <option value={undefined}>Not Album</option>
@@ -250,7 +255,11 @@ const AdminTrackModal = ({
                   <select
                     className="track-modal__select"
                     name="artistReference"
-                    value={trackData.artistReference}
+                    value={
+                      trackData.artistReference
+                        ? trackData.artistReference
+                        : undefined
+                    }
                     onChange={handleChangeSelect}
                   >
                     <option value={undefined}>Not Artist</option>
