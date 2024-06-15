@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import "./HeaderAlbum.scss";
 import NavAlbums from "../NavAlbums/NavAlbums";
 
-import dayjs from "dayjs";
-
 import imgPlayAll from "../../assets/images/PlayAll.svg";
 import imgDot from "../../assets/images/Dot.svg";
 
@@ -13,12 +11,9 @@ import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { Link } from "react-router-dom";
 import { formatDurationAlbum } from "../../utils/formatDurationAlbum";
-
-function formatDate(inputDate) {
-  const dateObj = dayjs(inputDate);
-  const formattedDate = dateObj.format("MMM D, YYYY");
-  return formattedDate;
-}
+import { formatDate } from "../../utils/formatDateTrack";
+import { t } from "i18next";
+import { getSongWord } from "../../utils/getSongWord";
 
 const HeaderAlbum = ({ albumData, tracks, album }) => {
   const dispatch = useContext(DispatchTrackContext);
@@ -123,7 +118,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
                   <img src={imgDot} alt="dot" />{" "}
                 </>
               )}
-            {albumData.countSongs} songs
+            {getSongWord(albumData.countSongs)}
             <>
               <img src={imgDot} alt="dot" />
               {formatDurationAlbum(albumData.durationSongs)}
@@ -135,7 +130,7 @@ const HeaderAlbum = ({ albumData, tracks, album }) => {
           className="header-album__button-play"
           onClick={handlePlayAllClick}
         >
-          <p className="header-album__title-play">Play All</p>
+          <p className="header-album__title-play">{t("playAll")}</p>
 
           <img src={imgPlayAll} alt="playall" />
         </button>

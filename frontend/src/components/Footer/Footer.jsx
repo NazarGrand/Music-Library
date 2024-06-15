@@ -7,12 +7,14 @@ import imgFacebook from "../../assets/images/Facebook.svg";
 import imgInstagram from "../../assets/images/Instagram.svg";
 import imgTwitter from "../../assets/images/Twitter.svg";
 import imgPhone from "../../assets/images/Phone.svg";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer__about">
-        <p className="footer__title">About</p>
+        <p className="footer__title">{t("about")}</p>
 
         <p className="footer__description">
           Melodies is a website that has been created for over

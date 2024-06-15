@@ -1,18 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import _ from "lodash";
-import * as musicService from "../../services/MusicService.js";
 import * as albumService from "../../services/AlbumService.js";
-import * as albumTracksService from "../../services/AlbumTracksService.js";
-import * as albumMetadataService from "../../services/AlbumMetadataService.js";
 import Loader from "../../components/Loader/Loader.jsx";
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum.jsx";
 import AlbumList from "../../components/AlbumList/AlbumList.jsx";
 
-import imgTrendingMusic from "../../assets/images/TrendingMusic.png";
 import imgAlbum from "../../assets/images/AlbumImage.jpg";
-import { DispatchPlaylistContext } from "../../context/PlayListContext.jsx";
-import { playlistContextActions } from "../../constants/PlaylistContextActions.js";
 
 const AlbumPage = () => {
   let { albumId } = useParams();
@@ -21,7 +14,6 @@ const AlbumPage = () => {
   const [albumData, setAlbumData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useContext(DispatchPlaylistContext);
   const location = useLocation();
 
   const pageKey = `scrollPosition_${location.pathname}`;

@@ -4,10 +4,13 @@ import Loader from "../../components/Loader/Loader";
 import ArtistsCatalog from "../../components/ArtistsCatalog/ArtistsCatalog";
 import imgArtist from "../../assets/images/Artist.jpg";
 import MusicPageHeader from "../../components/MusicPageHeader/MusicPageHeader";
+import { useTranslation } from "react-i18next";
 
 const ArtistsPage = () => {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { t } = useTranslation();
 
   const fetchData = async () => {
     setLoading(true);
@@ -37,7 +40,7 @@ const ArtistsPage = () => {
         <Loader />
       ) : (
         <>
-          <MusicPageHeader title="Artist" />
+          <MusicPageHeader title={t("titleArtists")} />
 
           <ArtistsCatalog artistItems={artists} />
         </>

@@ -1,7 +1,12 @@
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+import i18next from "i18next";
+
+dayjs.extend(localizedFormat);
 
 export function formatDate(inputDate) {
-  const dateObj = dayjs(inputDate);
-  const formattedDate = dateObj.format("MMM D, YYYY");
+  const dateObj = dayjs(inputDate).locale(i18next.language);
+  const formattedDate = dateObj.format("LL");
   return formattedDate;
 }

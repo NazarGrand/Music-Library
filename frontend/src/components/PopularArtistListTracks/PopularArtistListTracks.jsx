@@ -6,10 +6,12 @@ import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import TrackItem from "../TrackItem/TrackItem";
+import { useTranslation } from "react-i18next";
 
 const PopularArtistListTracks = ({ popularTracks }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchPlaylistContext);
+  const { t } = useTranslation();
 
   const initializePlaylistContext = () => {
     dispatch({
@@ -23,18 +25,20 @@ const PopularArtistListTracks = ({ popularTracks }) => {
   return (
     <div className="popular-tracks">
       <div className="popular-tracks__title">
-        <span>Popular </span>{" "}
-        <span className="popular-tracks__title--pink"> Songs</span>
+        <span>{t("popular")} </span>{" "}
+        <span className="popular-tracks__title--pink">{t("songs")}</span>
       </div>
 
       {popularTracks.length !== 0 ? (
         <>
           <div className="popular-tracks__headlines">
-            <span className="popular-tracks__relase-date">Release Date</span>
+            <span className="popular-tracks__relase-date">
+              {t("releaseDate")}
+            </span>
 
-            <span className="popular-tracks__labels">Label</span>
+            <span className="popular-tracks__labels">{t("label")}</span>
 
-            <span className="popular-tracks__time">Time</span>
+            <span className="popular-tracks__time">{t("time")}</span>
           </div>
 
           <ul className="popular-tracks__list">

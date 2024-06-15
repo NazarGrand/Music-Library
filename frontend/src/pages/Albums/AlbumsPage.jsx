@@ -5,10 +5,13 @@ import Loader from "../../components/Loader/Loader";
 import MusicPageHeader from "../../components/MusicPageHeader/MusicPageHeader";
 import AllAlbums from "../../components/AllAlbums/AllAlbums";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const AlbumsPage = () => {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { t } = useTranslation();
 
   const fetchData = async () => {
     setLoading(true);
@@ -40,7 +43,7 @@ const AlbumsPage = () => {
         <Loader />
       ) : (
         <>
-          <MusicPageHeader title="Album" />
+          <MusicPageHeader title={t("titleAlbums")} />
 
           <AllAlbums albumItems={albums} />
         </>

@@ -1,7 +1,4 @@
 import React, { useContext } from "react";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import "dayjs/locale/uk";
 import "./TrackItem.scss";
 
 import imgHeart from "../../assets/images/Heart.svg";
@@ -25,16 +22,7 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext.jsx";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions.js";
 import { formatDurationTrack } from "../../utils/formatDurationTrack.js";
-
-import i18next from "i18next";
-
-dayjs.extend(localizedFormat);
-
-function formatDate(inputDate) {
-  const dateObj = dayjs(inputDate).locale(i18next.language);
-  const formattedDate = dateObj.format("LL");
-  return formattedDate;
-}
+import { formatDate } from "../../utils/formatDateTrack.js";
 
 const TrackItem = ({
   indexTrack,

@@ -6,6 +6,8 @@ import { headerTranslations } from "./translation/components/Header";
 import { sliderTranslations } from "./translation/components/Slider";
 import { homePageTranslations } from "./translation/pages/HomePage";
 import { tracksListTranslations } from "./translation/components/TracksList";
+import { footerTranslations } from "./translation/components/Footer";
+import { headerAlbumTranslations } from "./translation/components/HeaderAlbum";
 
 const resources = {
   [LANGUAGES.EN]: {
@@ -15,6 +17,8 @@ const resources = {
       ...sliderTranslations.en.translation,
       ...homePageTranslations.en.translation,
       ...tracksListTranslations.en.translation,
+      ...footerTranslations.en.translation,
+      ...headerAlbumTranslations.en.translation,
     },
   },
   [LANGUAGES.UK]: {
@@ -24,6 +28,8 @@ const resources = {
       ...sliderTranslations.uk.translation,
       ...homePageTranslations.uk.translation,
       ...tracksListTranslations.uk.translation,
+      ...footerTranslations.uk.translation,
+      ...headerAlbumTranslations.uk.translation,
     },
   },
 };
