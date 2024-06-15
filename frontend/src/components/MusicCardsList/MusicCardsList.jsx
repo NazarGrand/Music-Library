@@ -6,15 +6,16 @@ import { Link, useLocation } from "react-router-dom";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { ROUTES } from "../../utils/routes";
+import { useTranslation } from "react-i18next";
 
 const MusicCardsList = ({ title, cardItems, type }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
 
   const dispatch = useContext(DispatchPlaylistContext);
 
-  const album = "weekly-top";
-
   const location = useLocation();
+
+  const { t } = useTranslation();
 
   const path = type === "top-songs" ? ROUTES.MOST_PLAYED : "#";
 
@@ -30,7 +31,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
   return (
     <div className="music-catalog">
       <p className="music-catalog__title">
-        {title} <span className="music-catalog__title--pink">Songs</span>
+        {title} <span className="music-catalog__title--pink">{t("songs")}</span>
       </p>
       {cardItems.length !== 0 ? (
         <div className="music-catalog__block">
@@ -61,7 +62,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
             >
               <div className="music-catalog__button">+</div>
 
-              <p className="music-catalog__btn-text">View All</p>
+              <p className="music-catalog__btn-text">{t("viewAll")}</p>
             </Link>
           )}
         </div>

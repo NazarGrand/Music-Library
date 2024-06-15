@@ -9,6 +9,7 @@ import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import { ROUTES } from "../../utils/routes";
+import { useTranslation } from "react-i18next";
 
 const TracksList = ({ title, trackItems, type }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
@@ -16,6 +17,8 @@ const TracksList = ({ title, trackItems, type }) => {
   const dispatch = useContext(DispatchPlaylistContext);
 
   const location = useLocation();
+
+  const { t } = useTranslation();
 
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
 
@@ -30,16 +33,16 @@ const TracksList = ({ title, trackItems, type }) => {
     <div className="tracks">
       <div className="tracks__title">
         <span>{title} </span>{" "}
-        <span className="tracks__title--pink"> Songs</span>
+        <span className="tracks__title--pink">{t("songs")}</span>
       </div>
       {trackItems.length !== 0 ? (
         <>
           <div className="tracks__headlines">
-            <span className="tracks__relase-date">Release Date</span>
+            <span className="tracks__relase-date">{t("releaseDate")}</span>
 
-            <span className="tracks__labels">Label</span>
+            <span className="tracks__labels">{t("label")}</span>
 
-            <span className="tracks__time">Time</span>
+            <span className="tracks__time">{t("time")}</span>
           </div>
 
           <ul className="tracks__list">
@@ -72,7 +75,7 @@ const TracksList = ({ title, trackItems, type }) => {
                 }
               >
                 <img src={imgPlus} alt="plus" />{" "}
-                <span className="tracks__view-all-text">View All</span>
+                <span className="tracks__view-all-text">{t("viewAll")}</span>
               </Link>
             </div>
           )}

@@ -5,9 +5,11 @@ import imgNotSelectedSlide from "../../assets/images/NotSelectedSlide.svg";
 import imgSelectedSlide from "../../assets/images/SelectedSlide.svg";
 
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Slider = ({ artists }) => {
   const [activeId, setActiveId] = useState(0);
+  const { t } = useTranslation();
 
   const location = useLocation();
 
@@ -149,8 +151,8 @@ const Slider = ({ artists }) => {
           </Link>
 
           <p className="slider__description">
-            You can have easy access to every song of{" "}
-            {artists[activeId].artistName} by just clicking on the{" "}
+            {t("songAccessMessage")} {artists[activeId].artistName}{" "}
+            {t("clickPrompt")}{" "}
             <Link
               className="slider__link-description"
               to={`/artists/${artists[activeId].artistId}`}
@@ -161,7 +163,9 @@ const Slider = ({ artists }) => {
                 )
               }
             >
-              <span className="slider__description--pink">Listen now</span>
+              <span className="slider__description--pink">
+                {t("listenNow")}
+              </span>
             </Link>{" "}
             button.
           </p>
@@ -176,7 +180,7 @@ const Slider = ({ artists }) => {
               )
             }
           >
-            <span className="slider__text-listen-now">Listen Now</span>
+            <span className="slider__text-listen-now">{t("listenNow")}</span>
           </Link>
 
           <div className="slider__area-selected">

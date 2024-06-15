@@ -167,7 +167,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 131px;
+    max-width: 150px;
     height: 43px;
     margin-top: 30px;
 
@@ -185,6 +185,7 @@
   }
 
   &__text-listen-now {
+    padding-top: 5px;
     color: $pink-text-color;
     @include customText(400, 16px);
   }

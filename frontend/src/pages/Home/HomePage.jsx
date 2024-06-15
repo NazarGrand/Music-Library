@@ -12,11 +12,14 @@ import imgArtist from "../../assets/images/Artist.jpg";
 import imgTrack from "../../assets/images/Track.jpg";
 
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
   const [topSongs, setTopSongs] = useState([]);
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { t } = useTranslation();
 
   const location = useLocation();
 
@@ -105,18 +108,18 @@ const HomePage = () => {
           <Slider artists={artists.slice(0, 5)} />
 
           <MusicCardsList
-            title="Top"
+            title={t("top")}
             cardItems={topSongs ?? []}
             type="top-songs"
           />
 
           <TracksList
-            title="Trending"
+            title={t("trending")}
             trackItems={topSongs.slice(5, 10) ?? []}
             type="top-songs"
           />
 
-          <ArtistsList title="Popular" artistItems={artists ?? []} />
+          <ArtistsList title={t("popular")} artistItems={artists ?? []} />
         </div>
       )}
     </>
