@@ -2,8 +2,10 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import classnames from "classnames";
 import "./SidebarNav.scss";
+import { useTranslation } from "react-i18next";
 
 const SidebarNav = ({ menuTitle, menuItems }) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const handleIsActive = (title) => {
@@ -27,8 +29,8 @@ const SidebarNav = ({ menuTitle, menuItems }) => {
           {menuItems.map((item, index) => (
             <li key={index} className="sidebar-nav__item">
               <NavLink
-                className={() => handleIsActive(item.title)}
-                to={item.link.toLowerCase().replace(/ /g, "-")}
+                className={() => handleIsActive(item.routeName)}
+                to={item.link}
                 onClick={() => handleClick(item.link)}
               >
                 <div className="sidebar-nav__item-block">
@@ -38,7 +40,7 @@ const SidebarNav = ({ menuTitle, menuItems }) => {
                     alt="home"
                   />
 
-                  <p className="sidebar-nav__item-title">{item.title}</p>
+                  <p className="sidebar-nav__item-title">{t(item.title)}</p>
                 </div>
               </NavLink>
             </li>

@@ -41,17 +41,17 @@ const Footer = () => {
         </Link>
 
         <div className="footer__icons-network">
-          <Link to="https://www.facebook.com/applemusic" target="_blank">
+          <a href="https://www.facebook.com/applemusic" target="_blank">
             <img src={imgFacebook} alt="facebook" />
-          </Link>
+          </a>
 
-          <Link to="https://www.instagram.com/applemusic/" target="_blank">
+          <a href="https://www.instagram.com/applemusic/" target="_blank">
             <img src={imgInstagram} alt="instagram" />
-          </Link>
+          </a>
 
-          <Link to="https://twitter.com/AppleMusic" target="_blank">
+          <a href="https://twitter.com/AppleMusic" target="_blank">
             <img src={imgTwitter} alt="twitter" />
-          </Link>
+          </a>
 
           <a href="tel:+380698541234">
             <img src={imgPhone} alt="phone" />
