@@ -11,6 +11,8 @@ import { headerAlbumTranslations } from "./translation/components/HeaderAlbum";
 import { favouriteTracksPageTranslations } from "./translation/pages/FavouriteTracksPage";
 import { adminTracksPageTranslations } from "./translation/pages/AdminTracksPage";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { adminAlbumsPageTranslations } from "./translation/pages/AdminAlbumsPage";
+import { adminArtistsPageTranslations } from "./translation/pages/AdminArtistsPage";
 
 const resources = {
   [LANGUAGES.EN]: {
@@ -24,6 +26,8 @@ const resources = {
       ...headerAlbumTranslations.en.translation,
       ...favouriteTracksPageTranslations.en.translation,
       ...adminTracksPageTranslations.en.translation,
+      ...adminAlbumsPageTranslations.en.translation,
+      ...adminArtistsPageTranslations.en.translation,
     },
   },
   [LANGUAGES.UK]: {
@@ -37,6 +41,8 @@ const resources = {
       ...headerAlbumTranslations.uk.translation,
       ...favouriteTracksPageTranslations.uk.translation,
       ...adminTracksPageTranslations.uk.translation,
+      ...adminAlbumsPageTranslations.uk.translation,
+      ...adminArtistsPageTranslations.uk.translation,
     },
   },
 };

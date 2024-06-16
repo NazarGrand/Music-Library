@@ -16,6 +16,10 @@ export const adminTracksPageTranslations = {
       chooseFile: "Choose file",
       changeFile: "Change file",
       uploading: "Uploading",
+      duration: "Duration",
+      update: "Update",
+      delete: "Delete",
+      track: "Track",
     },
   },
   [LANGUAGES.UK]: {
@@ -33,6 +37,10 @@ export const adminTracksPageTranslations = {
       chooseFile: "Вибрати файл",
       changeFile: "Змінити файл",
       uploading: "Завантаження",
+      duration: "Тривалість",
+      update: "Оновити",
+      delete: "Видалити",
+      track: "трек",
     },
   },
 };

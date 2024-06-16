@@ -7,6 +7,19 @@
     flex-direction: column;
   }
 
+  &__block {
+    display: flex;
+    width: 1400px;
+    justify-content: center;
+  }
+
+  &__image {
+    display: flex;
+    width: 55.5%;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
   &__melodies {
     margin-top: 15px;
     width: 150px;
@@ -24,5 +37,31 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     user-select: none;
+  }
+
+  &__flags {
+    margin-left: auto;
+    display: flex;
+    gap: 30px;
+  }
+
+  &__button-flag {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+  }
+
+  &__image-flag {
+    width: 40px;
+    height: 25px;
   }
 }

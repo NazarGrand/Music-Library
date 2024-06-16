@@ -289,7 +289,7 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Release Date:</p>
+                <p className="track-modal__detail">{t("releaseDate")}:</p>
 
                 <DatePicker
                   selected={trackData.releaseDate}
@@ -302,13 +302,13 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Label:</p>
+                <p className="track-modal__detail">{t("label")}:</p>
 
                 <input
                   className="track-modal__input"
                   type="text"
                   name="label"
-                  placeholder="Label"
+                  placeholder={t("label")}
                   value={trackData.label}
                   onChange={handleInput}
                   required={true}
@@ -316,13 +316,13 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Duration:</p>
+                <p className="track-modal__detail">{t("duration")}:</p>
 
                 <input
                   className="track-modal__input"
                   type="text"
                   name="duration"
-                  placeholder="Duration"
+                  placeholder={t("duration")}
                   value={trackData.duration}
                   onChange={handleInput}
                   required={true}
@@ -342,7 +342,7 @@ const AdminTrackModal = ({
                 onClick={handleUpdate}
                 disabled={isDisabledUpdate}
               >
-                {!isDisabledUpdate && "Update Track"}
+                {!isDisabledUpdate && `${t("update")} ${t("track")}`}
                 <img
                   className="track-modal__image-loading"
                   src={imgLoader}
@@ -356,7 +356,7 @@ const AdminTrackModal = ({
                 onClick={handleDelete}
                 disabled={isDisabledDelete}
               >
-                {!isDisabledDelete && "Delete Track"}
+                {!isDisabledDelete && `${t("delete")} ${t("track")}`}
                 <img
                   className="track-modal__image-loading"
                   src={imgLoader}
@@ -371,7 +371,7 @@ const AdminTrackModal = ({
               onClick={handleCreate}
               disabled={isDisabledCreate}
             >
-              {!isDisabledCreate && "Add Track"}
+              {!isDisabledCreate && t("addTrack")}
               <img
                 className="track-modal__image-loading"
                 src={imgLoader}

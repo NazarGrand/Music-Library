@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import "./AdminArtistModal.scss";
 import * as artistService from "../../services/ArtistService";
 import imgExit from "../../assets/images/Exit.svg";
@@ -9,6 +9,7 @@ import imgLoader from "../../assets/images/Loader.svg";
 import classNames from "classnames";
 import Loader from "../Loader/Loader";
 import AdminFileInput from "../AdminFileInput/AdminFileInput";
+import { useTranslation } from "react-i18next";
 
 const AdminArtistModal = ({
   closeModal,
@@ -18,6 +19,8 @@ const AdminArtistModal = ({
   onUpdate,
   onDelete,
 }) => {
+  const { t } = useTranslation();
+
   const formDefaultValues = {
     name: "",
     photoUrl: null,
@@ -131,7 +134,7 @@ const AdminArtistModal = ({
               <img src={imgExit} alt="exit" />
             </button>
             <div className="artist-modal__block">
-              <p className="artist-modal__title">Artist Info</p>
+              <p className="artist-modal__title">{t("artistInfo")}</p>
 
               <div className="artist-modal__block-info">
                 <div className="artist-modal__image-block">
@@ -162,13 +165,13 @@ const AdminArtistModal = ({
 
                 <div className="artist-modal__details">
                   <div className="artist-modal__field-album">
-                    <p className="artist-modal__detail">Artist Name:</p>
+                    <p className="artist-modal__detail">{t("artistName")}:</p>
 
                     <input
                       className="artist-modal__input"
                       type="text"
                       name="name"
-                      placeholder="Name Artist"
+                      placeholder={t("artistName")}
                       value={artistData.name}
                       onChange={handleInput}
                       required={true}
@@ -177,7 +180,9 @@ const AdminArtistModal = ({
 
                   {artistData.albums && (
                     <div className="artist-modal__field-album">
-                      <p className="artist-modal__detail">Albums:</p>
+                      <p className="artist-modal__detail">
+                        {t("titleAlbums")}:
+                      </p>
                       <div className="artist-modal__records">
                         {artistData.albums.length !== 0 ? (
                           artistData.albums.map((album) => (
@@ -201,7 +206,7 @@ const AdminArtistModal = ({
                           ))
                         ) : (
                           <span className="artist-modal__record">
-                            Not albums
+                            {t("notAlbums")}
                           </span>
                         )}
                       </div>
@@ -210,7 +215,7 @@ const AdminArtistModal = ({
 
                   {artistData.singleSongs && (
                     <div className="artist-modal__field-album">
-                      <p className="artist-modal__detail">Tracks:</p>
+                      <p className="artist-modal__detail">{t("tracks")}:</p>
                       <div className="artist-modal__records">
                         {artistData.singleSongs.length !== 0 ? (
                           artistData.singleSongs.map((track) => (
@@ -234,7 +239,7 @@ const AdminArtistModal = ({
                           ))
                         ) : (
                           <span className="artist-modal__record">
-                            Not tracks
+                            {t("notTracks")}
                           </span>
                         )}
                       </div>
@@ -254,7 +259,7 @@ const AdminArtistModal = ({
                     onClick={handleUpdate}
                     disabled={isDisabledUpdate}
                   >
-                    {!isDisabledUpdate && "Update Artist"}
+                    {!isDisabledUpdate && t("updateArtist")}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -268,7 +273,7 @@ const AdminArtistModal = ({
                     onClick={handleDelete}
                     disabled={isDisabledDelete}
                   >
-                    {!isDisabledDelete && "Delete Artist"}
+                    {!isDisabledDelete && t("deleteArtist")}
                     <img
                       className="artist-modal__image-loading"
                       src={imgLoader}
@@ -283,7 +288,7 @@ const AdminArtistModal = ({
                   onClick={handleCreate}
                   disabled={isDisabledCreate}
                 >
-                  {!isDisabledCreate && "Add Artist"}
+                  {!isDisabledCreate && t("addArtist")}
                   <img
                     className="artist-modal__image-loading"
                     src={imgLoader}

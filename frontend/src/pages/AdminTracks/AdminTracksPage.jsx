@@ -90,7 +90,11 @@ const AdminTracksPage = () => {
     <Loader />
   ) : (
     <>
-      <HeaderAdminPage openModal={openModal} title={t("tracks")} />
+      <HeaderAdminPage
+        openModal={openModal}
+        title={t("tracks")}
+        titleButton={t("addTrack")}
+      />
 
       <AdminTracksList
         trackItems={tracks}

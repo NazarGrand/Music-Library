@@ -7,9 +7,8 @@ import { useTranslation } from "react-i18next";
 import flagUnitedKingdom from "../../assets/images/FlagUnitedKingdom.png";
 import flagUkraine from "../../assets/images/FlagUkraine.png";
 
-const HeaderAdminPage = ({ openModal, title }) => {
+const HeaderAdminPage = ({ openModal, title, titleButton }) => {
   const [language, setLanguage] = useState(i18next.language);
-  const { t } = useTranslation();
 
   const handleClickAdd = () => {
     openModal();
@@ -54,7 +53,7 @@ const HeaderAdminPage = ({ openModal, title }) => {
       </div>
 
       <button className="header-page__button" onClick={handleClickAdd}>
-        {t("addTrack")}
+        {titleButton}
       </button>
     </div>
   );
