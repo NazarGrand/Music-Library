@@ -13,6 +13,7 @@ import Loader from "./components/Loader/Loader";
 import { musicContextActions } from "./constants/MusicContextActions";
 import { DispatchPlaylistContext } from "./context/PlayListContext";
 import { playlistContextActions } from "./constants/PlaylistContextActions";
+import i18next from "i18next";
 
 import i18n from "./i18n/i18n";
 

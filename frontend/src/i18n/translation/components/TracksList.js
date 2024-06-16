@@ -14,7 +14,7 @@ export const tracksListTranslations = {
       releaseDate: "Дата релізу",
       label: "Лейбл",
       time: "Тривалість",
-      viewAll: "Переглянути Всі",
+      viewAll: "Переглянути всі",
     },
   },
 };

@@ -33,7 +33,7 @@ const Sidebar = () => {
         </>
       ) : (
         <SidebarNav
-          menuTitle="Menu"
+          menuTitle={t("titleMenu")}
           menuItems={infoSidebarAdmin.MenuItemsAdmin}
         />
       )}

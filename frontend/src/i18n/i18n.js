@@ -9,6 +9,8 @@ import { tracksListTranslations } from "./translation/components/TracksList";
 import { footerTranslations } from "./translation/components/Footer";
 import { headerAlbumTranslations } from "./translation/components/HeaderAlbum";
 import { favouriteTracksPageTranslations } from "./translation/pages/FavouriteTracksPage";
+import { adminTracksPageTranslations } from "./translation/pages/AdminTracksPage";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 const resources = {
   [LANGUAGES.EN]: {
@@ -21,6 +23,7 @@ const resources = {
       ...footerTranslations.en.translation,
       ...headerAlbumTranslations.en.translation,
       ...favouriteTracksPageTranslations.en.translation,
+      ...adminTracksPageTranslations.en.translation,
     },
   },
   [LANGUAGES.UK]: {
@@ -33,15 +36,18 @@ const resources = {
       ...footerTranslations.uk.translation,
       ...headerAlbumTranslations.uk.translation,
       ...favouriteTracksPageTranslations.uk.translation,
+      ...adminTracksPageTranslations.uk.translation,
     },
   },
 };
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
+  .use(LanguageDetector)
   .init({
     resources,
-    lng: [LANGUAGES.UK],
+    // lng: [LANGUAGES.EN],
+    fallbackLng: [LANGUAGES.EN],
 
     interpolation: {
       escapeValue: false, // react already safes from xss
