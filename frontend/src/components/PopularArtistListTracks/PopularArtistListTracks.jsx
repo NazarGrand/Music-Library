@@ -59,7 +59,7 @@ const PopularArtistListTracks = ({ popularTracks }) => {
           </ul>
         </>
       ) : (
-        <p className="popular-tracks__subtitle">No music found</p>
+        <p className="popular-tracks__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

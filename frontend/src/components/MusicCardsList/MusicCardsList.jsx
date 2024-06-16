@@ -67,7 +67,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
           )}
         </div>
       ) : (
-        <p className="music-catalog__subtitle">No music found</p>
+        <p className="music-catalog__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

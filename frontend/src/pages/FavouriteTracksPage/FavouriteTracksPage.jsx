@@ -5,6 +5,7 @@ import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 
 import imgFavourites from "../../assets/images/FavouriteTracks.jpg";
 import TracksList from "../../components/TracksList/TracksList";
+import { t } from "i18next";
 
 const FavouriteTracksPage = () => {
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
@@ -17,7 +18,7 @@ const FavouriteTracksPage = () => {
   );
 
   const albumData = {
-    nameAlbum: "Favourite tracks",
+    nameAlbum: t("favouriteTracks"),
     imageAlbum: imgFavourites,
     artistAlbum: favouriteTracks.map((track) => track.artistName).join(", "),
     countSongs: favouriteTracks.length,

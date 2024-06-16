@@ -81,7 +81,7 @@ const TracksList = ({ title, trackItems, type }) => {
           )}
         </>
       ) : (
-        <p className="tracks__subtitle">No music found</p>
+        <p className="tracks__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

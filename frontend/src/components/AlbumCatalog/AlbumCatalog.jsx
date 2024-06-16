@@ -21,12 +21,12 @@ const AlbumCatalog = ({ albumItems }) => {
             <li className="album-catalog__view-all">
               <div className="album-catalog__button">+</div>
 
-              <p className="album-catalog__btn-text">View All</p>
+              <p className="album-catalog__btn-text">{t("viewAll")}</p>
             </li>
           )}
         </ul>
       ) : (
-        <p className="album-catalog__subtitle">No music found</p>
+        <p className="album-catalog__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

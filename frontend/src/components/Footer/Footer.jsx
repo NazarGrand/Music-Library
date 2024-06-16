@@ -16,25 +16,24 @@ const Footer = () => {
       <div className="footer__about">
         <p className="footer__title">{t("about")}</p>
 
-        <p className="footer__description">
-          Melodies is a website that has been created for over
-          <span className="footer__description--pink"> 5 year’s </span> now and
-          it is one of the most famous music player website’s in the world. in
-          this website you can listen and download songs for free. also of you
-          want no limitation you can buy our{" "}
-          <span className="footer__description--blue">premium pass’s.</span>
-        </p>
+        <p className="footer__description">{t("siteDescription")}</p>
       </div>
 
       <div className="footer__links">
         <FooterLinks
-          title="Melodies"
+          title={t("melodies")}
           linkItems={infoFooterLinks.MelodiesItems}
         />
 
-        <FooterLinks title="Access" linkItems={infoFooterLinks.AccessItems} />
+        <FooterLinks
+          title={t("access")}
+          linkItems={infoFooterLinks.AccessItems}
+        />
 
-        <FooterLinks title="Contact" linkItems={infoFooterLinks.ContactItems} />
+        <FooterLinks
+          title={t("contact")}
+          linkItems={infoFooterLinks.ContactItems}
+        />
       </div>
 
       <div className="footer__icons">

@@ -26,12 +26,12 @@ const ArtistsList = ({ title, artistItems }) => {
             <Link className="artists__view-all" to={ROUTES.ARTISTS}>
               <div className="artists__plus">+</div>
 
-              <p className="artists__view-all-text">View All</p>
+              <p className="artists__view-all-text">{t("viewAll")}</p>
             </Link>
           )}
         </div>
       ) : (
-        <p className="artists__subtitle">No artist found</p>
+        <p className="artists__subtitle">{t("noArtistFound")}</p>
       )}
     </div>
   );
