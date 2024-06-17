@@ -10,6 +10,11 @@ const Header = () => {
   const [language, setLanguage] = useState(i18next.language);
   const { t } = useTranslation();
 
+  const handleLanguageChange = (language) => {
+    i18next.changeLanguage(language);
+    setLanguage(language);
+  };
+
   return (
     <header className="header">
       <p className="header__title">{t("titleHomePage")}</p>
@@ -17,10 +22,7 @@ const Header = () => {
       <div className="header__flags">
         <button
           className="header__button-flag"
-          onClick={() => {
-            i18next.changeLanguage(LANGUAGES.EN);
-            setLanguage(LANGUAGES.EN);
-          }}
+          onClick={() => handleLanguageChange(LANGUAGES.EN)}
           disabled={language === LANGUAGES.EN}
         >
           <img
@@ -32,10 +34,7 @@ const Header = () => {
 
         <button
           className="header__button-flag"
-          onClick={() => {
-            i18next.changeLanguage(LANGUAGES.UK);
-            setLanguage(LANGUAGES.UK);
-          }}
+          onClick={() => handleLanguageChange(LANGUAGES.UK)}
           disabled={language === LANGUAGES.UK}
         >
           <img className="header__image-flag" src={flagUkraine} alt="ukraine" />

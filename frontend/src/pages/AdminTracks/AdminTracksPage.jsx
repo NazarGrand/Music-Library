@@ -6,7 +6,7 @@ import * as albumService from "../../services/AlbumService";
 import * as artistService from "../../services/ArtistService";
 import AdminTrackModal from "../../components/AdminTrackModal/AdminTrackModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const AdminTracksPage = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +16,7 @@ const AdminTracksPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
 
+  const { t } = useTranslation();
   const openModal = () => {
     setIsOpenModal(true);
     document.body.style.overflow = "hidden";

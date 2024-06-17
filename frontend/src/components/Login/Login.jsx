@@ -77,7 +77,14 @@ const Login = () => {
     setFocusedState(false);
 
     if (name === "email") {
-      const isEmpty = isFieldEmpty(name, value, "Email", setErrors, errors);
+      const isEmpty = isFieldEmpty(
+        name,
+        value,
+        t("email"),
+        setErrors,
+        errors,
+        t("isRequired")
+      );
 
       if (!isEmpty) {
         const message = t("invalidEmailFormat");
@@ -103,7 +110,14 @@ const Login = () => {
     }
 
     if (name === "password") {
-      const isEmpty = isFieldEmpty(name, value, "Password", setErrors, errors);
+      const isEmpty = isFieldEmpty(
+        name,
+        value,
+        t("password"),
+        setErrors,
+        errors,
+        t("isRequired")
+      );
 
       if (!isEmpty) {
         setErrors({ ...errors, password: "" });

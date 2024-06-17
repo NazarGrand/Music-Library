@@ -5,7 +5,7 @@ export const footerTranslations = {
     translation: {
       about: "About",
       siteDescription:
-        "Melodies is a new website where you can see all songs, albums, and artists. You have the ability to listen to music as well.",
+        "Melodies is a new website where you can see the newest songs, albums, and artists. You have the ability to listen to music as well.",
       melodies: "Melodies",
       access: "Access",
       contact: "Contact",
@@ -22,7 +22,7 @@ export const footerTranslations = {
     translation: {
       about: "Про нас",
       siteDescription:
-        "Melodies - це новий сайт, де можна побачити всі пісні, альбоми, артистів, а також є можливість прослуховувати музику.",
+        "Melodies - це новий сайт, де можна бачити найновіші пісні, альбоми та виконавців. Також є можливість прослуховувати музику.",
       melodies: "Мелодії",
       access: "Доступ",
       contact: "Контакти",

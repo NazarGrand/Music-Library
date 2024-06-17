@@ -2,7 +2,6 @@ import i18next from "i18next";
 import "./HeaderAdminPage.scss";
 import { LANGUAGES } from "../../i18n/languages";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import flagUnitedKingdom from "../../assets/images/FlagUnitedKingdom.png";
 import flagUkraine from "../../assets/images/FlagUkraine.png";
@@ -14,6 +13,11 @@ const HeaderAdminPage = ({ openModal, title, titleButton }) => {
     openModal();
   };
 
+  const handleLanguageChange = (language) => {
+    i18next.changeLanguage(language);
+    setLanguage(language);
+  };
+
   return (
     <div className="header-page">
       <div className="header-page__main">
@@ -22,10 +26,7 @@ const HeaderAdminPage = ({ openModal, title, titleButton }) => {
         <div className="header-page__flags">
           <button
             className="header-page__button-flag"
-            onClick={() => {
-              i18next.changeLanguage(LANGUAGES.EN);
-              setLanguage(LANGUAGES.EN);
-            }}
+            onClick={() => handleLanguageChange(LANGUAGES.EN)}
             disabled={language === LANGUAGES.EN}
           >
             <img
@@ -37,10 +38,7 @@ const HeaderAdminPage = ({ openModal, title, titleButton }) => {
 
           <button
             className="header-page__button-flag"
-            onClick={() => {
-              i18next.changeLanguage(LANGUAGES.UK);
-              setLanguage(LANGUAGES.UK);
-            }}
+            onClick={() => handleLanguageChange(LANGUAGES.UK)}
             disabled={language === LANGUAGES.UK}
           >
             <img
