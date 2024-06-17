@@ -37,7 +37,7 @@
     justify-content: center;
 
     font-weight: 700;
-    font-size: 30px;
+    font-size: 28px;
     margin: 0;
   }
 
@@ -139,7 +139,7 @@
 
   &__submit {
     margin-top: 30px;
-    width: 220px;
+    max-width: 280px;
     height: 40px;
 
     color: $white-text-color;
