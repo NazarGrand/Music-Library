@@ -3,6 +3,7 @@ import image from "../../assets/images/giphy.gif";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 
 const ActivationSuccess = ({
   title,
@@ -10,6 +11,7 @@ const ActivationSuccess = ({
   isRegistered,
   setIsRegistered,
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const submitClick = () => {
@@ -39,7 +41,7 @@ const ActivationSuccess = ({
         </p>
 
         <button className="activation-success__button" onClick={submitClick}>
-          {isRegistered ? "Ok" : "Login"}
+          {isRegistered ? "Ok" : t("login")}
         </button>
       </div>
     </div>

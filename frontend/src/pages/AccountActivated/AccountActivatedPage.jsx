@@ -4,8 +4,10 @@ import * as authService from "../../services/AuthService";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader/Loader";
 import Error from "../../components/Error/Error";
+import { useTranslation } from "react-i18next";
 
 const AccountActivatedPage = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
@@ -31,7 +33,7 @@ const AccountActivatedPage = () => {
       {loading ? (
         <Loader />
       ) : !error ? (
-        <ActivationSuccess message="Your account has been successfully activated:" />
+        <ActivationSuccess message={t("accountActivated")} />
       ) : (
         <Error errorMessage={error} type="email" />
       )}

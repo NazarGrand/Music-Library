@@ -15,6 +15,9 @@ import { adminAlbumsPageTranslations } from "./translation/pages/AdminAlbumsPage
 import { adminArtistsPageTranslations } from "./translation/pages/AdminArtistsPage";
 import { loginPageTranslations } from "./translation/pages/LoginPage";
 import { registrationPageTranslations } from "./translation/pages/RegistrationPage";
+import { accountActivatedPageTranslations } from "./translation/pages/AccountActivatedPage";
+import { errorTranslations } from "./translation/components/Error";
+import { loaderTranslations } from "./translation/components/Loader";
 
 const resources = {
   [LANGUAGES.EN]: {
@@ -32,6 +35,9 @@ const resources = {
       ...adminArtistsPageTranslations.en.translation,
       ...loginPageTranslations.en.translation,
       ...registrationPageTranslations.en.translation,
+      ...accountActivatedPageTranslations.en.translation,
+      ...errorTranslations.en.translation,
+      ...loginPageTranslations.en.translation,
     },
   },
   [LANGUAGES.UK]: {
@@ -49,6 +55,9 @@ const resources = {
       ...adminArtistsPageTranslations.uk.translation,
       ...loginPageTranslations.uk.translation,
       ...registrationPageTranslations.uk.translation,
+      ...accountActivatedPageTranslations.uk.translation,
+      ...errorTranslations.uk.translation,
+      ...loaderTranslations.uk.translation,
     },
   },
 };
