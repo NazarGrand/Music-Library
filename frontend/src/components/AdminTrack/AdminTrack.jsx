@@ -1,7 +1,7 @@
 import "./AdminTrack.scss";
 import { formatDurationTrack } from "../../utils/formatDurationTrack";
-import { formatDate } from "../../utils/formatDateTrack";
 import imgTrack from "../../assets/images/Track.jpg";
+import { formatDate } from "../../utils/formatDateTrack";
 
 const AdminTrack = ({ indexTrack, track, openModal, setSelectedTrack }) => {
   const { name, previewImage, releaseDate, label, duration } = track;

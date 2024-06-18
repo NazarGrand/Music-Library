@@ -7,6 +7,7 @@ import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import { t } from "i18next";
 
 const AlbumList = ({ tracks, album }) => {
   const { trackId, isPlaying } = useContext(StateTrackContext);
@@ -43,60 +44,28 @@ const AlbumList = ({ tracks, album }) => {
       <div className="album-list">
         {tracks.length !== 0 ? (
           <>
-            {album === "weekly-top" || album === "trending-songs" ? (
-              <div className="album-list__headlines">
-                <span className="album-list__relase-date">Relase Date</span>
-
-                <span className="album-list__labels">Label</span>
+            {album !== "favourites" && (
+              <div className="album-list__time">
+                <span className="album-list__title-time">{t("time")}</span>
               </div>
-            ) : (
-              album !== "favourites" && (
-                <div className="album-list__time">
-                  <span className="album-list__title-time">Time</span>
-                </div>
-              )
             )}
-
-            {album === "weekly-top" || album === "trending-songs" ? (
-              <ul className="album-list__list">
-                {tracks.slice(0, numberTracks).map((item, index) => (
-                  <li key={index}>
-                    <TrackItem
-                      indexTrack={index + 1}
-                      idTrack={item.idTrack}
-                      image={item.image}
-                      titleSong={item.titleSong}
-                      artists={item.artists}
-                      releaseDate={item.releaseDate}
-                      isPlayingSong={trackId === item.idTrack}
-                      isPlaying={isPlaying}
-                      isFavouriteTrack={favouriteTracks.find(
-                        (elem) => elem.idTrack === item.idTrack
-                      )}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="album-list__list">
-                {tracks.slice(0, numberTracks).map((item, index) => (
-                  <li key={index}>
-                    <AlbumTrack
-                      indexTrack={index + 1}
-                      albumItem={item}
-                      isPlayingSong={trackId === item.idTrack}
-                      isPlaying={isPlaying}
-                      isFavouriteTrack={favouriteTracks.find(
-                        (elem) => elem.idTrack === item.idTrack
-                      )}
-                      initializePlaylistContext={initializePlaylistContext}
-                      album={album}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-
+            <ul className="album-list__list">
+              {tracks.slice(0, numberTracks).map((item, index) => (
+                <li key={index}>
+                  <AlbumTrack
+                    indexTrack={index + 1}
+                    albumItem={item}
+                    isPlayingSong={trackId === item.idTrack}
+                    isPlaying={isPlaying}
+                    isFavouriteTrack={favouriteTracks.find(
+                      (elem) => elem.idTrack === item.idTrack
+                    )}
+                    initializePlaylistContext={initializePlaylistContext}
+                    album={album}
+                  />
+                </li>
+              ))}
+            </ul>
             {numberTracks < tracks.length && (
               <div className="album-list__load-more">
                 <button

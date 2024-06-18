@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader/Loader";
 import * as trackService from "../../services/TrackService";
-import AlbumList from "../../components/AlbumList/AlbumList";
 import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgMostPlayed from "../../assets/images/MostPlayed.png";
 import TracksList from "../../components/TracksList/TracksList";
+import { t } from "i18next";
 
 const MostPlayedPage = () => {
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ const MostPlayedPage = () => {
       );
 
       const album = {
-        nameAlbum: "Most played",
+        nameAlbum: t("titleMostPlayed"),
         imageAlbum: imgMostPlayed,
         countSongs: mostPlayedTracks.length,
         durationSongs: durationSongs,

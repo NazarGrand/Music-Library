@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./FooterLinks.scss";
+import { t } from "i18next";
 
 const FooterLinks = ({ title, linkItems }) => {
   return (
@@ -14,7 +15,7 @@ const FooterLinks = ({ title, linkItems }) => {
           {linkItems.map((item, index) => (
             <li key={index} className="footer-links__item">
               <Link className="footer-links__item-link" to={item.link}>
-                <p className="footer-links__item-title">{item.title}</p>
+                <p className="footer-links__item-title">{t(item.title)}</p>
               </Link>
             </li>
           ))}

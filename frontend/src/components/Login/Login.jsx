@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 import "./Login.scss";
 import eye from "../../assets/images/Eye.svg";
 import eyeOff from "../../assets/images/Eye-off.svg";
-import imgGreater from "../../assets/images/Greater.svg";
 import imgLoader from "../../assets/images/Loader.svg";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +15,7 @@ import {
   patternEmail,
 } from "../../utils/isFieldsValid";
 import { ROUTES } from "../../utils/routes";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -37,6 +37,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [isDisabled, setIsDisabled] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -75,11 +77,17 @@ const Login = () => {
     setFocusedState(false);
 
     if (name === "email") {
-      const isEmpty = isFieldEmpty(name, value, "Email", setErrors, errors);
+      const isEmpty = isFieldEmpty(
+        name,
+        value,
+        t("email"),
+        setErrors,
+        errors,
+        t("isRequired")
+      );
 
       if (!isEmpty) {
-        const message =
-          "Invalid email format. Please enter a valid email address.";
+        const message = t("invalidEmailFormat");
         const isValid = isFieldValid(
           patternEmail,
           name,
@@ -102,7 +110,14 @@ const Login = () => {
     }
 
     if (name === "password") {
-      const isEmpty = isFieldEmpty(name, value, "Password", setErrors, errors);
+      const isEmpty = isFieldEmpty(
+        name,
+        value,
+        t("password"),
+        setErrors,
+        errors,
+        t("isRequired")
+      );
 
       if (!isEmpty) {
         setErrors({ ...errors, password: "" });
@@ -116,9 +131,15 @@ const Login = () => {
 
   const isFieldsEmpty = () => {
     const newErrors = {};
-    isStateEmpty(input.email, "email", newErrors, setErrors, errors);
+    isStateEmpty(input.email, "email", t("email"), newErrors, t("isRequired"));
 
-    isStateEmpty(input.password, "password", newErrors, setErrors, errors);
+    isStateEmpty(
+      input.password,
+      "password",
+      t("password"),
+      newErrors,
+      t("isRequired")
+    );
 
     if (Object.keys(newErrors).length !== 0) {
       setErrors({
@@ -161,7 +182,7 @@ const Login = () => {
   return (
     <div className="login">
       <form className="login__form" onSubmit={handleFormSubmit}>
-        <p className="login__title">Login To Continue</p>
+        <p className="login__title">{t("titleLogin")}</p>
 
         <div className="login__block-input">
           <div className="login__area-input">
@@ -170,7 +191,7 @@ const Login = () => {
                 className="login__text"
                 type="email"
                 name="email"
-                placeholder="E-Mail"
+                placeholder={t("email")}
                 value={input.email}
                 onChange={handleInput}
                 onBlur={() => handleBlur("email", input.email, setFocusedEmail)}
@@ -187,7 +208,7 @@ const Login = () => {
                 className="login__text"
                 type={type}
                 name="password"
-                placeholder="Password"
+                placeholder={t("password")}
                 value={input.password}
                 onChange={handleInput}
                 onBlur={() =>
@@ -216,7 +237,7 @@ const Login = () => {
             onClick={submitClick}
             disabled={isDisabled}
           >
-            {!isDisabled && "Login"}
+            {!isDisabled && t("login")}
             <img
               className="login__image-loading"
               src={imgLoader}
@@ -229,13 +250,13 @@ const Login = () => {
 
       <div className="login__sign-up">
         <div className="login__sign-up-block">
-          <p className="login__sign-up-title">Don't Have An Account</p>
+          <p className="login__sign-up-title">{t("dontHaveAnAccount")}</p>
 
-          <p className="login__sign-up-subtitle">Sign Up Here</p>
+          <p className="login__sign-up-subtitle">{t("signUpHere")}</p>
         </div>
 
         <Link className="login__sign-up-link" to={ROUTES.REGISTRATION}>
-          Sign Up
+          {t("signUp")}
         </Link>
       </div>
     </div>

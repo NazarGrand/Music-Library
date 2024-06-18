@@ -7,16 +7,19 @@ export const MenuItemsAdmin = [
   {
     link: ROUTES.ADMIN_TRACKS,
     icon: iconTrack,
-    title: "Tracks",
+    routeName: "Tracks",
+    title: "tracks",
   },
   {
     link: ROUTES.ADMIN_ALBUMS,
     icon: iconAlbum,
-    title: "Albums",
+    routeName: "Albums",
+    title: "titleAlbums",
   },
   {
     link: ROUTES.ADMIN_ARTISTS,
     icon: iconArtists,
-    title: "Artists",
+    routeName: "Artists",
+    title: "titleArtists",
   },
 ];

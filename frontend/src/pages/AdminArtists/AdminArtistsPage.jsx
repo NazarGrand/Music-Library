@@ -4,12 +4,15 @@ import Loader from "../../components/Loader/Loader";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
 import AdminArtistModal from "../../components/AdminArtistModal/AdminArtistModal";
 import AdminArtistCatalog from "../../components/AdminArtistCatalog/AdminArtistCatalog";
+import { useTranslation } from "react-i18next";
 
 const AdminArtistsPage = () => {
   const [loading, setLoading] = useState(true);
   const [artists, setArtists] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState(null);
+
+  const { t } = useTranslation();
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -81,7 +84,11 @@ const AdminArtistsPage = () => {
         <Loader />
       ) : (
         <>
-          <HeaderAdminPage openModal={openModal} title="Artist" />
+          <HeaderAdminPage
+            openModal={openModal}
+            title={t("artists")}
+            titleButton={t("addArtist")}
+          />
 
           <AdminArtistCatalog
             artistItems={artists}

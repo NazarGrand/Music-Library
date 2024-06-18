@@ -11,6 +11,7 @@ import imgLoader from "../../assets/images/Loader.svg";
 import classNames from "classnames";
 import * as albumService from "../../services/AlbumService";
 import Loader from "../Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 const AdminAlbumModal = ({
   closeModal,
@@ -21,6 +22,8 @@ const AdminAlbumModal = ({
   onDelete,
   artists,
 }) => {
+  const { t } = useTranslation();
+
   const formDefaultValues = {
     name: "",
     previewImage: null,
@@ -144,7 +147,7 @@ const AdminAlbumModal = ({
               <img src={imgExit} alt="exit" />
             </button>
             <div className="album-modal__block">
-              <p className="album-modal__title">Album Info</p>
+              <p className="album-modal__title">{t("albumInfo")}</p>
 
               <div className="album-modal__block-info">
                 <div className="album-modal__image-block">
@@ -175,29 +178,29 @@ const AdminAlbumModal = ({
 
                 <div className="album-modal__details">
                   <div className="album-modal__field-album">
-                    <p className="album-modal__detail">Album Name:</p>
+                    <p className="album-modal__detail">{t("albumName")}:</p>
 
                     <input
                       className="album-modal__input"
                       type="text"
                       name="name"
-                      placeholder="Name Album"
+                      placeholder={t("albumName")}
                       value={albumData.name}
                       onChange={handleInput}
                       required={true}
                     />
                   </div>
 
-                  <div className="track-modal__field-track">
-                    <p className="track-modal__detail">Artist:</p>
+                  <div className="album-modal__field-album">
+                    <p className="album-modal__detail">{t("artist")}:</p>
 
                     <select
-                      className="track-modal__select"
+                      className="album-modal__select"
                       name="artistReference"
                       value={albumData.artistReference?._id}
                       onChange={handleInput}
                     >
-                      <option value={undefined}>Not Artist</option>
+                      <option value={undefined}>{t("notArtist")}</option>
                       {artists.map((artist) => (
                         <option key={artist._id} value={artist._id}>
                           {artist.name}
@@ -207,7 +210,7 @@ const AdminAlbumModal = ({
                   </div>
 
                   <div className="album-modal__field-album">
-                    <p className="album-modal__detail">Release Date:</p>
+                    <p className="album-modal__detail">{t("releaseDate")}:</p>
 
                     <DatePicker
                       selected={albumData.releaseDate}
@@ -221,7 +224,7 @@ const AdminAlbumModal = ({
 
                   {albumData.tracksReferences && (
                     <div className="album-modal__field-album">
-                      <p className="album-modal__detail">Tracks:</p>
+                      <p className="album-modal__detail">{t("tracks")}:</p>
                       <div className="album-modal__tracks">
                         {albumData.tracksReferences.length !== 0 ? (
                           albumData.tracksReferences.map((track) => (
@@ -242,7 +245,9 @@ const AdminAlbumModal = ({
                             </div>
                           ))
                         ) : (
-                          <span className="album-modal__track">Not tracks</span>
+                          <span className="album-modal__track">
+                            {t("notTracks")}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -261,7 +266,7 @@ const AdminAlbumModal = ({
                     onClick={handleUpdate}
                     disabled={isDisabledUpdate}
                   >
-                    {!isDisabledUpdate && "Update Album"}
+                    {!isDisabledUpdate && `${t("update")} ${t("titleAlbum")}`}
                     <img
                       className="album-modal__image-loading"
                       src={imgLoader}
@@ -274,7 +279,7 @@ const AdminAlbumModal = ({
                     onClick={handleDelete}
                     disabled={isDisabledDelete}
                   >
-                    {!isDisabledDelete && "Delete Album"}
+                    {!isDisabledDelete && `${t("delete")} ${t("titleAlbum")}`}
                     <img
                       className="album-modal__image-loading"
                       src={imgLoader}
@@ -289,7 +294,7 @@ const AdminAlbumModal = ({
                   onClick={handleCreate}
                   disabled={isDisabledCreate}
                 >
-                  {!isDisabledCreate && "Add Album"}
+                  {!isDisabledCreate && t("addAlbum")}
                   <img
                     className="album-modal__image-loading"
                     src={imgLoader}

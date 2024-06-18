@@ -7,8 +7,11 @@ import * as infoSidebarAdmin from "../../data/InformationAdminSidebar";
 import { useAuth } from "../../context/AuthContext";
 import iconLogout from "../../assets/images/Logout.svg";
 
+import { useTranslation } from "react-i18next";
+
 const Sidebar = () => {
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="sidebar">
@@ -18,22 +21,25 @@ const Sidebar = () => {
 
       {user.role === "user" ? (
         <>
-          <SidebarNav menuTitle="Menu" menuItems={infoSidebar.MenuItems} />
+          <SidebarNav
+            menuTitle={t("titleMenu")}
+            menuItems={infoSidebar.MenuItems}
+          />
 
           <SidebarNav
-            menuTitle="Library"
+            menuTitle={t("titleLibrary")}
             menuItems={infoSidebar.LibraryItems}
           />
         </>
       ) : (
         <SidebarNav
-          menuTitle="Menu"
+          menuTitle={t("titleMenu")}
           menuItems={infoSidebarAdmin.MenuItemsAdmin}
         />
       )}
 
       <div className="sidebar-nav">
-        <p className="sidebar-nav__menu">General</p>
+        <p className="sidebar-nav__menu">{t("titleGeneral")}</p>
 
         <nav className="sidebar-nav__nav">
           <ul className="sidebar-nav__list">
@@ -48,7 +54,7 @@ const Sidebar = () => {
                     src={iconLogout}
                     alt="logout"
                   />
-                  <p className="sidebar-nav__title">Logout</p>
+                  <p className="sidebar-nav__title">{t("titleLogout")}</p>
                 </div>
               </button>
             </li>

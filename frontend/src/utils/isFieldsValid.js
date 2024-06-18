@@ -3,9 +3,16 @@ import { isValueValid } from "./isValueValid";
 export const patternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const patternPassword = /^(?=.*\d).{6,}$/;
 
-export function isFieldEmpty(name, value, fieldName, setErrors, errors) {
+export function isFieldEmpty(
+  name,
+  value,
+  fieldName,
+  setErrors,
+  errors,
+  message
+) {
   if (!value.trim()) {
-    setErrors({ ...errors, [name]: `${fieldName} is required!` });
+    setErrors({ ...errors, [name]: `${fieldName} ${message}!` });
     return true;
   }
   return false;
@@ -22,10 +29,8 @@ export function isFieldValid(pattern, name, value, message, setErrors, errors) {
   return true;
 }
 
-export function isStateEmpty(state, nameState, newError) {
+export function isStateEmpty(state, nameState, name, newError, message) {
   if (state === "") {
-    const name = nameState.charAt(0).toUpperCase() + nameState.slice(1);
-
-    newError[[nameState]] = `${name} is required!`;
+    newError[[nameState]] = `${name} ${message}!`;
   }
 }

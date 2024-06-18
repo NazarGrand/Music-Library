@@ -78,7 +78,7 @@
     flex-direction: column;
     gap: 10px;
 
-    max-width: 300px;
+    max-width: 340px;
   }
 
   &__field-album {
@@ -93,6 +93,7 @@
     font-size: 20px;
     color: $login-button-color;
 
+    width: 160px;
     height: 31px;
     padding-top: 2px;
   }
@@ -164,7 +165,7 @@
   }
 
   &__button {
-    width: 150px;
+    width: 190px;
     height: 40px;
     border: none;
     background: $pink-text-color;

@@ -34,7 +34,7 @@
 
   &__title {
     font-weight: 800;
-    font-size: 40px;
+    font-size: 37px;
     margin: 0;
     height: 50px;
 
@@ -86,6 +86,7 @@
   }
 
   &__title-play {
+    max-width: 140px;
     margin: 0;
     color: $pink-text-color;
     font-weight: 600;

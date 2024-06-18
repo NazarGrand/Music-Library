@@ -2,21 +2,23 @@ import "./Error.scss";
 import imgError from "../../assets/images/Technics.svg";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
+import { useTranslation } from "react-i18next";
 
 export default function Error({ errorMessage, type }) {
-  const possibleErrors = ["The user is already verified", "Incorrect token"];
+  const { t } = useTranslation();
+  const possibleErrors = [t("userAlreadyVerified"), t("incorrectToken")];
 
   const message =
     possibleErrors.includes(errorMessage) && type === "email"
       ? errorMessage
       : type === "email"
-      ? "Sorry, something went wrong"
-      : "Sorry,this page doesn't exist";
+      ? t("somethingWentWrong")
+      : t("pageNotExist");
 
   const showButton =
     type !== "email"
       ? true
-      : type === "email" && message === "The user is already verified"
+      : type === "email" && message === t("userAlreadyVerified")
       ? true
       : false;
 
@@ -25,7 +27,7 @@ export default function Error({ errorMessage, type }) {
   return (
     <div className="error-page">
       <div className="error-page__text">
-        <h1 className="error-page__title">OOps!</h1>
+        <h1 className="error-page__title">{t("oops")}!</h1>
 
         <p className="error-page__subtitle">{message}!</p>
 

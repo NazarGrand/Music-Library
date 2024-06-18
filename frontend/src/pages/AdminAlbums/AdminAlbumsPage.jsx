@@ -5,6 +5,7 @@ import * as artistService from "../../services/ArtistService";
 import Loader from "../../components/Loader/Loader";
 import AdminAlbumModal from "../../components/AdminAlbumModal/AdminAlbumModal";
 import HeaderAdminPage from "../../components/HeaderAdminPage/HeaderAdminPage";
+import { useTranslation } from "react-i18next";
 
 const AdminAlbumsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,7 @@ const AdminAlbumsPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
 
+  const { t } = useTranslation();
   const openModal = () => {
     setIsOpenModal(true);
     document.body.style.overflow = "hidden";
@@ -86,7 +88,11 @@ const AdminAlbumsPage = () => {
         <Loader />
       ) : (
         <>
-          <HeaderAdminPage openModal={openModal} title="Album" />
+          <HeaderAdminPage
+            openModal={openModal}
+            title={t("titleAlbums")}
+            titleButton={t("addAlbum")}
+          />
 
           <AdminAlbumCatalog
             albumItems={albums}

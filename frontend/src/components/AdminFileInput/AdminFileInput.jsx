@@ -2,6 +2,7 @@ import "./AdminFileInput.scss";
 import { firebase } from "../../config/firebaseConfig";
 import { useEffect, useState } from "react";
 import imgCheck from "../../assets/images/Check.svg";
+import { t } from "i18next";
 
 const AdminFileInput = ({
   fileField,
@@ -77,10 +78,10 @@ const AdminFileInput = ({
       />
       <label htmlFor={`upload-${fileField}`} className="file__input">
         {isUploading
-          ? "Uploading..."
+          ? `${t("uploading")}...`
           : trackData[fileField]
-          ? "Change file"
-          : "Choose file"}
+          ? t("changeFile")
+          : t("chooseFile")}
       </label>
     </div>
   );

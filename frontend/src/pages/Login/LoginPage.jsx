@@ -3,6 +3,7 @@ import HeaderAuth from "../../components/HeaderAuth/HeaderAuth";
 import Login from "../../components/Login/Login";
 import ActivationSuccess from "../../components/ActivationSuccess/ActivationSuccess";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
   const location = useLocation();
@@ -10,12 +11,13 @@ const LoginPage = () => {
 
   const [isRegistered, setIsRegistered] = useState(userRegistered);
 
+  const { t } = useTranslation();
   return (
     <>
       {isRegistered ? (
         <ActivationSuccess
-          title="Registration Successful!"
-          message="Please check your email to verify your account"
+          title={t("registrationSuccessful")}
+          message={t("verifyEmailMessage")}
           isRegistered
           setIsRegistered={setIsRegistered}
         />

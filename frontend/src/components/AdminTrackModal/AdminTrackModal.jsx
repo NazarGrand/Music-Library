@@ -6,6 +6,7 @@ import AdminFileInput from "../AdminFileInput/AdminFileInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
+import { useTranslation } from "react-i18next";
 
 const AdminTrackModal = ({
   closeModal,
@@ -17,6 +18,8 @@ const AdminTrackModal = ({
   albums,
   artists,
 }) => {
+  const { t } = useTranslation();
+
   const formDefaultValues = {
     name: "",
     previewImage: null,
@@ -157,7 +160,7 @@ const AdminTrackModal = ({
         </button>
 
         <div className="track-modal__block">
-          <p className="track-modal__title">Track Info</p>
+          <p className="track-modal__title">{t("trackInfo")}</p>
 
           <div className="track-modal__block-info">
             <div className="track-modal__image-block">
@@ -184,13 +187,13 @@ const AdminTrackModal = ({
 
             <div className="track-modal__details">
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Type track:</p>
+                <p className="track-modal__detail">{t("trackName")}:</p>
 
                 <input
                   className="track-modal__input"
                   type="text"
                   name="name"
-                  placeholder="Name Track"
+                  placeholder={t("trackName")}
                   value={trackData.name}
                   onChange={handleInput}
                   required={true}
@@ -198,7 +201,7 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Track Name:</p>
+                <p className="track-modal__detail">{t("typeTrack")}:</p>
                 <div className="track-modal__option-area">
                   <label className="track-modal__option-title">
                     <input
@@ -208,7 +211,7 @@ const AdminTrackModal = ({
                       checked={selectedOption === "album"}
                       onChange={handleOptionChange}
                     />{" "}
-                    Album
+                    {t("album")}
                   </label>
 
                   <label className="track-modal__option-title">
@@ -219,14 +222,14 @@ const AdminTrackModal = ({
                       checked={selectedOption === "artist"}
                       onChange={handleOptionChange}
                     />{" "}
-                    Artist
+                    {t("artist")}
                   </label>
                 </div>
               </div>
 
               {selectedOption === "album" && (
                 <div className="track-modal__field-track">
-                  <p className="track-modal__detail">Album:</p>
+                  <p className="track-modal__detail">{t("album")}:</p>
 
                   <select
                     className="track-modal__select"
@@ -238,7 +241,7 @@ const AdminTrackModal = ({
                     }
                     onChange={handleChangeSelect}
                   >
-                    <option value={undefined}>Not Album</option>
+                    <option value={undefined}>{t("notAlbum")}</option>
                     {albums.map((album) => (
                       <option key={album._id} value={album._id}>
                         {album.name}
@@ -250,7 +253,7 @@ const AdminTrackModal = ({
 
               {selectedOption === "artist" && (
                 <div className="track-modal__field-track">
-                  <p className="track-modal__detail">Artist:</p>
+                  <p className="track-modal__detail">{t("artist")}:</p>
 
                   <select
                     className="track-modal__select"
@@ -262,7 +265,7 @@ const AdminTrackModal = ({
                     }
                     onChange={handleChangeSelect}
                   >
-                    <option value={undefined}>Not Artist</option>
+                    <option value={undefined}>{t("notArtist")}</option>
                     {artists.map((artist) => (
                       <option key={artist._id} value={artist._id}>
                         {artist.name}
@@ -273,7 +276,7 @@ const AdminTrackModal = ({
               )}
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Audio:</p>
+                <p className="track-modal__detail">{t("audio")}:</p>
                 <AdminFileInput
                   fileField="audio"
                   accept="audio/*"
@@ -286,7 +289,7 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Release Date:</p>
+                <p className="track-modal__detail">{t("releaseDate")}:</p>
 
                 <DatePicker
                   selected={trackData.releaseDate}
@@ -299,13 +302,13 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Label:</p>
+                <p className="track-modal__detail">{t("label")}:</p>
 
                 <input
                   className="track-modal__input"
                   type="text"
                   name="label"
-                  placeholder="Label"
+                  placeholder={t("label")}
                   value={trackData.label}
                   onChange={handleInput}
                   required={true}
@@ -313,13 +316,13 @@ const AdminTrackModal = ({
               </div>
 
               <div className="track-modal__field-track">
-                <p className="track-modal__detail">Duration:</p>
+                <p className="track-modal__detail">{t("duration")}:</p>
 
                 <input
                   className="track-modal__input"
                   type="text"
                   name="duration"
-                  placeholder="Duration"
+                  placeholder={t("duration")}
                   value={trackData.duration}
                   onChange={handleInput}
                   required={true}
@@ -339,7 +342,7 @@ const AdminTrackModal = ({
                 onClick={handleUpdate}
                 disabled={isDisabledUpdate}
               >
-                {!isDisabledUpdate && "Update Track"}
+                {!isDisabledUpdate && `${t("update")} ${t("track")}`}
                 <img
                   className="track-modal__image-loading"
                   src={imgLoader}
@@ -353,7 +356,7 @@ const AdminTrackModal = ({
                 onClick={handleDelete}
                 disabled={isDisabledDelete}
               >
-                {!isDisabledDelete && "Delete Track"}
+                {!isDisabledDelete && `${t("delete")} ${t("track")}`}
                 <img
                   className="track-modal__image-loading"
                   src={imgLoader}
@@ -368,7 +371,7 @@ const AdminTrackModal = ({
               onClick={handleCreate}
               disabled={isDisabledCreate}
             >
-              {!isDisabledCreate && "Add Track"}
+              {!isDisabledCreate && t("addTrack")}
               <img
                 className="track-modal__image-loading"
                 src={imgLoader}

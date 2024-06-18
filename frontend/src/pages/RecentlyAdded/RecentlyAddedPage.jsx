@@ -5,6 +5,7 @@ import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum";
 import imgTrack from "../../assets/images/Track.jpg";
 import imgRecentlyAdded from "../../assets/images/RecentlyAdded.png";
 import TracksList from "../../components/TracksList/TracksList";
+import { t } from "i18next";
 
 const RecentlyAddedPage = () => {
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ const RecentlyAddedPage = () => {
       );
 
       const album = {
-        nameAlbum: "Recently added",
+        nameAlbum: t("titleRecentlyAdded"),
         imageAlbum: imgRecentlyAdded,
         countSongs: recentlyTracks.length,
         durationSongs: durationSongs,

@@ -3,12 +3,14 @@ import "./ArtistsList.scss";
 import ArtistItem from "../ArtistItem/ArtistItem";
 import { ROUTES } from "../../utils/routes";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ArtistsList = ({ title, artistItems }) => {
+  const { t } = useTranslation();
   return (
     <div className="artists">
       <p className="artists__title">
-        {title} <span className="artists__title--pink">Artists</span>
+        {title} <span className="artists__title--pink">{t("artists")}</span>
       </p>
       {artistItems.length !== 0 ? (
         <div className="artists__block">
@@ -24,12 +26,12 @@ const ArtistsList = ({ title, artistItems }) => {
             <Link className="artists__view-all" to={ROUTES.ARTISTS}>
               <div className="artists__plus">+</div>
 
-              <p className="artists__view-all-text">View All</p>
+              <p className="artists__view-all-text">{t("viewAll")}</p>
             </Link>
           )}
         </div>
       ) : (
-        <p className="artists__subtitle">No artist found</p>
+        <p className="artists__subtitle">{t("noArtistFound")}</p>
       )}
     </div>
   );

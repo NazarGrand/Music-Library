@@ -16,13 +16,17 @@
   &__release-date {
     display: flex;
     justify-content: flex-end;
-    width: 520px;
+    width: 530px;
+
+    &--title {
+      width: 130px;
+    }
   }
 
   &__labels {
     display: flex;
     justify-content: center;
-    width: 470px;
+    width: 455px;
   }
 
   &__time {

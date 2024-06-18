@@ -78,7 +78,7 @@
     flex-direction: column;
     gap: 5px;
 
-    max-width: 300px;
+    max-width: 340px;
   }
 
   &__field-album {
@@ -93,13 +93,25 @@
     font-size: 20px;
     color: $login-button-color;
 
+    width: 160px;
     height: 31px;
     padding-top: 2px;
+  }
+
+  &__select {
+    width: 150px;
+    font-weight: 500;
+    font-size: 16px;
+    height: 25px;
+    border: none;
+    border-radius: 8px;
   }
 
   &__input {
     width: 150px;
     height: 25px;
+
+    margin-top: 3px;
 
     border: none;
     border-radius: 8px;
@@ -177,7 +189,7 @@
   }
 
   &__button {
-    width: 150px;
+    width: 180px;
     height: 40px;
     border: none;
     background: $pink-text-color;
