@@ -7,12 +7,21 @@ const rbacMiddleware = require("../middleware/rbac/rbacMiddleware");
 const router = new Router();
 
 router.get(
-  "/",
+  "/get-favourites",
   rbacMiddleware.checkPermission([
     adminRoles.READ_RECORD,
     userRoles.READ_RECORD,
   ]),
   favouriteTracksController.getAllFavouriteTracks
+);
+
+router.get(
+  "/get-favourites-ids",
+  rbacMiddleware.checkPermission([
+    adminRoles.READ_RECORD,
+    userRoles.READ_RECORD,
+  ]),
+  favouriteTracksController.getFavouriteTrackIds
 );
 
 router.post(

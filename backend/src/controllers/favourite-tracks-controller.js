@@ -9,9 +9,24 @@ class FavouriteTracksController {
         await favouriteTracksService.getAllFavouriteTracks(userId);
 
       return res.json(favouriteTracks);
-    } catch (error) {
-      console.error("Error in getAllFavouriteTracks controller:", error);
-      return res.status(500).json({ message: "Internal server error" });
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
+    }
+  }
+
+  async getFavouriteTrackIds(req, res) {
+    const userId = req.body.user._id;
+
+    try {
+      const favouriteTracks = await favouriteTracksService.getFavouriteTrackIds(
+        userId
+      );
+
+      return res.json(favouriteTracks);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: e.message });
     }
   }
 
@@ -27,7 +42,7 @@ class FavouriteTracksController {
 
       return res.json(user);
     } catch (e) {
-      console.error(e);
+      console.log(e);
       return res.status(400).json({ message: e.message });
     }
   }
@@ -44,7 +59,7 @@ class FavouriteTracksController {
 
       return res.json(user);
     } catch (e) {
-      console.error(e);
+      console.log(e);
       return res.status(400).json({ message: e.message });
     }
   }

@@ -15,6 +15,18 @@ async function getAllFavouriteTracks(userId) {
   return favouriteTracks;
 }
 
+async function getFavouriteTrackIds(userId) {
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const favouriteTracks = user.favouriteTracks;
+
+  return favouriteTracks;
+}
+
 async function addTrackToFavourites(userId, trackId) {
   const user = await UserModel.findById(userId);
 
@@ -49,6 +61,7 @@ async function removeTrackFromFavourites(userId, trackId) {
 
 module.exports = {
   getAllFavouriteTracks,
+  getFavouriteTrackIds,
   addTrackToFavourites,
   removeTrackFromFavourites,
 };

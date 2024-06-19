@@ -22,12 +22,16 @@ const TracksList = ({ title, trackItems, type }) => {
 
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
 
+  console.log(favouriteTracks);
+
   const initializePlaylistContext = () => {
     dispatch({
       type: playlistContextActions.setPlaylist,
       payload: { playlistTracks: trackItems },
     });
   };
+
+  console.log(trackItems);
 
   return (
     <div className="tracks">
@@ -55,7 +59,7 @@ const TracksList = ({ title, trackItems, type }) => {
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
-                    (elem) => elem.idTrack === item.idTrack
+                    (elem) => elem === item.idTrack
                   )}
                 />
               </li>

@@ -1,6 +1,6 @@
-import React, { createContext, useReducer } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import React, { createContext, useReducer, useEffect } from "react";
 import { favouriteTracksContextActions } from "../constants/FavouriteTracksContextActions";
+import { getFavouriteTrackIds } from "../services/FavouriteTracksService";
 
 const initialState = {
   favouriteTracks: [],
@@ -11,19 +11,9 @@ export const DispatchFavouriteTracksContext = createContext(() => {});
 
 function reducer(state, action) {
   switch (action.type) {
-    case favouriteTracksContextActions.addFavouriteTrack: {
+    case favouriteTracksContextActions.setFavouriteTracks: {
       return {
-        favouriteTracks: [...state.favouriteTracks, action.payload],
-      };
-    }
-
-    case favouriteTracksContextActions.deleteFavouriteTrack: {
-      const newFavouriteTracks = state.favouriteTracks.filter(
-        (item) => item.idTrack !== action.payload
-      );
-
-      return {
-        favouriteTracks: newFavouriteTracks,
+        favouriteTracks: action.payload,
       };
     }
 
@@ -33,20 +23,27 @@ function reducer(state, action) {
 }
 
 export const FavouriteTracksProvider = ({ children }) => {
-  const [favourites, setFavourites] = useLocalStorage(
-    initialState,
-    "favouriteTracks"
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [state, dispatch] = useReducer(reducer, favourites);
+  const getFavouriteTracks = async () => {
+    try {
+      const { data: favouriteTracks } = await getFavouriteTrackIds();
 
-  const dispatchAndSave = (action) => {
-    dispatch(action);
-    setFavourites((prevState) => reducer(prevState, action));
+      dispatch({
+        type: favouriteTracksContextActions.setFavouriteTracks,
+        payload: favouriteTracks,
+      });
+    } catch (error) {
+      console.error("Error fetching favourite tracks:", error);
+    }
   };
 
+  useEffect(() => {
+    getFavouriteTracks();
+  }, []);
+
   return (
-    <DispatchFavouriteTracksContext.Provider value={dispatchAndSave}>
+    <DispatchFavouriteTracksContext.Provider value={dispatch}>
       <StateFavouriteTracksContext.Provider value={state}>
         {children}
       </StateFavouriteTracksContext.Provider>
