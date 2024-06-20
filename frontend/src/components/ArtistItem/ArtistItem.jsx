@@ -21,7 +21,9 @@ const ArtistItem = ({ artistItem }) => {
       >
         <img className="artist-item__image" src={image} alt="Artistimg" />
 
+        {/* <div className="artist-item__> */}
         <p className="artist-item__title-author">{artistName}</p>
+        {/* </div> */}
       </Link>
     </div>
   );
