@@ -16,13 +16,9 @@ import { playlistContextActions } from "./constants/PlaylistContextActions";
 import i18next from "i18next";
 
 import i18n from "./i18n/i18n";
-import { StateFavouriteTracksContext } from "./context/FavouriteTracksContext";
 
 function App() {
   const { trackName } = useContext(StateTrackContext);
-  const { favouriteTracks } = useContext(StateFavouriteTracksContext);
-
-  console.log(favouriteTracks);
 
   const dispatch = useContext(DispatchTrackContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);

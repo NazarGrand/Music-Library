@@ -14,9 +14,7 @@ async function getAllFavouriteTracks(userId) {
     throw new Error("User not found");
   }
 
-  const favouriteTracks = user.favouriteTracks;
-
-  return favouriteTracks;
+  return user.favouriteTracks;
 }
 
 async function getFavouriteTrackIds(userId) {
@@ -26,9 +24,7 @@ async function getFavouriteTrackIds(userId) {
     throw new Error("User not found");
   }
 
-  const favouriteTracks = user.favouriteTracks;
-
-  return favouriteTracks;
+  return user.favouriteTracks;
 }
 
 async function addTrackToFavourites(userId, trackId) {
