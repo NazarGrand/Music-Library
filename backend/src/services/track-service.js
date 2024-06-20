@@ -33,6 +33,9 @@ async function createTrack(trackData) {
   session.startTransaction();
 
   try {
+    const track = new TrackModel(trackData);
+    await track.save({ session });
+
     if (trackData.albumReference) {
       const album = await AlbumModel.findById(trackData.albumReference).session(
         session
@@ -42,9 +45,9 @@ async function createTrack(trackData) {
         throw new Error("Album not found");
       }
 
-      trackData.artistReference = album.artistReference;
+      track.artistReference = album.artistReference;
 
-      album.tracksReferences.push(trackData._id);
+      album.tracksReferences.push(track._id);
       await album.save({ session });
     } else if (trackData.artistReference) {
       const artist = await ArtistModel.findById(
@@ -55,12 +58,11 @@ async function createTrack(trackData) {
         throw new Error("Artist not found");
       }
 
-      artist.singleSongs.push(trackData._id);
+      artist.singleSongs.push(track._id);
       await artist.save({ session });
     }
 
-    const track = await TrackModel.create([trackData], { session });
-
+    await track.save({ session });
     await session.commitTransaction();
     return track;
   } catch (e) {
