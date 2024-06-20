@@ -6,6 +6,12 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   status: { type: String, required: false },
   role: { type: String, required: true },
+  favouriteTracks: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Track",
+    },
+  ],
 });
 
 module.exports = model("User", UserSchema);

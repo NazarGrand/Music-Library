@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./TrackItem.scss";
 
 import imgHeart from "../../assets/images/Heart.svg";
 import imgHeartFill from "../../assets/images/HeartFill.svg";
+import imgHeartFillDisabled from "../../assets/images/HeartFillDisabled.svg";
 
 import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
@@ -24,6 +25,8 @@ import { favouriteTracksContextActions } from "../../constants/FavouriteTracksCo
 import { formatDurationTrack } from "../../utils/formatDurationTrack.js";
 import { formatDate } from "../../utils/formatDateTrack.js";
 
+import * as favouriteTracksService from "../../services/FavouriteTracksService.js";
+
 const TrackItem = ({
   indexTrack,
   track,
@@ -43,6 +46,8 @@ const TrackItem = ({
     duration,
   } = track;
 
+  const [loading, setLoading] = useState(false);
+
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
@@ -53,7 +58,11 @@ const TrackItem = ({
 
   const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
-  const imageHeart = isFavouriteTrack ? imgHeartFill : imgHeart;
+  const imageHeart = loading
+    ? imgHeartFillDisabled
+    : isFavouriteTrack
+    ? imgHeartFill
+    : imgHeart;
 
   const handleClick = () => {
     if (initializePlaylistContext) {
@@ -86,25 +95,37 @@ const TrackItem = ({
     });
   };
 
-  const handleClickFavourite = () => {
+  const handleClickFavourite = async () => {
     if (!isFavouriteTrack) {
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.addFavouriteTrack,
-        payload: {
-          idTrack,
-          image,
-          titleSong,
-          artistName,
-          artistId,
-          label,
-          duration,
-        },
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.addTrackToFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     } else {
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.deleteFavouriteTrack,
-        payload: idTrack,
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.removeTrackFromFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -150,6 +171,7 @@ const TrackItem = ({
           <button
             className="track-item__button-like"
             onClick={handleClickFavourite}
+            disabled={loading}
           >
             <img src={imageHeart} alt="heart" />
           </button>

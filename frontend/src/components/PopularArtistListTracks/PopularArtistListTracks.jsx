@@ -51,7 +51,7 @@ const PopularArtistListTracks = ({ popularTracks }) => {
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
-                    (elem) => elem.idTrack === item.idTrack
+                    (elem) => elem === item.idTrack
                   )}
                 />
               </li>
