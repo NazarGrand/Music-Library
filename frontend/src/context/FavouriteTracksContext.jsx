@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { favouriteTracksContextActions } from "../constants/FavouriteTracksContextActions";
 import { getFavouriteTrackIds } from "../services/FavouriteTracksService";
+import { useAuth } from "./AuthContext";
 
 const initialState = {
   favouriteTracks: [],
@@ -24,6 +25,7 @@ function reducer(state, action) {
 
 export const FavouriteTracksProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { user } = useAuth();
 
   const getFavouriteTracks = async () => {
     try {
@@ -39,8 +41,10 @@ export const FavouriteTracksProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getFavouriteTracks();
-  }, []);
+    if (user?.role === "user") {
+      getFavouriteTracks();
+    }
+  }, [user]);
 
   return (
     <DispatchFavouriteTracksContext.Provider value={dispatch}>

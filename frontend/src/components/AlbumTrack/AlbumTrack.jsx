@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import moment from "moment";
+import React, { useContext, useState } from "react";
 import "./AlbumTrack.scss";
 import { formatDurationTrack } from "../../utils/formatDurationTrack";
 
 import imgHeart from "../../assets/images/Heart.svg";
 import imgHeartFill from "../../assets/images/HeartFill.svg";
+import imgHeartFillDisabled from "../../assets/images/HeartFillDisabled.svg";
 
 import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
@@ -24,6 +24,9 @@ import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions";
 
+import * as favouriteTracksService from "../../services/FavouriteTracksService.js";
+import classNames from "classnames";
+
 const AlbumTrack = ({
   indexTrack,
   albumItem,
@@ -36,6 +39,8 @@ const AlbumTrack = ({
   const { idTrack, image, titleSong, artistId, artistName, duration } =
     albumItem;
 
+  const [loading, setLoading] = useState(false);
+
   const { isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
@@ -45,9 +50,17 @@ const AlbumTrack = ({
 
   const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
-  const imageHeart = isFavouriteTrack ? imgHeartFill : imgHeart;
+  const imageHeart = loading
+    ? imgHeartFillDisabled
+    : isFavouriteTrack
+    ? imgHeartFill
+    : imgHeart;
 
   const location = useLocation();
+
+  const heartStyle = classNames("album-track__heart", {
+    "album-track__heart--disabled": loading,
+  });
 
   const handleClick = () => {
     if (initializePlaylistContext) initializePlaylistContext();
@@ -81,22 +94,37 @@ const AlbumTrack = ({
     });
   };
 
-  const handleClickFavourite = () => {
+  const handleClickFavourite = async () => {
     if (!isFavouriteTrack) {
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.addFavouriteTrack,
-        payload: {
-          idTrack,
-          image,
-          titleSong,
-          artistName,
-        },
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.addTrackToFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     } else {
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.deleteFavouriteTrack,
-        payload: idTrack,
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.removeTrackFromFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -140,10 +168,11 @@ const AlbumTrack = ({
           className="album-track__block-time-song"
           style={{ marginRight: album === "favourites" ? "50px" : "0px" }}
         >
-          <div className="album-track__heart">
+          <div className={heartStyle}>
             <button
               className="album-track__button-like"
               onClick={handleClickFavourite}
+              disabled={loading}
             >
               <img src={imageHeart} alt="heart" />
             </button>

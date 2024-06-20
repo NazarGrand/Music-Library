@@ -4,6 +4,10 @@ async function getAllFavouriteTracks(userId) {
   const user = await UserModel.findById(userId).populate({
     path: "favouriteTracks",
     select: "-audio",
+    populate: {
+      path: "artistReference",
+      select: "name _id",
+    },
   });
 
   if (!user) {
@@ -41,7 +45,7 @@ async function addTrackToFavourites(userId, trackId) {
   user.favouriteTracks.push(trackId);
   await user.save();
 
-  return user;
+  return user.favouriteTracks;
 }
 
 async function removeTrackFromFavourites(userId, trackId) {
@@ -56,7 +60,7 @@ async function removeTrackFromFavourites(userId, trackId) {
   );
   await user.save();
 
-  return user;
+  return user.favouriteTracks;
 }
 
 module.exports = {

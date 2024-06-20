@@ -58,7 +58,7 @@ const AlbumList = ({ tracks, album }) => {
                     isPlayingSong={trackId === item.idTrack}
                     isPlaying={isPlaying}
                     isFavouriteTrack={favouriteTracks.find(
-                      (elem) => elem.idTrack === item.idTrack
+                      (elem) => elem === item.idTrack
                     )}
                     initializePlaylistContext={initializePlaylistContext}
                     album={album}

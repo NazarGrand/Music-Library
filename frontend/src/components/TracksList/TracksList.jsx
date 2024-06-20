@@ -31,8 +31,6 @@ const TracksList = ({ title, trackItems, type }) => {
     });
   };
 
-  console.log(trackItems);
-
   return (
     <div className="tracks">
       <div className="tracks__title">
