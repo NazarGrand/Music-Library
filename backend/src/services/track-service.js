@@ -17,6 +17,10 @@ async function createTrack(trackData) {
     );
   }
 
+  if (trackData.releaseDate && new Date(trackData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
+  }
+
   const isTrackExist = await TrackModel.findOne({
     name: trackData.name,
     $or: [
@@ -93,6 +97,10 @@ async function updateTrack(trackId, trackData) {
   const existingTrack = await TrackModel.findById(trackId);
   if (!existingTrack) {
     throw new Error("Track not found");
+  }
+
+  if (trackData.releaseDate && new Date(trackData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
   }
 
   const albumReference = Types.ObjectId.isValid(trackData.albumReference)

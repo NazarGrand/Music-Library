@@ -298,6 +298,7 @@ const AdminTrackModal = ({
                   dateFormat="dd/MM/yyyy"
                   isClearable={true}
                   className="track-modal__datepicker-input"
+                  maxDate={new Date()}
                 />
               </div>
 

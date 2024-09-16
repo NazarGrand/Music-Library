@@ -219,6 +219,7 @@ const AdminAlbumModal = ({
                       dateFormat="dd/MM/yyyy"
                       isClearable={true}
                       className="album-modal__datepicker-input"
+                      maxDate={new Date()}
                     />
                   </div>
 

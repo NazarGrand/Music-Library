@@ -58,7 +58,8 @@ const ArtistPage = () => {
       const songsArtist = artistData.singleSongs.map((song) => ({
         image: song.previewImage ? song.previewImage : imgTrack,
         titleSong: song.name,
-        artistName: song.artistReference.name,
+        artistName: song.artistReference?.name,
+        artistId: artist.artistId,
         yearSong: dayjs(song.releaseDate).year(),
         idTrack: song._id,
       }));

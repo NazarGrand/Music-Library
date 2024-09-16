@@ -14,9 +14,8 @@ async function createAlbum(albumData) {
     throw new Error("Album already exists");
   }
 
-  const today = new Date();
-  if (albumData.releaseDate > today) {
-    throw new Error("Release date cannot be in the future");
+  if (albumData.releaseDate && new Date(albumData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
   }
 
   if (!albumData.artistReference) {
@@ -77,6 +76,10 @@ async function updateAlbum(albumId, albumData) {
   const existingAlbum = await AlbumModel.findById(albumId);
   if (!existingAlbum) {
     throw new Error("Album not found");
+  }
+
+  if (albumData.releaseDate && new Date(albumData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
   }
 
   const artistReference = Types.ObjectId.isValid(albumData.artistReference)

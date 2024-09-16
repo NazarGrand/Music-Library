@@ -20,6 +20,9 @@ async function getArtistById(artistId) {
     .populate({
       path: "singleSongs",
       select: "-audio",
+      populate: {
+        path: "artistReference",
+      },
     })
     .populate("albums");
 

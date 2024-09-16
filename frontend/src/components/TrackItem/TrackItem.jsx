@@ -83,6 +83,7 @@ const TrackItem = ({
         trackId: idTrack,
         trackName: titleSong,
         trackAuthor: artistName,
+        artistId: artistId,
         trackImage: image,
       },
     });
