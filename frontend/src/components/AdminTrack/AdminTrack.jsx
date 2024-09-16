@@ -4,7 +4,8 @@ import imgTrack from "../../assets/images/Track.jpg";
 import { formatDate } from "../../utils/formatDateTrack";
 
 const AdminTrack = ({ indexTrack, track, openModal, setSelectedTrack }) => {
-  const { name, previewImage, releaseDate, label, duration } = track;
+  const { name, previewImage, releaseDate, label, duration, artistReference } =
+    track;
 
   const durationSong = formatDurationTrack(duration);
   const releaseDateTrack = formatDate(releaseDate);
@@ -34,6 +35,10 @@ const AdminTrack = ({ indexTrack, track, openModal, setSelectedTrack }) => {
             <button className="admin-track__button" onClick={handleTrackClick}>
               <span className="admin-track__title-song">{name}</span>
             </button>
+
+            <p className="admin-track__title-artist">
+              {artistReference?.name}{" "}
+            </p>
           </div>
         </div>
 

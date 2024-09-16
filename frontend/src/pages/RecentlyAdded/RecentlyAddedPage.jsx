@@ -17,9 +17,14 @@ const RecentlyAddedPage = () => {
     try {
       const tracksData = await trackService.recentlyAdded(limit);
 
+      console.log(tracksData.data);
       const recentlyTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
-        image: track.previewImage ? track.previewImage : imgTrack,
+        image: track.previewImage
+          ? track.previewImage
+          : track.albumReference?.previewImage
+          ? track.albumReference?.previewImage
+          : imgTrack,
         artistName: track.artistReference?.name,
         artistId: track.artistReference?._id,
         duration: track.duration,

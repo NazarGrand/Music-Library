@@ -43,13 +43,14 @@ const AdminTrackModal = ({
 
   useEffect(() => {
     if (selectedTrack) {
-      if (selectedTrack.albumReference) {
+      const track = JSON.parse(JSON.stringify(selectedTrack));
+      if (track.albumReference) {
         setSelectedOption("album");
-        selectedTrack.artistReference = null;
-      } else if (selectedTrack.artistReference) {
+        track.artistReference = null;
+      } else if (track.artistReference) {
         setSelectedOption("artist");
       }
-      setTrackData(selectedTrack);
+      setTrackData(track);
     } else {
       setTrackData(formDefaultValues);
     }
@@ -260,7 +261,7 @@ const AdminTrackModal = ({
                     name="artistReference"
                     value={
                       trackData.artistReference
-                        ? trackData.artistReference
+                        ? trackData.artistReference._id
                         : undefined
                     }
                     onChange={handleChangeSelect}

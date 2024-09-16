@@ -19,7 +19,11 @@ const MostPlayedPage = () => {
 
       const mostPlayedTracks = tracksData.data.map((track) => ({
         titleSong: track.name,
-        image: track.previewImage ? track.previewImage : imgTrack,
+        image: track.previewImage
+          ? track.previewImage
+          : track.albumReference?.previewImage
+          ? track.albumReference?.previewImage
+          : imgTrack,
         artistName: track.artistReference?.name,
         artistId: track.artistReference?._id,
         releaseDate: track.releaseDate,

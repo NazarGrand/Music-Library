@@ -88,8 +88,7 @@ async function getTrackById(trackId) {
 }
 
 async function getAllTracks() {
-  const tracks = await TrackModel.find();
-
+  const tracks = await TrackModel.find().populate("artistReference");
   return tracks;
 }
 
@@ -295,7 +294,8 @@ async function topSongs(limit) {
     .sort({ totalListens: -1 })
     .limit(limit)
     .select("-audio")
-    .populate("artistReference");
+    .populate("artistReference")
+    .populate("albumReference");
 
   return tracks;
 }
@@ -305,7 +305,8 @@ async function recentlyAdded(limit) {
     .sort({ createdAt: -1 })
     .limit(limit)
     .select("-audio")
-    .populate("artistReference");
+    .populate("artistReference")
+    .populate("albumReference");
 
   return tracks;
 }
