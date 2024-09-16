@@ -13,10 +13,7 @@ import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
 import imgLoadingTrack from "../../assets/images/LoadingTrack.svg";
 
-import {
-  DispatchPlaylistContext,
-  StatePlaylistContext,
-} from "../../context/PlayListContext";
+import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const MusicCard = ({
@@ -30,16 +27,15 @@ const MusicCard = ({
   const { idTrack, image, titleSong, artistId, artistName, yearSong } =
     musicCard;
 
-  const { isLoading } = useContext(StateTrackContext);
+  const { trackId, isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
-  const { currentIndexTrackPlaying } = useContext(StatePlaylistContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const handleClickButton = () => {
     initializePlaylistContext();
 
-    const playing = currentIndexTrackPlaying !== indexTrack ? true : !isPlaying;
+    const playing = trackId !== idTrack ? true : !isPlaying;
 
     dispatch({
       type: musicContextActions.setTrack,

@@ -15,10 +15,7 @@ import {
 } from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { Link, useLocation } from "react-router-dom";
-import {
-  DispatchPlaylistContext,
-  StatePlaylistContext,
-} from "../../context/PlayListContext";
+import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext.jsx";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions.js";
@@ -48,10 +45,9 @@ const TrackItem = ({
 
   const [loading, setLoading] = useState(false);
 
-  const { isLoading } = useContext(StateTrackContext);
+  const { trackId, isLoading } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchTrackContext);
 
-  const { currentIndexTrackPlaying } = useContext(StatePlaylistContext);
   const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const location = useLocation();
@@ -69,8 +65,7 @@ const TrackItem = ({
       initializePlaylistContext();
     }
 
-    const playing =
-      currentIndexTrackPlaying === indexTrack - 1 ? !isPlaying : true;
+    const playing = trackId !== idTrack ? true : !isPlaying;
 
     dispatch({
       type: musicContextActions.setIsPlaying,
