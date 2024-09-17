@@ -12,6 +12,7 @@ import classNames from "classnames";
 import * as albumService from "../../services/AlbumService";
 import Loader from "../Loader/Loader";
 import { useTranslation } from "react-i18next";
+import { imageExtensions } from "../../constants/AudioAndImageExtensions";
 
 const AdminAlbumModal = ({
   closeModal,
@@ -167,7 +168,7 @@ const AdminAlbumModal = ({
 
                   <AdminFileInput
                     fileField="previewImage"
-                    accept="image/*"
+                    accept={imageExtensions}
                     trackData={albumData}
                     setTrackData={setAlbumData}
                     isUploadedFile={isImageUploaded}

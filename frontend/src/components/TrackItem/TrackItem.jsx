@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./TrackItem.scss";
 
 import imgHeart from "../../assets/images/Heart.svg";
@@ -9,15 +9,9 @@ import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
 import imgLoadingTrack from "../../assets/images/LoadingTrack.svg";
 
-import {
-  DispatchTrackContext,
-  StateTrackContext,
-} from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { Link, useLocation } from "react-router-dom";
-import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext.jsx";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions.js";
 import { formatDurationTrack } from "../../utils/formatDurationTrack.js";
 import { formatDate } from "../../utils/formatDateTrack.js";
@@ -27,10 +21,15 @@ import * as favouriteTracksService from "../../services/FavouriteTracksService.j
 const TrackItem = ({
   indexTrack,
   track,
+  playingTrackId,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   isFavouriteTrack,
+  dispatchTrack,
+  dispatchPlaylist,
+  dispatchFavouriteTracks,
+  isLoading,
 }) => {
   const {
     idTrack,
@@ -45,14 +44,7 @@ const TrackItem = ({
 
   const [loading, setLoading] = useState(false);
 
-  const { trackId, isLoading } = useContext(StateTrackContext);
-  const dispatch = useContext(DispatchTrackContext);
-
-  const dispatchPlaylist = useContext(DispatchPlaylistContext);
-
   const location = useLocation();
-
-  const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
   const imageHeart = loading
     ? imgHeartFillDisabled
@@ -65,14 +57,14 @@ const TrackItem = ({
       initializePlaylistContext();
     }
 
-    const playing = trackId !== idTrack ? true : !isPlaying;
+    const playing = playingTrackId !== idTrack ? true : !isPlaying;
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setIsPlaying,
       payload: { isPlaying: playing },
     });
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setTrack,
       payload: {
         trackId: idTrack,

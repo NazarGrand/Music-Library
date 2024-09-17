@@ -1,10 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./MusicCard.scss";
 import { Link } from "react-router-dom";
-import {
-  DispatchTrackContext,
-  StateTrackContext,
-} from "../../context/MusicContext";
 
 import { musicContextActions } from "../../constants/MusicContextActions";
 
@@ -13,31 +9,29 @@ import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
 import imgLoadingTrack from "../../assets/images/LoadingTrack.svg";
 
-import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 
 const MusicCard = ({
   indexTrack,
   musicCard,
+  playingTrackId,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   type,
+  dispatchTrack,
+  dispatchPlaylist,
+  isLoading,
 }) => {
   const { idTrack, image, titleSong, artistId, artistName, yearSong } =
     musicCard;
 
-  const { trackId, isLoading } = useContext(StateTrackContext);
-  const dispatch = useContext(DispatchTrackContext);
-
-  const dispatchPlaylist = useContext(DispatchPlaylistContext);
-
   const handleClickButton = () => {
     initializePlaylistContext();
 
-    const playing = trackId !== idTrack ? true : !isPlaying;
+    const playing = playingTrackId !== idTrack ? true : !isPlaying;
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setTrack,
       payload: {
         trackId: idTrack,
@@ -48,7 +42,7 @@ const MusicCard = ({
       },
     });
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setIsPlaying,
       payload: { isPlaying: playing },
     });

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./AlbumTrack.scss";
 import { formatDurationTrack } from "../../utils/formatDurationTrack";
 
@@ -10,18 +10,9 @@ import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
 import imgLoadingTrack from "../../assets/images/LoadingTrack.svg";
 
-import {
-  DispatchTrackContext,
-  StateTrackContext,
-} from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { Link, useLocation } from "react-router-dom";
-import {
-  DispatchPlaylistContext,
-  StatePlaylistContext,
-} from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions";
 
 import * as favouriteTracksService from "../../services/FavouriteTracksService.js";
@@ -35,20 +26,17 @@ const AlbumTrack = ({
   initializePlaylistContext,
   isFavouriteTrack,
   album,
+  isLoading,
+  dispatchTrack,
+  playlistTracks,
+  currentIndexTrackPlaying,
+  dispatchFavouriteTracks,
+  dispatchPlaylist,
 }) => {
   const { idTrack, image, titleSong, artistId, artistName, duration } =
     albumItem;
 
   const [loading, setLoading] = useState(false);
-
-  const { isLoading } = useContext(StateTrackContext);
-  const dispatch = useContext(DispatchTrackContext);
-
-  const { playlistTracks, currentIndexTrackPlaying } =
-    useContext(StatePlaylistContext);
-  const dispatchPlaylist = useContext(DispatchPlaylistContext);
-
-  const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
   const imageHeart = loading
     ? imgHeartFillDisabled
@@ -71,7 +59,7 @@ const AlbumTrack = ({
         ? !isPlaying
         : true;
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setTrack,
       payload: {
         trackId: idTrack,
@@ -82,7 +70,7 @@ const AlbumTrack = ({
       },
     });
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setIsPlaying,
       payload: { isPlaying: playing },
     });

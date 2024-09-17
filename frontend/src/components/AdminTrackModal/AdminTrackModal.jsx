@@ -7,6 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
 import { useTranslation } from "react-i18next";
+import {
+  audioExtensions,
+  imageExtensions,
+} from "../../constants/AudioAndImageExtensions";
 
 const AdminTrackModal = ({
   closeModal,
@@ -177,7 +181,7 @@ const AdminTrackModal = ({
 
               <AdminFileInput
                 fileField="previewImage"
-                accept="image/*"
+                accept={imageExtensions}
                 trackData={trackData}
                 setTrackData={setTrackData}
                 isUploadedFile={isImageUploaded}
@@ -280,7 +284,7 @@ const AdminTrackModal = ({
                 <p className="track-modal__detail">{t("audio")}:</p>
                 <AdminFileInput
                   fileField="audio"
-                  accept="audio/*"
+                  accept={audioExtensions}
                   trackData={trackData}
                   setTrackData={setTrackData}
                   isUploadedFile={isAudioUploaded}

@@ -24,18 +24,9 @@ const AdminFileInput = ({
   }, [trackData, fileField, setIsUploadedFile]);
 
   const isValidFileType = (file) => {
-    if (!accept) return true;
+    if (!Array.isArray(accept) || accept.length === 0) return true;
 
-    const acceptedTypes = accept.split(",").map((type) => type.trim());
-
-    return acceptedTypes.some((type) => {
-      if (type.endsWith("/*")) {
-        const baseType = type.split("/")[0];
-        return file.type.startsWith(baseType);
-      }
-
-      return file.type === type;
-    });
+    return accept.includes(file.type);
   };
 
   const handleFileUpload = (e, fieldTrack) => {
