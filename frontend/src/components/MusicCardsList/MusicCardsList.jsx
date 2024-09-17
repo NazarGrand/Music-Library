@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import "./MusicCardsList.scss";
 import MusicCard from "../MusicCard/MusicCard";
-import { StateTrackContext } from "../../context/MusicContext";
+import {
+  DispatchTrackContext,
+  StateTrackContext,
+} from "../../context/MusicContext";
 import { Link, useLocation } from "react-router-dom";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
@@ -9,9 +12,15 @@ import { ROUTES } from "../../utils/routes";
 import { useTranslation } from "react-i18next";
 
 const MusicCardsList = ({ title, cardItems, type }) => {
-  const { trackId, isPlaying } = useContext(StateTrackContext);
+  const {
+    trackId: playingTrackId,
+    isPlaying,
+    isLoading,
+  } = useContext(StateTrackContext);
 
-  const dispatch = useContext(DispatchPlaylistContext);
+  const dispatchTrack = useContext(DispatchTrackContext);
+
+  const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const location = useLocation();
 
@@ -20,7 +29,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
   const path = type === "top-songs" ? ROUTES.MOST_PLAYED : "#";
 
   const initializePlaylistContext = () => {
-    dispatch({
+    dispatchPlaylist({
       type: playlistContextActions.setPlaylist,
       payload: {
         playlistTracks: cardItems.slice(0, 5),
@@ -41,10 +50,14 @@ const MusicCardsList = ({ title, cardItems, type }) => {
                 <MusicCard
                   indexTrack={index}
                   musicCard={item}
-                  isPlayingSong={trackId === item.idTrack}
+                  playingTrackId={playingTrackId}
+                  isPlayingSong={playingTrackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   type={type}
+                  dispatchTrack={dispatchTrack}
+                  dispatchPlaylist={dispatchPlaylist}
+                  isLoading={isLoading}
                 />
               </li>
             ))}

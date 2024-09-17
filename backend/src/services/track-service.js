@@ -17,6 +17,10 @@ async function createTrack(trackData) {
     );
   }
 
+  if (trackData.releaseDate && new Date(trackData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
+  }
+
   const isTrackExist = await TrackModel.findOne({
     name: trackData.name,
     $or: [
@@ -33,6 +37,9 @@ async function createTrack(trackData) {
   session.startTransaction();
 
   try {
+    const track = new TrackModel(trackData);
+    await track.save({ session });
+
     if (trackData.albumReference) {
       const album = await AlbumModel.findById(trackData.albumReference).session(
         session
@@ -42,9 +49,9 @@ async function createTrack(trackData) {
         throw new Error("Album not found");
       }
 
-      trackData.artistReference = album.artistReference;
+      track.artistReference = album.artistReference;
 
-      album.tracksReferences.push(trackData._id);
+      album.tracksReferences.push(track._id);
       await album.save({ session });
     } else if (trackData.artistReference) {
       const artist = await ArtistModel.findById(
@@ -55,12 +62,11 @@ async function createTrack(trackData) {
         throw new Error("Artist not found");
       }
 
-      artist.singleSongs.push(trackData._id);
+      artist.singleSongs.push(track._id);
       await artist.save({ session });
     }
 
-    const track = await TrackModel.create([trackData], { session });
-
+    await track.save({ session });
     await session.commitTransaction();
     return track;
   } catch (e) {
@@ -82,8 +88,7 @@ async function getTrackById(trackId) {
 }
 
 async function getAllTracks() {
-  const tracks = await TrackModel.find();
-
+  const tracks = await TrackModel.find().populate("artistReference");
   return tracks;
 }
 
@@ -91,6 +96,10 @@ async function updateTrack(trackId, trackData) {
   const existingTrack = await TrackModel.findById(trackId);
   if (!existingTrack) {
     throw new Error("Track not found");
+  }
+
+  if (trackData.releaseDate && new Date(trackData.releaseDate) > Date.now()) {
+    throw new Error("Release date can't be in the future.");
   }
 
   const albumReference = Types.ObjectId.isValid(trackData.albumReference)
@@ -285,7 +294,8 @@ async function topSongs(limit) {
     .sort({ totalListens: -1 })
     .limit(limit)
     .select("-audio")
-    .populate("artistReference");
+    .populate("artistReference")
+    .populate("albumReference");
 
   return tracks;
 }
@@ -295,7 +305,8 @@ async function recentlyAdded(limit) {
     .sort({ createdAt: -1 })
     .limit(limit)
     .select("-audio")
-    .populate("artistReference");
+    .populate("artistReference")
+    .populate("albumReference");
 
   return tracks;
 }

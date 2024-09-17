@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import "./AdminArtistModal.scss";
 import * as artistService from "../../services/ArtistService";
 import imgExit from "../../assets/images/Exit.svg";
@@ -10,6 +10,7 @@ import classNames from "classnames";
 import Loader from "../Loader/Loader";
 import AdminFileInput from "../AdminFileInput/AdminFileInput";
 import { useTranslation } from "react-i18next";
+import { imageExtensions } from "../../constants/AudioAndImageExtensions";
 
 const AdminArtistModal = ({
   closeModal,
@@ -154,7 +155,7 @@ const AdminArtistModal = ({
 
                   <AdminFileInput
                     fileField="photoUrl"
-                    accept="image/*"
+                    accept={imageExtensions}
                     trackData={artistData}
                     setTrackData={setArtistData}
                     isUploadedFile={isImageUploaded}

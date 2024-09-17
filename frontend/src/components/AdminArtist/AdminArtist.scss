@@ -2,13 +2,12 @@
 
 .admin-artist {
   width: 180px;
-  height: 220px;
+  height: 190px;
 
   background-color: $login-button-color;
   border-radius: 10px;
 
   &__button {
-    height: 220px;
     padding-left: 15px;
     padding-right: 15px;
     color: $white-text-color;
@@ -21,7 +20,10 @@
     display: inline-block;
     width: 150px;
     height: 150px;
-    margin-top: 12px;
+    margin-top: 5px;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
   }
 
   &__title {
@@ -33,8 +35,5 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    display: flex;
-    justify-content: flex-start;
   }
 }

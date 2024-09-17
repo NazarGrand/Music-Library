@@ -167,7 +167,7 @@ const Slider = ({ artists }) => {
                 {t("listenNow")}
               </span>
             </Link>{" "}
-            button.
+            {t("button")}.
           </p>
 
           <Link

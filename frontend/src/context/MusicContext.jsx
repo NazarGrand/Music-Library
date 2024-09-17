@@ -5,6 +5,7 @@ const initialState = {
   trackId: null,
   trackName: null,
   trackAuthor: null,
+  artistId: null,
   trackImage: null,
   trackUrl: null,
   trackVolume: 70,
@@ -25,6 +26,7 @@ export const MusicProvider = ({ children }) => {
           trackId: action.payload.trackId,
           trackName: action.payload.trackName,
           trackAuthor: action.payload.trackAuthor,
+          artistId: action.payload.artistId,
           trackImage: action.payload.trackImage,
         };
 

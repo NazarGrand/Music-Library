@@ -4,17 +4,31 @@ import TrackItem from "../TrackItem/TrackItem";
 
 import imgPlus from "../../assets/images/Plus.svg";
 import { Link, useLocation } from "react-router-dom";
-import { StateTrackContext } from "../../context/MusicContext";
+import {
+  DispatchTrackContext,
+  StateTrackContext,
+} from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import {
+  DispatchFavouriteTracksContext,
+  StateFavouriteTracksContext,
+} from "../../context/FavouriteTracksContext";
 import { ROUTES } from "../../utils/routes";
 import { useTranslation } from "react-i18next";
 
 const TracksList = ({ title, trackItems, type }) => {
-  const { trackId, isPlaying } = useContext(StateTrackContext);
+  const {
+    trackId: playingTrackId,
+    isPlaying,
+    isLoading,
+  } = useContext(StateTrackContext);
 
-  const dispatch = useContext(DispatchPlaylistContext);
+  const dispatchTrack = useContext(DispatchTrackContext);
+
+  const dispatchPlaylist = useContext(DispatchPlaylistContext);
+
+  const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
   const location = useLocation();
 
@@ -23,7 +37,7 @@ const TracksList = ({ title, trackItems, type }) => {
   const { favouriteTracks } = useContext(StateFavouriteTracksContext);
 
   const initializePlaylistContext = () => {
-    dispatch({
+    dispatchPlaylist({
       type: playlistContextActions.setPlaylist,
       payload: { playlistTracks: trackItems },
     });
@@ -51,12 +65,17 @@ const TracksList = ({ title, trackItems, type }) => {
                 <TrackItem
                   indexTrack={index + 1}
                   track={item}
-                  isPlayingSong={trackId === item.idTrack}
+                  playingTrackId={playingTrackId}
+                  isPlayingSong={playingTrackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
                     (elem) => elem === item.idTrack
                   )}
+                  dispatchTrack={dispatchTrack}
+                  dispatchPlaylist={dispatchPlaylist}
+                  dispatchFavouriteTracks={dispatchFavouriteTracks}
+                  isLoading={isLoading}
                 />
               </li>
             ))}

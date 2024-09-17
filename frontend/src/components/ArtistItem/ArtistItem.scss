@@ -18,13 +18,17 @@
     width: 150px;
     height: 150px;
     margin-top: 12px;
-    border-radius: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
   }
 
   &__title-author {
     text-align: center;
     margin: 0;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     font-weight: 600;
     font-size: 20px;

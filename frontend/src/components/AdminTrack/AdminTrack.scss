@@ -68,6 +68,14 @@
       text-overflow: ellipsis;
       @include customText(600, 20px);
     }
+
+    &-artist {
+      margin: 3px 0 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include customText(400, 16px);
+    }
   }
 
   &__relase-date {

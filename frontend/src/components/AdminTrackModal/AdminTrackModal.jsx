@@ -7,6 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import imgAddPhoto from "../../assets/images/AddImage.svg";
 import { useTranslation } from "react-i18next";
+import {
+  audioExtensions,
+  imageExtensions,
+} from "../../constants/AudioAndImageExtensions";
 
 const AdminTrackModal = ({
   closeModal,
@@ -43,13 +47,14 @@ const AdminTrackModal = ({
 
   useEffect(() => {
     if (selectedTrack) {
-      if (selectedTrack.albumReference) {
+      const track = JSON.parse(JSON.stringify(selectedTrack));
+      if (track.albumReference) {
         setSelectedOption("album");
-        selectedTrack.artistReference = null;
-      } else if (selectedTrack.artistReference) {
+        track.artistReference = null;
+      } else if (track.artistReference) {
         setSelectedOption("artist");
       }
-      setTrackData(selectedTrack);
+      setTrackData(track);
     } else {
       setTrackData(formDefaultValues);
     }
@@ -176,7 +181,7 @@ const AdminTrackModal = ({
 
               <AdminFileInput
                 fileField="previewImage"
-                accept="image/*"
+                accept={imageExtensions}
                 trackData={trackData}
                 setTrackData={setTrackData}
                 isUploadedFile={isImageUploaded}
@@ -260,7 +265,7 @@ const AdminTrackModal = ({
                     name="artistReference"
                     value={
                       trackData.artistReference
-                        ? trackData.artistReference
+                        ? trackData.artistReference._id
                         : undefined
                     }
                     onChange={handleChangeSelect}
@@ -279,7 +284,7 @@ const AdminTrackModal = ({
                 <p className="track-modal__detail">{t("audio")}:</p>
                 <AdminFileInput
                   fileField="audio"
-                  accept="audio/*"
+                  accept={audioExtensions}
                   trackData={trackData}
                   setTrackData={setTrackData}
                   isUploadedFile={isAudioUploaded}
@@ -298,6 +303,7 @@ const AdminTrackModal = ({
                   dateFormat="dd/MM/yyyy"
                   isClearable={true}
                   className="track-modal__datepicker-input"
+                  maxDate={new Date()}
                 />
               </div>
 

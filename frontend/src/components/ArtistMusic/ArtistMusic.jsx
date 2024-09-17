@@ -9,7 +9,7 @@ const ArtistMusic = ({ popularTracks, albums, songs, playlists }) => {
     <div className="artist">
       <PopularArtistListTracks popularTracks={popularTracks} />
 
-      <AlbumCatalog albumItems={albums} />
+      {albums?.length > 0 && <AlbumCatalog albumItems={albums} />}
 
       <MusicCardsList cardItems={songs} type="artist-songs" />
     </div>

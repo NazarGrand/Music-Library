@@ -25,12 +25,14 @@ import {
   StatePlaylistContext,
 } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { Link } from "react-router-dom";
 
 const MusicPlayer = () => {
   const {
     trackId,
     trackName,
     trackAuthor,
+    artistId,
     trackUrl,
     trackImage,
     trackVolume,
@@ -390,7 +392,9 @@ const MusicPlayer = () => {
       <div className="player__title">
         <p className="player__title-song">{trackName}</p>
 
-        <p className="player__title-author">{trackAuthor}</p>
+        <Link className="player__link-author" to={`/artists/${artistId}`}>
+          <span className="player__title-author">{trackAuthor}</span>
+        </Link>
       </div>
 
       <div className="player__buttons-play">

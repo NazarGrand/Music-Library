@@ -6,6 +6,7 @@ export const sliderTranslations = {
       songAccessMessage: "You can have easy access to every song",
       clickPrompt: "by just clicking on the",
       listenNow: "Listen now",
+      button: "button",
     },
   },
   [LANGUAGES.UK]: {
@@ -14,6 +15,7 @@ export const sliderTranslations = {
         "Ви маєте можливість легко отримати доступ до будь-якої пісні",
       clickPrompt: "натиснувши на",
       listenNow: "Послухати зараз",
+      button: "кнопку",
     },
   },
 };

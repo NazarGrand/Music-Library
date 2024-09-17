@@ -21,14 +21,26 @@ const AdminFileInput = ({
     } else {
       setIsUploadedFile(false);
     }
-  }, [trackData]);
+  }, [trackData, fileField, setIsUploadedFile]);
+
+  const isValidFileType = (file) => {
+    if (!Array.isArray(accept) || accept.length === 0) return true;
+
+    return accept.includes(file.type);
+  };
 
   const handleFileUpload = (e, fieldTrack) => {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
+      if (!isValidFileType(selectedFile)) {
+        setError("Invalid file type. Please upload a valid file.");
+        return;
+      }
+
       setIsUploading(true);
       setIsUploadedFile(false);
+
       try {
         const storageRef = firebase.storage().ref();
         const fileRef = storageRef.child(selectedFile.name);
@@ -43,6 +55,8 @@ const AdminFileInput = ({
                   ...prev,
                   [fieldTrack]: downloadURL,
                 }));
+                setError("");
+
                 setIsUploading(false);
                 setIsUploadedFile(true);
               })
@@ -68,7 +82,6 @@ const AdminFileInput = ({
   return (
     <div className="file">
       {isUploadedFile && <img src={imgCheck} alt="check" />}
-
       <input
         type="file"
         accept={accept}

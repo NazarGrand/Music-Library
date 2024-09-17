@@ -12,7 +12,7 @@ export const adminAlbumsPageTranslations = {
   },
   [LANGUAGES.UK]: {
     translation: {
-      addAlbum: "Добавити альбом",
+      addAlbum: "Додати альбом",
       albumInfo: "Деталі альбома",
       albumName: "Назва альбому",
       notTracks: "Нема треків",

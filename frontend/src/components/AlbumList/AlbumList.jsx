@@ -1,12 +1,20 @@
 import React, { useContext, useState } from "react";
 import "./AlbumList.scss";
-import TrackItem from "../TrackItem/TrackItem";
 import imgPlus from "../../assets/images/Plus.svg";
 import AlbumTrack from "../AlbumTrack/AlbumTrack";
-import { StateTrackContext } from "../../context/MusicContext";
-import { DispatchPlaylistContext } from "../../context/PlayListContext";
+import {
+  DispatchTrackContext,
+  StateTrackContext,
+} from "../../context/MusicContext";
+import {
+  DispatchPlaylistContext,
+  StatePlaylistContext,
+} from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import {
+  DispatchFavouriteTracksContext,
+  StateFavouriteTracksContext,
+} from "../../context/FavouriteTracksContext";
 import { t } from "i18next";
 
 const AlbumList = ({ tracks, album }) => {
@@ -14,10 +22,17 @@ const AlbumList = ({ tracks, album }) => {
   const [numberTracks, setNumberTracks] = useState(20);
   const tracksPerPage = 20;
 
-  const dispatch = useContext(DispatchPlaylistContext);
+  const { isLoading } = useContext(StateTrackContext);
+  const dispatchTrack = useContext(DispatchTrackContext);
+
+  const { playlistTracks, currentIndexTrackPlaying } =
+    useContext(StatePlaylistContext);
+  const dispatchPlaylist = useContext(DispatchPlaylistContext);
+
+  const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
 
   const initializePlaylistContext = () => {
-    dispatch({
+    dispatchPlaylist({
       type: playlistContextActions.setPlaylist,
       payload: { playlistTracks: tracks },
     });
@@ -26,7 +41,7 @@ const AlbumList = ({ tracks, album }) => {
   const handleClick = () => {
     setNumberTracks(numberTracks + tracksPerPage);
 
-    dispatch({
+    dispatchPlaylist({
       type: playlistContextActions.setNextSongsInPlaylist,
       payload: {
         nextPlaylistTracks: tracks.slice(
@@ -62,6 +77,12 @@ const AlbumList = ({ tracks, album }) => {
                     )}
                     initializePlaylistContext={initializePlaylistContext}
                     album={album}
+                    isLoading={isLoading}
+                    dispatchTrack={dispatchTrack}
+                    playlistTracks={playlistTracks}
+                    currentIndexTrackPlaying={currentIndexTrackPlaying}
+                    dispatchFavouriteTracks={dispatchFavouriteTracks}
+                    dispatchPlaylist={dispatchPlaylist}
                   />
                 </li>
               ))}
