@@ -12,6 +12,7 @@ const UserSchema = new Schema({
       ref: "Track",
     },
   ],
+  refreshToken: { type: String, required: false },
 });
 
 module.exports = model("User", UserSchema);

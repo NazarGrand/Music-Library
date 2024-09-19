@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongoose").Types;
 
 const {
-  generateAccessToken,
+  generateToken,
+  saveRefreshToken,
+  removeToken,
   validateEmail,
   validatePassword,
 } = require("./auth-service");
@@ -114,9 +116,58 @@ async function login(email, password) {
   }
 
   const userDto = new UserDto(user);
-  const accessToken = generateAccessToken({ user: { ...userDto } });
 
-  return { accessToken, user: { ...userDto, role: user.role } };
+  const accessToken = generateToken(
+    {
+      user: { ...userDto },
+    },
+    process.env.JWT_ACCESS_SECRET,
+    "1d"
+  );
+
+  const refreshToken = generateToken(
+    {
+      user: { ...userDto },
+    },
+    process.env.JWT_REFRESH_SECRET,
+    "14d"
+  );
+
+  await saveRefreshToken(userDto._id, refreshToken);
+  return { accessToken, refreshToken, user: { ...userDto, role: user.role } };
+}
+
+async function logout(refreshToken) {
+  const token = await removeToken(refreshToken);
+  return token;
+}
+
+async function refresh(refreshToken) {
+  if (!refreshToken) {
+    throw new Error("There is no refresh token.");
+  }
+
+  const decodedUser = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+  if (!decodedUser) {
+    throw new Error("Invalid refresh token");
+  }
+
+  const user = await UserModel.findOne({ refreshToken });
+
+  if (!user) {
+    throw new Error("There is no user associated with this refresh token.");
+  }
+
+  const userDto = new UserDto(user);
+  const accessToken = generateToken(
+    {
+      user: { ...userDto },
+    },
+    process.env.JWT_ACCESS_SECRET,
+    "1d"
+  );
+
+  return { accessToken, user: userDto };
 }
 
 async function me(idUser) {
@@ -148,6 +199,8 @@ module.exports = {
   registration,
   verifyUser,
   login,
+  refresh,
   me,
   getUserById,
+  logout,
 };

@@ -1,10 +1,28 @@
 const jwt = require("jsonwebtoken");
+const UserModel = require("../models/user-model");
 
-function generateAccessToken(payload) {
-  const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "1d",
+function generateToken(payload, jwtSecret, tokenExpiration) {
+  const token = jwt.sign(payload, jwtSecret, {
+    expiresIn: tokenExpiration,
   });
-  return accessToken;
+  return token;
+}
+
+async function saveRefreshToken(userId, refreshToken) {
+  const user = await UserModel.findOne({ _id: userId });
+
+  if (user) {
+    user.refreshToken = refreshToken;
+    return user.save();
+  }
+}
+
+async function removeToken(refreshToken) {
+  const userData = await UserModel.updateOne(
+    { refreshToken },
+    { $unset: { refreshToken: 1 } }
+  );
+  return userData;
 }
 
 function validateEmail(email) {
@@ -17,4 +35,10 @@ function validatePassword(password) {
   return re.test(password);
 }
 
-module.exports = { generateAccessToken, validateEmail, validatePassword };
+module.exports = {
+  generateToken,
+  saveRefreshToken,
+  removeToken,
+  validateEmail,
+  validatePassword,
+};
