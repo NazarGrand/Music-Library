@@ -17,14 +17,6 @@ async function saveRefreshToken(userId, refreshToken) {
   }
 }
 
-async function removeToken(refreshToken) {
-  const userData = await UserModel.updateOne(
-    { refreshToken },
-    { $unset: { refreshToken: 1 } }
-  );
-  return userData;
-}
-
 function validateEmail(email) {
   const re = /\S+@\S+\.\S+/;
   return re.test(email);
@@ -38,7 +30,6 @@ function validatePassword(password) {
 module.exports = {
   generateToken,
   saveRefreshToken,
-  removeToken,
   validateEmail,
   validatePassword,
 };

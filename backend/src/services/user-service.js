@@ -7,7 +7,6 @@ const { ObjectId } = require("mongoose").Types;
 const {
   generateToken,
   saveRefreshToken,
-  removeToken,
   validateEmail,
   validatePassword,
 } = require("./auth-service");
@@ -122,7 +121,7 @@ async function login(email, password) {
       user: { ...userDto },
     },
     process.env.JWT_ACCESS_SECRET,
-    "1d"
+    "15m"
   );
 
   const refreshToken = generateToken(
@@ -135,11 +134,6 @@ async function login(email, password) {
 
   await saveRefreshToken(userDto._id, refreshToken);
   return { accessToken, refreshToken, user: { ...userDto, role: user.role } };
-}
-
-async function logout(refreshToken) {
-  const token = await removeToken(refreshToken);
-  return token;
 }
 
 async function refresh(refreshToken) {
@@ -164,7 +158,7 @@ async function refresh(refreshToken) {
       user: { ...userDto },
     },
     process.env.JWT_ACCESS_SECRET,
-    "1d"
+    "15m"
   );
 
   return { accessToken, user: userDto };
@@ -202,5 +196,4 @@ module.exports = {
   refresh,
   me,
   getUserById,
-  logout,
 };

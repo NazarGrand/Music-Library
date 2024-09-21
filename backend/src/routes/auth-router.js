@@ -11,6 +11,5 @@ router.post("/verify-user", userController.verifyUser);
 router.post("/refresh", userController.refresh);
 
 router.get("/me", authMe, userController.me);
-router.post("/logout", authMe, userController.logout);
 
 module.exports = router;
