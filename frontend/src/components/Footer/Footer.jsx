@@ -7,32 +7,33 @@ import imgFacebook from "../../assets/images/Facebook.svg";
 import imgInstagram from "../../assets/images/Instagram.svg";
 import imgTwitter from "../../assets/images/Twitter.svg";
 import imgPhone from "../../assets/images/Phone.svg";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer__about">
-        <p className="footer__title">About</p>
+        <p className="footer__title">{t("about")}</p>
 
-        <p className="footer__description">
-          Melodies is a website that has been created for over
-          <span className="footer__description--pink"> 5 year’s </span> now and
-          it is one of the most famous music player website’s in the world. in
-          this website you can listen and download songs for free. also of you
-          want no limitation you can buy our{" "}
-          <span className="footer__description--blue">premium pass’s.</span>
-        </p>
+        <p className="footer__description">{t("siteDescription")}</p>
       </div>
 
       <div className="footer__links">
         <FooterLinks
-          title="Melodies"
+          title={t("melodies")}
           linkItems={infoFooterLinks.MelodiesItems}
         />
 
-        <FooterLinks title="Access" linkItems={infoFooterLinks.AccessItems} />
+        <FooterLinks
+          title={t("access")}
+          linkItems={infoFooterLinks.AccessItems}
+        />
 
-        <FooterLinks title="Contact" linkItems={infoFooterLinks.ContactItems} />
+        <FooterLinks
+          title={t("contact")}
+          linkItems={infoFooterLinks.ContactItems}
+        />
       </div>
 
       <div className="footer__icons">
@@ -41,17 +42,17 @@ const Footer = () => {
         </Link>
 
         <div className="footer__icons-network">
-          <Link to="https://www.facebook.com/applemusic" target="_blank">
+          <a href="https://www.facebook.com/applemusic" target="_blank">
             <img src={imgFacebook} alt="facebook" />
-          </Link>
+          </a>
 
-          <Link to="https://www.instagram.com/applemusic/" target="_blank">
+          <a href="https://www.instagram.com/applemusic/" target="_blank">
             <img src={imgInstagram} alt="instagram" />
-          </Link>
+          </a>
 
-          <Link to="https://twitter.com/AppleMusic" target="_blank">
+          <a href="https://twitter.com/AppleMusic" target="_blank">
             <img src={imgTwitter} alt="twitter" />
-          </Link>
+          </a>
 
           <a href="tel:+380698541234">
             <img src={imgPhone} alt="phone" />

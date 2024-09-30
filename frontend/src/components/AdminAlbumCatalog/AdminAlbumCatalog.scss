@@ -1,0 +1,17 @@
+.admin-album-catalog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 30px;
+    max-width: 1120px;
+  }
+}

@@ -1,0 +1,60 @@
+@import "../../styles/variables.scss";
+
+.header-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 1120px;
+  margin-left: 30px;
+
+  &__main {
+    display: flex;
+    width: 1120px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 500;
+    color: $pink-text-color;
+  }
+
+  &__button {
+    width: 180px;
+    padding: 10px 5px;
+    background-color: $login-button-color;
+    color: $pink-text-color;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+
+    margin-left: auto;
+  }
+
+  &__flags {
+    margin-left: auto;
+    display: flex;
+    gap: 30px;
+  }
+
+  &__button-flag {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+  }
+
+  &__image-flag {
+    width: 40px;
+    height: 25px;
+  }
+}

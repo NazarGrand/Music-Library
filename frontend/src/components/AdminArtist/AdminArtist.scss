@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+
+.admin-artist {
+  width: 180px;
+  height: 190px;
+
+  background-color: $login-button-color;
+  border-radius: 10px;
+
+  &__button {
+    padding-left: 15px;
+    padding-right: 15px;
+    color: $white-text-color;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  &__image {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    margin-top: 5px;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
+  }
+
+  &__title {
+    margin: 0;
+    width: 150px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

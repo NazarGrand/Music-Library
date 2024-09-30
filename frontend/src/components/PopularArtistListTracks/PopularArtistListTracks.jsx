@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
 import "./PopularArtistListTracks.scss";
 
-import AlbumTrack from "../AlbumTrack/AlbumTrack";
 import { StateTrackContext } from "../../context/MusicContext";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
 import { StateFavouriteTracksContext } from "../../context/FavouriteTracksContext";
+import TrackItem from "../TrackItem/TrackItem";
+import { useTranslation } from "react-i18next";
 
 const PopularArtistListTracks = ({ popularTracks }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const { trackId, isPlaying } = useContext(StateTrackContext);
   const dispatch = useContext(DispatchPlaylistContext);
+  const { t } = useTranslation();
 
   const initializePlaylistContext = () => {
     dispatch({
@@ -23,35 +25,33 @@ const PopularArtistListTracks = ({ popularTracks }) => {
   return (
     <div className="popular-tracks">
       <div className="popular-tracks__title">
-        <span>Popular </span>{" "}
-        <span className="popular-tracks__title--pink"> Songs</span>
+        <span>{t("popular")} </span>{" "}
+        <span className="popular-tracks__title--pink">{t("songs")}</span>
       </div>
 
       {popularTracks.length !== 0 ? (
         <>
-          <div className="popular-tracks__time">
-            <span className="popular-tracks__title-time">Time</span>
+          <div className="popular-tracks__headlines">
+            <span className="popular-tracks__relase-date">
+              {t("releaseDate")}
+            </span>
+
+            <span className="popular-tracks__labels">{t("label")}</span>
+
+            <span className="popular-tracks__time">{t("time")}</span>
           </div>
 
           <ul className="popular-tracks__list">
             {popularTracks.map((item, index) => (
               <li key={index}>
-                <AlbumTrack
+                <TrackItem
                   indexTrack={index + 1}
-                  idTrack={item.idTrack}
-                  image={item.image}
-                  titleSong={item.titleSong}
-                  artists={item.artists}
-                  durationSong={item.duration}
-                  isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
-                  }
+                  track={item}
+                  isPlayingSong={trackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   isFavouriteTrack={favouriteTracks.find(
-                    (elem) => elem.idTrack === item.idTrack
+                    (elem) => elem === item.idTrack
                   )}
                 />
               </li>
@@ -59,7 +59,7 @@ const PopularArtistListTracks = ({ popularTracks }) => {
           </ul>
         </>
       ) : (
-        <p className="popular-tracks__subtitle">No music found</p>
+        <p className="popular-tracks__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

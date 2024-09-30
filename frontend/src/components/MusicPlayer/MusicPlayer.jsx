@@ -25,11 +25,14 @@ import {
   StatePlaylistContext,
 } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { Link } from "react-router-dom";
 
 const MusicPlayer = () => {
   const {
+    trackId,
     trackName,
     trackAuthor,
+    artistId,
     trackUrl,
     trackImage,
     trackVolume,
@@ -64,6 +67,10 @@ const MusicPlayer = () => {
 
   const [loadingUrlTrack, setLoadingUrlTrack] = useState(true);
 
+  const incrementTrackListens = async () => {
+    await trackService.incrementTrackListens(trackId);
+  };
+
   const fetchData = async () => {
     dispatch({
       type: musicContextActions.setIsLoading,
@@ -74,9 +81,9 @@ const MusicPlayer = () => {
       if (!playlistTracks[currentIndexTrackPlaying].trackPlayingUrl) {
         setLoadingUrlTrack(true);
 
-        const track = await trackService.getTrackUrl(trackName, trackAuthor);
+        const track = await trackService.getTrackAudio(trackId);
 
-        const trackUrl = track !== null ? track.url : null;
+        const trackUrl = track.data.audio;
 
         const action = {
           type: musicContextActions.setTrackUrl,
@@ -101,6 +108,7 @@ const MusicPlayer = () => {
         };
         dispatch(action);
       }
+      incrementTrackListens();
 
       setCurrentTime(null);
       setDurationSong(null);
@@ -122,6 +130,7 @@ const MusicPlayer = () => {
         setProgressSong({ ...progressSong, progress: 0 });
         audioElem.current.currentTime = 0;
         audioElem.current.play();
+        incrementTrackListens();
       }
       if (currentTime && audioElem.current) audioElem.current.play();
     } else {
@@ -132,7 +141,9 @@ const MusicPlayer = () => {
   useEffect(() => {
     if (!isLoading) {
       if (isVolume) {
-        audioElem.current.volume = trackVolume / 100;
+        if (audioElem.current) {
+          audioElem.current.volume = trackVolume / 100;
+        }
       } else {
         audioElem.current.volume = 0;
       }
@@ -336,10 +347,9 @@ const MusicPlayer = () => {
       dispatch({
         type: musicContextActions.setTrack,
         payload: {
+          trackId: playlistTracks[newCurrentIndexTrackPlaying].idTrack,
           trackName: playlistTracks[newCurrentIndexTrackPlaying].titleSong,
-          trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artists
-            .map((item) => item.name)
-            .join(", "),
+          trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artistName,
           trackImage: playlistTracks[newCurrentIndexTrackPlaying].image,
         },
       });
@@ -367,10 +377,9 @@ const MusicPlayer = () => {
     dispatch({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: playlistTracks[newCurrentIndexTrackPlaying].idTrack,
         trackName: playlistTracks[newCurrentIndexTrackPlaying].titleSong,
-        trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artists
-          .map((item) => item.name)
-          .join(", "),
+        trackAuthor: playlistTracks[newCurrentIndexTrackPlaying].artistName,
         trackImage: playlistTracks[newCurrentIndexTrackPlaying].image,
       },
     });
@@ -383,7 +392,9 @@ const MusicPlayer = () => {
       <div className="player__title">
         <p className="player__title-song">{trackName}</p>
 
-        <p className="player__title-author">{trackAuthor}</p>
+        <Link className="player__link-author" to={`/artists/${artistId}`}>
+          <span className="player__title-author">{trackAuthor}</span>
+        </Link>
       </div>
 
       <div className="player__buttons-play">

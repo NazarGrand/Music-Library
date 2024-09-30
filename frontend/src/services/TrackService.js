@@ -1,31 +1,37 @@
-import axios from "axios";
+import api from "./AxiosService";
 
-const options = {
-  method: "GET",
-  url: "https://spotify81.p.rapidapi.com/download_track",
-  params: {
-    onlyLinks: "1",
-  },
-  headers: {
-    "X-RapidAPI-Key": "ec0785e3ccmsh1ea5cee02fdacc3p1fc185jsna8790c59c7be",
-    "X-RapidAPI-Host": "spotify81.p.rapidapi.com",
-  },
+export const createTrack = async (trackData) => {
+  return await api.post("/tracks", trackData);
 };
 
-export const getTrackUrl = async (titleSong, titleAuthor) => {
-  const response = await axios.request({
-    ...options,
-    params: {
-      ...options.params,
-      q: `${titleSong} ${titleAuthor}`,
-    },
-  });
+export const getTrack = async (id) => {
+  return await api.get(`/tracks/${id}`);
+};
 
-  const dataArray = response.data;
+export const getAllTracks = async () => {
+  return await api.get("/tracks");
+};
 
-  if (dataArray.length === 0) {
-    return null;
-  }
+export const updateTrack = async (id, trackData) => {
+  return await api.put(`/tracks/${id}`, trackData);
+};
 
-  return dataArray[0];
+export const deleteTrack = async (id) => {
+  return await api.delete(`/tracks/${id}`);
+};
+
+export const getTrackAudio = async (id) => {
+  return await api.get(`/tracks/listen-music/${id}`);
+};
+
+export const incrementTrackListens = async (id) => {
+  return await api.put(`/tracks/listen-music/${id}`);
+};
+
+export const recentlyAdded = async (limit) => {
+  return await api.get(`/tracks/recently-added/${limit}`);
+};
+
+export const getTopSongs = async (limit) => {
+  return await api.get(`/tracks/top-chart/${limit}`);
 };

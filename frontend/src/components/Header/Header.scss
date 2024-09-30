@@ -1,48 +1,42 @@
+@import "../../styles/variables.scss";
+
 .header {
   display: flex;
+  width: 1100px;
   padding-left: 30px;
   padding-top: 55px;
-  &__buttons {
-    display: flex;
-    margin-left: 40px;
-  }
-}
 
-.header__search {
-  width: 359px;
-  height: 38px;
-  background-color: #656565;
-  border-radius: 10px;
-  position: relative;
-
-  &-icon {
-    position: absolute;
-    width: 20px;
-    height: 20px;
+  &__title {
+    margin: 0;
     margin-top: 10px;
-    margin-left: 10px;
-  }
-  &-input {
-    width: 100%;
-    padding-left: 35px;
-    padding-top: 5px;
-    align-self: flex-start;
-    color: #ffffff;
-    background-color: #656565;
-    border: none;
-    width: 296px;
-    height: 38px;
+    font-size: 36px;
     font-weight: 500;
-    font-size: 16px;
-    opacity: 0.6;
-    border-radius: 10px;
+    color: $pink-text-color;
+  }
 
-    &::placeholder {
-      color: #ffffff;
-    }
+  &__flags {
+    margin-left: auto;
+    display: flex;
+    gap: 30px;
+  }
 
-    &:focus {
-      outline: 1px solid transparent;
+  &__button-flag {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
     }
+  }
+
+  &__image-flag {
+    width: 40px;
+    height: 25px;
   }
 }

@@ -2,16 +2,14 @@ import React from "react";
 import "./AlbumItem.scss";
 
 import iconAlbum from "../../assets/images/AlbumIcon.svg";
-import iconPlaylist from "../../assets/images/PlaylistIcon.svg";
 import { Link, useLocation } from "react-router-dom";
 
-const AlbumItem = ({ albumItem, type }) => {
-  const { image, title, yearAlbum, albumId } = albumItem;
-  const icon = type === "album" ? iconAlbum : iconPlaylist;
+const AlbumItem = ({ albumItem }) => {
+  const { image, albumName, yearAlbum, albumId } = albumItem;
 
   const location = useLocation();
 
-  const path = type === "album" ? `/albums/${albumId}` : "#";
+  const path = `/albums/${albumId}`;
 
   return (
     <div className="album-item">
@@ -27,12 +25,12 @@ const AlbumItem = ({ albumItem, type }) => {
       >
         <img className="album-item__image" src={image} alt="musicimg" />
 
-        <p className="album-item__title">{title}</p>
+        <p className="album-item__title">{albumName}</p>
 
         <div className="album-item__block">
-          {type === "album" && <p className="album-item__year">{yearAlbum}</p>}
+          <p className="album-item__year">{yearAlbum}</p>
 
-          <img className="album-item__icon" src={icon} alt="icon" />
+          <img className="album-item__icon" src={iconAlbum} alt="icon" />
         </div>
       </Link>
     </div>

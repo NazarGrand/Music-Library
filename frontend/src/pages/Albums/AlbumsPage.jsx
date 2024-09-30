@@ -1,123 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import _ from "lodash";
-import * as musicService from "../../services/MusicService.js";
-import * as albumTracksService from "../../services/AlbumTracksService.js";
-import * as albumMetadataService from "../../services/AlbumMetadataService.js";
-import Loader from "../../components/Loader/Loader.jsx";
-import HeaderAlbum from "../../components/HeaderAlbum/HeaderAlbum.jsx";
-import AlbumList from "../../components/AlbumList/AlbumList.jsx";
-
-import imgTrendingMusic from "../../assets/images/TrendingMusic.png";
-import { DispatchPlaylistContext } from "../../context/PlayListContext.jsx";
-import { playlistContextActions } from "../../constants/PlaylistContextActions.js";
+import { useEffect, useState } from "react";
+import * as albumService from "../../services/AlbumService";
+import imgAlbum from "../../assets/images/AlbumImage.jpg";
+import Loader from "../../components/Loader/Loader";
+import MusicPageHeader from "../../components/MusicPageHeader/MusicPageHeader";
+import AllAlbums from "../../components/AllAlbums/AllAlbums";
+import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const AlbumsPage = () => {
-  let { album } = useParams();
-
-  const [songs, setSongs] = useState([]);
-  const [albumData, setAlbumData] = useState({});
+  const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useContext(DispatchPlaylistContext);
-  const location = useLocation();
-
-  const pageKey = `scrollPosition_${location.pathname}`;
+  const { t } = useTranslation();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      const getAlbumsData = await albumService.getAllAlbums();
+      const getAlbums = getAlbumsData.data;
 
-      if (album === "weekly-top" || album === "trending-songs") {
-        const weeklyTopSongs = await musicService.getWeekTopChart();
+      const albums = getAlbums.map((album) => ({
+        albumName: album.name,
+        image: album.previewImage ? album.previewImage : imgAlbum,
+        albumId: album._id,
+        yearAlbum: dayjs(album.releaseDate).year(),
+      }));
 
-        const newTopSongs = weeklyTopSongs.map((item) => ({
-          image: item.trackMetadata.displayImageUri,
-          titleSong: item.trackMetadata.trackName,
-          artists: item.trackMetadata.artists.map((artist) => ({
-            name: artist.name,
-            artistId: artist.spotifyUri.split(":")[2],
-          })),
-          releaseDate: item.trackMetadata.releaseDate,
-          label: item.trackMetadata.labels[0].name,
-          idTrack: item.trackMetadata.trackUri.split(":")[2],
-        }));
-
-        setSongs(newTopSongs);
-
-        dispatch({
-          type: playlistContextActions.setPlaylist,
-          payload: {
-            playlistTracks: newTopSongs.slice(0, 20),
-          },
-        });
-
-        const albumInfo = {
-          nameAlbum: _.startCase(album),
-          imageAlbum: imgTrendingMusic,
-          artistsAlbum:
-            newTopSongs
-              .map((item) => item.artists.map((item) => item.name).join(", "))
-              .slice(0, 3)
-              .join(", ") + " and ...",
-          countSongs: newTopSongs.length,
-        };
-
-        setAlbumData(albumInfo);
-      } else {
-        const albumMetadata = await albumMetadataService.getAlbumMetadata(
-          album
-        );
-
-        const durationSong = albumMetadata.tracks.items.map(
-          (item) => item.track.duration.totalMilliseconds
-        );
-
-        const durationSongs = durationSong.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
-          0
-        );
-
-        const albumInfo = {
-          nameAlbum: albumMetadata.name,
-          imageAlbum: albumMetadata.coverArt.sources[0].url,
-          artistsAlbum: albumMetadata.artists.items
-            .map((item) => item.profile.name)
-            .join(", "),
-          countSongs: albumMetadata.tracks.totalCount,
-          label: albumMetadata.label,
-          releaseDate: albumMetadata.date.isoString,
-          durationSongs: durationSongs,
-        };
-
-        setAlbumData(albumInfo);
-
-        const albumTracks = await albumTracksService.getTracks(album);
-
-        const albumSongs = albumTracks.map((item) => ({
-          image: albumInfo.imageAlbum,
-          titleSong: item.track.name,
-          artists: item.track.artists.items.map((artist) => ({
-            name: artist.profile.name,
-            artistId: artist.uri.split(":")[2],
-          })),
-          releaseDate: albumInfo.releaseDate,
-          label: albumInfo.label,
-          duration: item.track.duration.totalMilliseconds,
-          idTrack: item.track.uri.split(":")[2],
-        }));
-
-        setSongs(albumSongs);
-
-        dispatch({
-          type: playlistContextActions.setPlaylist,
-          payload: {
-            playlistTracks: albumSongs.slice(0, 20),
-          },
-        });
-      }
-    } catch (error) {
-      console.error("Error getting data:", error);
+      setAlbums(albums);
+    } catch (e) {
+      console.error("Error getting data:", e);
     } finally {
       setLoading(false);
     }
@@ -126,54 +37,15 @@ const AlbumsPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const intervalRef = useRef(null);
-
-  useEffect(() => {
-    if (loading) {
-      intervalRef.current = setInterval(
-        () =>
-          window.scrollTo({
-            top: 0,
-          }),
-        10
-      );
-    } else {
-      clearInterval(intervalRef.current);
-    }
-
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  }, [loading]);
-
-  useEffect(() => {
-    if (songs.length) {
-      const scrollPosition = sessionStorage.getItem(pageKey);
-      if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition, 10));
-        sessionStorage.removeItem(pageKey);
-      } else {
-        window.scrollTo({
-          top: 0,
-        });
-      }
-    }
-  }, [songs]);
-
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <>
-          {" "}
-          <HeaderAlbum
-            album={album}
-            albumData={albumData}
-            tracks={songs ?? []}
-          />{" "}
-          <AlbumList album={album} tracks={songs ?? []} />
+          <MusicPageHeader title={t("titleAlbums")} />
+
+          <AllAlbums albumItems={albums} />
         </>
       )}
     </>

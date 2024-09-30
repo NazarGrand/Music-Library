@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+
+.file {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    padding: 5px 10px 1px;
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: $login-button-color;
+    color: $white-text-color;
+    font-size: 18px;
+  }
+}

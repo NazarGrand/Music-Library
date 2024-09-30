@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 @mixin button-style() {
   display: flex;
   align-items: center;
@@ -64,8 +66,12 @@
     text-overflow: ellipsis;
   }
 
+  &__link-author {
+    text-decoration: none;
+    color: $white-text-color;
+  }
+
   &__title-author {
-    margin-top: 1px;
     width: 125px;
     font-weight: 300;
     font-size: 12px;

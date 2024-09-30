@@ -1,56 +1,58 @@
+import { ROUTES } from "../utils/routes";
+
 export const MelodiesItems = [
   {
     link: "/songs",
-    title: "Songs",
+    title: "songs",
   },
   {
     link: "/radio",
-    title: "Radio",
+    title: "radio",
   },
   {
     link: "/podcast",
-    title: "Podcast",
+    title: "podcast",
   },
 ];
 
 export const AccessItems = [
   {
-    link: "/explor",
-    title: "Explor",
+    link: "/explore",
+    title: "explore",
   },
   {
-    link: "/artists",
-    title: "Artists",
+    link: ROUTES.ARTISTS,
+    title: "titleArtists",
   },
   {
     link: "/playlists",
-    title: "Playlists",
+    title: "playlists",
   },
   {
-    link: "/albums",
-    title: "Albums",
+    link: ROUTES.ALBUMS,
+    title: "titleAlbums",
   },
   {
-    link: "/trending",
-    title: "Trending",
+    link: ROUTES.MOST_PLAYED,
+    title: "trending",
   },
 ];
 
 export const ContactItems = [
   {
     link: "/about",
-    title: "About",
+    title: "about",
   },
   {
     link: "/policy",
-    title: "Policy",
+    title: "policy",
   },
   {
     link: "/socialmedia",
-    title: "Social Media",
+    title: "socialMedia",
   },
   {
     link: "/support",
-    title: "Support",
+    title: "support",
   },
 ];

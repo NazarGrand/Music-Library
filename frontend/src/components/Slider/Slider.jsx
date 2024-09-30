@@ -4,11 +4,12 @@ import "./Slider.scss";
 import imgNotSelectedSlide from "../../assets/images/NotSelectedSlide.svg";
 import imgSelectedSlide from "../../assets/images/SelectedSlide.svg";
 
-import { SlideItems, slideLength } from "../../data/InformationSlider";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const Slider = () => {
-  const [activeId, setActiveId] = useState(3);
+const Slider = ({ artists }) => {
+  const [activeId, setActiveId] = useState(0);
+  const { t } = useTranslation();
 
   const location = useLocation();
 
@@ -17,7 +18,7 @@ const Slider = () => {
       () =>
         setActiveId((prevState) => {
           const newState = prevState + 1;
-          if (newState === slideLength) return 0;
+          if (newState === artists.length) return 0;
           return newState;
         }),
       5000
@@ -31,12 +32,12 @@ const Slider = () => {
     if (activeId !== 0) {
       setActiveId(activeId - 1);
     } else {
-      setActiveId(slideLength - 1);
+      setActiveId(artists.length - 1);
     }
   };
 
   const handleClickNext = () => {
-    if (activeId !== slideLength - 1) {
+    if (activeId !== artists.length - 1) {
       setActiveId(activeId + 1);
     } else {
       setActiveId(0);
@@ -101,7 +102,7 @@ const Slider = () => {
       </button>
 
       <div className="slider__content">
-        {SlideItems.map((item, index) => {
+        {artists.map((item, index) => {
           let position = "nextSlide";
           if (index === activeId) {
             position = "activeSlide";
@@ -111,11 +112,11 @@ const Slider = () => {
             position = "lastSlide";
           }
 
-          if (activeId === slideLength - 1 && index === 0) {
+          if (activeId === artists.length - 1 && index === 0) {
             position = "nextSlide";
           }
 
-          if (activeId === 0 && index === slideLength - 1) {
+          if (activeId === 0 && index === artists.length - 1) {
             position = "lastSlide";
           }
 
@@ -136,7 +137,7 @@ const Slider = () => {
         <div className="slider__about">
           <Link
             className="slider__link-title"
-            to={`/artists/${SlideItems[activeId].idArtist}`}
+            to={`/artists/${artists[activeId].artistId}`}
             onClick={() =>
               sessionStorage.setItem(
                 `scrollPosition_${location.pathname}`,
@@ -145,16 +146,16 @@ const Slider = () => {
             }
           >
             <span className="slider__title">
-              {SlideItems[activeId].artistName}
+              {artists[activeId].artistName}
             </span>{" "}
           </Link>
 
           <p className="slider__description">
-            You can have easy access to every song of{" "}
-            {SlideItems[activeId].artistName} by just clicking on the{" "}
+            {t("songAccessMessage")} {artists[activeId].artistName}{" "}
+            {t("clickPrompt")}{" "}
             <Link
               className="slider__link-description"
-              to={`/artists/${SlideItems[activeId].idArtist}`}
+              to={`/artists/${artists[activeId].artistId}`}
               onClick={() =>
                 sessionStorage.setItem(
                   `scrollPosition_${location.pathname}`,
@@ -162,14 +163,16 @@ const Slider = () => {
                 )
               }
             >
-              <span className="slider__description--pink">Listen now</span>
+              <span className="slider__description--pink">
+                {t("listenNow")}
+              </span>
             </Link>{" "}
-            button.
+            {t("button")}.
           </p>
 
           <Link
             className="slider__link-listen-now"
-            to={`/artists/${SlideItems[activeId].idArtist}`}
+            to={`/artists/${artists[activeId].artistId}`}
             onClick={() =>
               sessionStorage.setItem(
                 `scrollPosition_${location.pathname}`,
@@ -177,11 +180,11 @@ const Slider = () => {
               )
             }
           >
-            <span className="slider__text-listen-now">Listen Now</span>
+            <span className="slider__text-listen-now">{t("listenNow")}</span>
           </Link>
 
           <div className="slider__area-selected">
-            {SlideItems.map((item, index) => (
+            {artists.map((item, index) => (
               <button
                 className="slider__button-item"
                 key={index}

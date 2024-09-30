@@ -1,77 +1,76 @@
-import React, { useContext } from "react";
-import dayjs from "dayjs";
+import React, { useState } from "react";
 import "./TrackItem.scss";
 
 import imgHeart from "../../assets/images/Heart.svg";
 import imgHeartFill from "../../assets/images/HeartFill.svg";
+import imgHeartFillDisabled from "../../assets/images/HeartFillDisabled.svg";
 
 import gifPlayTrack from "../../assets/images/TrackPlay.gif";
 import imgPlayTrack from "../../assets/images/PlayMusic.svg";
 import imgLoadingTrack from "../../assets/images/LoadingTrack.svg";
 
-import {
-  DispatchTrackContext,
-  StateTrackContext,
-} from "../../context/MusicContext";
 import { musicContextActions } from "../../constants/MusicContextActions";
 import { Link, useLocation } from "react-router-dom";
-import {
-  DispatchPlaylistContext,
-  StatePlaylistContext,
-} from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
-import { DispatchFavouriteTracksContext } from "../../context/FavouriteTracksContext.jsx";
 import { favouriteTracksContextActions } from "../../constants/FavouriteTracksContextActions.js";
+import { formatDurationTrack } from "../../utils/formatDurationTrack.js";
+import { formatDate } from "../../utils/formatDateTrack.js";
 
-function formatDate(inputDate) {
-  const dateObj = dayjs(inputDate);
-  const formattedDate = dateObj.format("MMM D, YYYY");
-  return formattedDate;
-}
+import * as favouriteTracksService from "../../services/FavouriteTracksService.js";
 
 const TrackItem = ({
   indexTrack,
-  idTrack,
-  image,
-  titleSong,
-  artists,
-  releaseDate,
-  label,
+  track,
+  playingTrackId,
   isPlayingSong,
   isPlaying,
   initializePlaylistContext,
   isFavouriteTrack,
+  dispatchTrack,
+  dispatchPlaylist,
+  dispatchFavouriteTracks,
+  isLoading,
 }) => {
-  const { isLoading } = useContext(StateTrackContext);
-  const dispatch = useContext(DispatchTrackContext);
+  const {
+    idTrack,
+    image,
+    titleSong,
+    artistId,
+    artistName,
+    releaseDate,
+    label,
+    duration,
+  } = track;
 
-  const { currentIndexTrackPlaying } = useContext(StatePlaylistContext);
-  const dispatchPlaylist = useContext(DispatchPlaylistContext);
+  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
 
-  const dispatchFavouriteTracks = useContext(DispatchFavouriteTracksContext);
-
-  const imageHeart = isFavouriteTrack ? imgHeartFill : imgHeart;
+  const imageHeart = loading
+    ? imgHeartFillDisabled
+    : isFavouriteTrack
+    ? imgHeartFill
+    : imgHeart;
 
   const handleClick = () => {
     if (initializePlaylistContext) {
       initializePlaylistContext();
     }
 
-    const playing =
-      currentIndexTrackPlaying === indexTrack - 1 ? !isPlaying : true;
+    const playing = playingTrackId !== idTrack ? true : !isPlaying;
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setIsPlaying,
       payload: { isPlaying: playing },
     });
 
-    dispatch({
+    dispatchTrack({
       type: musicContextActions.setTrack,
       payload: {
+        trackId: idTrack,
         trackName: titleSong,
-        trackAuthor: artists.map((item) => item.name).join(", "),
+        trackAuthor: artistName,
+        artistId: artistId,
         trackImage: image,
       },
     });
@@ -84,23 +83,37 @@ const TrackItem = ({
     });
   };
 
-  const handleClickFavourite = () => {
+  const handleClickFavourite = async () => {
     if (!isFavouriteTrack) {
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.addFavouriteTrack,
-        payload: {
-          idTrack,
-          image,
-          titleSong,
-          artists,
-        },
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.addTrackToFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     } else {
-      console.log("here");
-      dispatchFavouriteTracks({
-        type: favouriteTracksContextActions.deleteFavouriteTrack,
-        payload: idTrack,
-      });
+      setLoading(true);
+      try {
+        const { data: favouriteTracks } =
+          await favouriteTracksService.removeTrackFromFavourites(idTrack);
+
+        dispatchFavouriteTracks({
+          type: favouriteTracksContextActions.setFavouriteTracks,
+          payload: favouriteTracks,
+        });
+      } catch (e) {
+        console.error("Error getting data:", e);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -120,26 +133,20 @@ const TrackItem = ({
             </button>
 
             <span className="track-item__block-artists">
-              {artists.map((item, index) => (
-                <div key={index}>
-                  <Link
-                    className="track-item__link-author"
-                    to={`/artists/${item.artistId}`}
-                    onClick={() =>
-                      sessionStorage.setItem(
-                        `scrollPosition_${location.pathname}`,
-                        window.pageYOffset
-                      )
-                    }
-                  >
-                    <span className="track-item__title-author">
-                      {item.name}
-                    </span>
-                  </Link>
-
-                  {index !== artists.length - 1 && ",\u00A0"}
-                </div>
-              ))}
+              <div>
+                <Link
+                  className="track-item__link-author"
+                  to={`/artists/${artistId}`}
+                  onClick={() =>
+                    sessionStorage.setItem(
+                      `scrollPosition_${location.pathname}`,
+                      window.pageYOffset
+                    )
+                  }
+                >
+                  <span className="track-item__title-author">{artistName}</span>
+                </Link>
+              </div>
             </span>
           </div>
         </div>
@@ -152,10 +159,15 @@ const TrackItem = ({
           <button
             className="track-item__button-like"
             onClick={handleClickFavourite}
+            disabled={loading}
           >
             <img src={imageHeart} alt="heart" />
           </button>
         </div>
+
+        <p className="track-item__duration-song">
+          {formatDurationTrack(duration)}
+        </p>
 
         <button className="track-item__button" onClick={handleClick}>
           {isPlayingSong && (

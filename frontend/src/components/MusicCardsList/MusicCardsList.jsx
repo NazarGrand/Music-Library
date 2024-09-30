@@ -1,24 +1,35 @@
 import React, { useContext } from "react";
 import "./MusicCardsList.scss";
 import MusicCard from "../MusicCard/MusicCard";
-import { StateTrackContext } from "../../context/MusicContext";
+import {
+  DispatchTrackContext,
+  StateTrackContext,
+} from "../../context/MusicContext";
 import { Link, useLocation } from "react-router-dom";
 import { DispatchPlaylistContext } from "../../context/PlayListContext";
 import { playlistContextActions } from "../../constants/PlaylistContextActions";
+import { ROUTES } from "../../utils/routes";
+import { useTranslation } from "react-i18next";
 
 const MusicCardsList = ({ title, cardItems, type }) => {
-  const { trackName, trackAuthor, isPlaying } = useContext(StateTrackContext);
+  const {
+    trackId: playingTrackId,
+    isPlaying,
+    isLoading,
+  } = useContext(StateTrackContext);
 
-  const dispatch = useContext(DispatchPlaylistContext);
+  const dispatchTrack = useContext(DispatchTrackContext);
 
-  const album = "weekly-top";
+  const dispatchPlaylist = useContext(DispatchPlaylistContext);
 
   const location = useLocation();
 
-  const path = type === "weekly-top" ? `/albums/${album}` : "#";
+  const { t } = useTranslation();
+
+  const path = type === "top-songs" ? ROUTES.MOST_PLAYED : "#";
 
   const initializePlaylistContext = () => {
-    dispatch({
+    dispatchPlaylist({
       type: playlistContextActions.setPlaylist,
       payload: {
         playlistTracks: cardItems.slice(0, 5),
@@ -29,7 +40,7 @@ const MusicCardsList = ({ title, cardItems, type }) => {
   return (
     <div className="music-catalog">
       <p className="music-catalog__title">
-        {title} <span className="music-catalog__title--pink">Songs</span>
+        {title} <span className="music-catalog__title--pink">{t("songs")}</span>
       </p>
       {cardItems.length !== 0 ? (
         <div className="music-catalog__block">
@@ -39,14 +50,14 @@ const MusicCardsList = ({ title, cardItems, type }) => {
                 <MusicCard
                   indexTrack={index}
                   musicCard={item}
-                  isPlayingSong={
-                    trackName === item.titleSong &&
-                    trackAuthor ===
-                      item.artists.map((item) => item.name).join(", ")
-                  }
+                  playingTrackId={playingTrackId}
+                  isPlayingSong={playingTrackId === item.idTrack}
                   isPlaying={isPlaying}
                   initializePlaylistContext={initializePlaylistContext}
                   type={type}
+                  dispatchTrack={dispatchTrack}
+                  dispatchPlaylist={dispatchPlaylist}
+                  isLoading={isLoading}
                 />
               </li>
             ))}
@@ -64,12 +75,12 @@ const MusicCardsList = ({ title, cardItems, type }) => {
             >
               <div className="music-catalog__button">+</div>
 
-              <p className="music-catalog__btn-text">View All</p>
+              <p className="music-catalog__btn-text">{t("viewAll")}</p>
             </Link>
           )}
         </div>
       ) : (
-        <p className="music-catalog__subtitle">No music found</p>
+        <p className="music-catalog__subtitle">{t("noMusicFound")}</p>
       )}
     </div>
   );

@@ -1,7 +1,23 @@
 const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
+require("./src/config/dbConnection");
+const router = require("./src/routes/index");
 
 const app = express();
-const PORT = 3001;
+const PORT = 5000;
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+);
+
+app.use(router);
 
 app.get("/", (req, res) => {
   res.send("hello!");

@@ -12,7 +12,7 @@
     padding-top: 10px;
     height: 50px;
     padding-left: 20px;
-    @include customText(800, 40px);
+    @include customText(800, 35px);
 
     &--pink {
       color: $pink-text-color;
@@ -34,15 +34,31 @@
     text-align: center;
   }
 
-  &__time {
+  &__headlines {
     display: flex;
-    width: 1115px;
-    justify-content: flex-end;
+    align-items: center;
+    width: 1140px;
     margin-bottom: 8px;
-  }
-
-  &__title-time {
     @include customText(400, 20px);
     letter-spacing: 0.3px;
+  }
+
+  &__relase-date {
+    margin-left: 310px;
+    width: 300px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  &__labels {
+    width: 315px;
+    text-align: center;
+  }
+
+  &__time {
+    margin-left: auto;
+    width: 105px;
+    margin-bottom: 0;
+    text-align: center;
   }
 }

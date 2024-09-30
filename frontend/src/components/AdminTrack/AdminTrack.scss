@@ -1,0 +1,114 @@
+@import "../../styles/variables.scss";
+
+@mixin customText($weight, $size) {
+  font-weight: $weight;
+  font-size: $size;
+}
+
+.admin-track {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &__index-track {
+    padding-top: 6px;
+    display: flex;
+    justify-content: center;
+    width: 42px;
+    @include customText(600, 24px);
+  }
+
+  &__container {
+    display: flex;
+    margin-left: 15px;
+    background-color: $login-button-color;
+    border-radius: 5px;
+    width: 1075px;
+
+    position: relative;
+  }
+
+  &__block-title {
+    display: flex;
+    align-items: center;
+    width: 325px;
+    border-radius: 5px;
+  }
+
+  &__button {
+    display: flex;
+    padding: 0;
+
+    border: none;
+    cursor: pointer;
+
+    background-color: $login-button-color;
+    color: $white-text-color;
+    border-radius: 5px;
+    text-align: start;
+  }
+
+  &__image {
+    object-fit: cover;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+  }
+
+  &__title {
+    margin-left: 15px;
+
+    &-song {
+      margin-top: 3px;
+      max-width: 250px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include customText(600, 20px);
+    }
+
+    &-artist {
+      margin: 3px 0 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @include customText(400, 16px);
+    }
+  }
+
+  &__relase-date {
+    padding-top: 2px;
+    width: 150px;
+    text-align: center;
+
+    white-space: nowrap;
+
+    @include customText(400, 16px);
+  }
+
+  &__label {
+    padding-top: 2px;
+
+    width: 450px;
+    text-align: center;
+
+    @include customText(400, 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__time {
+    padding-top: 2px;
+
+    width: 150px;
+    text-align: center;
+
+    @include customText(400, 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

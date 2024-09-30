@@ -8,15 +8,25 @@
   margin-left: 30px;
   font-weight: 600;
   font-size: 20px;
+  cursor: pointer;
+
   &--login {
     background-color: $login-button-color;
     color: $pink-text-color;
     border: none;
   }
+
   &--sign-up {
     @include pink-button();
     border: 1px solid rgba(251, 55, 255, 0.2);
     box-sizing: border-box;
     color: #1e1e1e;
+  }
+
+  &--logout {
+    background-color: $login-button-color;
+    color: $pink-text-color;
+    border: none;
+    font-size: 22px;
   }
 }
