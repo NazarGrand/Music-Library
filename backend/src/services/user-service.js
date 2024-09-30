@@ -121,7 +121,7 @@ async function login(email, password) {
       user: { ...userDto },
     },
     process.env.JWT_ACCESS_SECRET,
-    "15m"
+    "30m"
   );
 
   const refreshToken = generateToken(
@@ -149,7 +149,7 @@ async function refresh(refreshToken) {
   const user = await UserModel.findOne({ refreshToken });
 
   if (!user) {
-    throw new Error("There is no user associated with this refresh token.");
+    throw new Error("Invalid Token");
   }
 
   const userDto = new UserDto(user);
@@ -158,7 +158,7 @@ async function refresh(refreshToken) {
       user: { ...userDto },
     },
     process.env.JWT_ACCESS_SECRET,
-    "15m"
+    "30m"
   );
 
   return { accessToken, user: userDto };
