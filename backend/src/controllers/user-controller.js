@@ -1,4 +1,5 @@
 const userService = require("../services/user-service");
+const ms = require("ms");
 
 class UserController {
   async registration(req, res) {
@@ -21,18 +22,18 @@ class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-
-      return res.json(userData);
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: ms("14d"),
+      });
+      return res.json({
+        accessToken: userData.accessToken,
+        user: userData.user,
+      });
     } catch (e) {
       console.log(e);
       return res.status(401).json({ message: e.message });
     }
   }
-
-  // async logout(req, res) {
-  //   try {
-  //   } catch (e) {}
-  // }
 
   async verifyUser(req, res) {
     try {
@@ -41,6 +42,18 @@ class UserController {
 
       return res.send("Activation was successful");
     } catch (e) {
+      return res.status(401).json({ message: e.message });
+    }
+  }
+
+  async refresh(req, res) {
+    try {
+      const { refreshToken } = req.body;
+
+      const userData = await userService.refresh(refreshToken);
+      return res.json(userData);
+    } catch (e) {
+      console.log(e);
       return res.status(401).json({ message: e.message });
     }
   }
